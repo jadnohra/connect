@@ -14,7 +14,7 @@ def set_vt_col(col):
 	sys.stdout.write(k_vt_col_map[col])
 def largv_has(keys):
 	for i in range(len(keys)):
-		 if (keys[i] in largv):
+		if (keys[i] in largv):
 			return True
 	return False
 def largv_has_key(keys):
@@ -72,7 +72,7 @@ def vt_hist_add(hist, item, max = 30):
 def vt_edit(prefix, initial, hist = None):
 	inpchars = [x for x in initial]
 	while True:
-		print '\x1B[2K', '\r{} {}'.format(prefix, ''.join(inpchars)),
+		print('\x1B[2K', '\r{} {}'.format(prefix, ''.join(inpchars)), end=' ')
 		pre_inp = getch()
 		#print '[{}]'.format(pre_inp[0] == '\x1B')
 		if (len(pre_inp) >= 3 and pre_inp[0:3] == ['\x1B', '[', 'A'] and hist):
@@ -178,10 +178,10 @@ def dbEndSession(conn):
 def printList(prefix, lst, sep, col1, col2):
 	for i in range(len(lst)):
 		set_vt_col(col2 if i%2 else col1)
-		print '{}{}{}'.format(prefix, lst[i], sep if i+1<len(lst) else ''),
+		print('{}{}{}'.format(prefix, lst[i], sep if i+1<len(lst) else ''), end=' ' )
 	if len(lst):
 		set_vt_col('default')
-		print ''
+		print('')
 def runInputLoop():
 	conn = dbStartSession(g_dbpath)
 	try:
@@ -230,7 +230,7 @@ def main():
 	global largv
 	global g_dbpath
 	largv = sys.argv
-	set_vt_col('default'); print '';
+	set_vt_col('default'); print('');
 	if largv_has(['-db']):
 		g_dbpath = largv_get(['-db'], None)
 	runInputLoop()
