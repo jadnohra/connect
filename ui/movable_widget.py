@@ -1,8 +1,8 @@
 from kivy.core.window import Window
-from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import Scale, Translate, LoadIdentity
 
-class MovableWidget(Widget):
+class MovableWidget(FloatLayout):
     def __init__(self):
         super().__init__()
         self._total_scale = 1.0
