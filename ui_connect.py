@@ -9,10 +9,10 @@ from kivy.graphics import Scale, Translate, LoadIdentity, Color, Line, Ellipse
 from kivy.core.window import Window
 from kivy.clock import Clock
 
-kivy.require('1.0.8')
+kivy.require('1.11.1')
 
 
-class _RoadViewerMainWindow(Widget):
+class _ConnectViewerMainWindow(Widget):
     class CanvasMover():
 
         TRANSLATE, SCALE = range(2)
@@ -25,7 +25,7 @@ class _RoadViewerMainWindow(Widget):
             self.scale = 1.0
             self.switch(False)
             self._keyboard = Window.request_keyboard(
-                None, self, 'text')
+                None, self.widget, 'text')
             self._keyboard.bind(on_key_down=self._on_key_down,
                                 on_key_up=self._on_key_up)
 
@@ -39,6 +39,7 @@ class _RoadViewerMainWindow(Widget):
                 self.scale_ratio = 1.0
 
         def move(self, touch):
+            print(touch)
             if self.mode == self.TRANSLATE:
                 target_transl = [(touch.pos[x] - touch.opos[x])
                                  / self.total_scale for x in [0, 1]]
@@ -64,78 +65,53 @@ class _RoadViewerMainWindow(Widget):
                     self.scale_ratio = 1.0
 
         def _on_key_down(self, keyboard, keycode, text, modifiers):
-            if keycode[1] == 'alt':
+            if keycode[1] in ['lctrl', 'rctrl']:
                 self.mode = self.SCALE
 
         def _on_key_up(self, keyboard, keycode):
-            if keycode[1] == 'alt':
+            if keycode[1] in ['lctrl', 'rctrl']:
                 self.mode = self.TRANSLATE
 
     def __init__(self):
-        super(_RoadViewerMainWindow, self).__init__()
-        self.road_file = None
+        super(_ConnectViewerMainWindow, self).__init__()
         self._canvas_mover = self.CanvasMover(self)
 
-    def set_file(self, road_file=None):
-        self.road_file = road_file
-        self.road = None
-        self.file_stamp = None
-
     def update(self, dt):
-        '''
-        if self.road_file is None:
-            return
-        file_stamp = os.stat(self.road_file).st_mtime
-        if file_stamp != self.file_stamp:
-            self.file_stamp = file_stamp
-            self.road = road.Road()
-            self.road.load_file(self.road_file)
-        '''
         self._canvas_mover.update()
         with self.canvas:
             self.canvas.clear()
-            # road_render.draw_road_kivy(self.road, self.canvas)
             Color([1,1,1])
             Line(points=[0, 0, 1000, 1000], width=2, cap='none')
-            Line(ellipse=[0, 0, 400,200],
-                 width=2, cap='none')
+            Line(ellipse=[0, 0, 400,200], width=2, cap='none')
 
     def on_touch_up(self, touch):
         self._canvas_mover.switch(False)
 
     def on_touch_move(self, touch):
-        if self.road is not None:
-            self._canvas_mover.switch(True)
-            self._canvas_mover.move(touch)
+        self._canvas_mover.switch(True)
+        self._canvas_mover.move(touch)
 
 
-class _RoadViewerApp(App):
+class _ConnectViewerApp(App):
 
-    def __init__(self, road_file=None):
+    def __init__(self):
         def input_threading():
             while True:
                 cmd = sys.stdin.readline().strip()
-                self.window.set_file(cmd)
-        super(_RoadViewerApp, self).__init__()
-        self.road_file = road_file
+        super(_ConnectViewerApp, self).__init__()
         self.window = None
         thread = threading.Thread(target=input_threading)
         thread.daemon = True
         thread.start()
 
     def build(self):
-        self.window = _RoadViewerMainWindow()
-        self.window.set_file(self.road_file)
+        self.window = _ConnectViewerMainWindow()
         # self.window.add_widget(Slider(min=-100, max=100, value=25))
         Clock.schedule_interval(self.window.update, 1.0/10.0)
         return self.window
 
 
 if __name__ == '__main__':
-    # Note, Kivy has the annoyance that to pass user command line params,
-    # one should first add the empty argument '--'.
-    # Example: python road_viewer_app -- --file test_road.txt
+    # Example: python road_viewer_app -- --dbg
     g_dbg = '--dbg' in sys.argv
-    road_file = (sys.argv[sys.argv.index('--file')+1]
-                 if '--file' in sys.argv else None)
-    _RoadViewerApp(road_file).run()
+    _ConnectViewerApp().run()
