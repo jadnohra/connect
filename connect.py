@@ -163,7 +163,7 @@ def dbStartSession(dbPath):
 		if 1:
 			tableListQuery = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY Name"
 			cursor = conn.execute(tableListQuery)
-			tables = map(lambda t: t[0], cursor.fetchall())
+			tables = list(map(lambda t: t[0], cursor.fetchall()))
 			cursor.close()
 			if (len(tables) == 0):
 				dbBootstrap(conn)
