@@ -5,7 +5,7 @@ import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
 # from kivy.uix.slider import Slider
-from kivy.graphics import Scale, Translate, LoadIdentity, Color, Line
+from kivy.graphics import Scale, Translate, LoadIdentity, Color, Line, Ellipse
 from kivy.core.window import Window
 from kivy.clock import Clock
 
@@ -97,6 +97,8 @@ class _RoadViewerMainWindow(Widget):
             # road_render.draw_road_kivy(self.road, self.canvas)
             Color([1,1,1])
             Line(points=[0, 0, 1000, 1000], width=2, cap='none')
+            Line(ellipse=[0, 0, 400,200],
+                 width=2, cap='none')
 
     def on_touch_up(self, touch):
         self._canvas_mover.switch(False)
