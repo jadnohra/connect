@@ -14,9 +14,61 @@
 	// Note the plus operator on Point objects.
 	// PaperScript does that for us, and much more!
 	path.lineTo(start + [ 100, -50 ]);
+
+	//var myBall = new Path.Circle(new Point(70, 70), 50);
+	//myBall.fillColor = 'tomato';
+
+	var i;
+	var center = new Point(150, 150);
+	var myBall = new Path.Circle(center, 50);
+	myBall.fillColor = 'tomato';
+
+	myBall.onClick = function (e) {
+    // do what you need to do, like delete the item
+		alert("clicked center node!");
+	}
+
+	var radius = 100;
+	for (i = 0; i < 10; i++) {
+		var vector = new Point(Math.cos((i/10) * 2 * Math.PI)*radius, Math.sin((i/10) * 2 * Math.PI)*radius)
+    var center2 = new Point(150, 150)  + vector;
+		var myBall2 = new Path.Circle(center2, 15);
+		myBall2.fillColor = 'tomato';
+
+		var straightLine = new Path.Line(center, center2);
+		straightLine.strokeColor = 'black';
+
+		myBall2.insertAbove(straightLine);
+		myBall.insertAbove(straightLine);
+	}
+
+
+	function onFrame(event) {
+
+		var perturb = Point.random() * 2;
+
+	myBall.position = center + perturb;
+}
+
+
 </script>
 
 </head>
+
+<style type="text/css">
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
+</style>
 
 <body>
 <canvas id="myCanvas" resize></canvas>
