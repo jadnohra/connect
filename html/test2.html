@@ -2,6 +2,8 @@
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.2/paper-full.js"></script>
 
+
+
 <!-- Define inlined PaperScript associate it with myCanvas -->
 <script type="text/paperscript" canvas="myCanvas">
 	// Create a Paper.js Path to draw a line into it:
@@ -18,8 +20,10 @@
 	//var myBall = new Path.Circle(new Point(70, 70), 50);
 	//myBall.fillColor = 'tomato';
 
+	var refPos = project.activeLayer.position;
+
 	var i;
-	var center = new Point(150, 150);
+	var center = new Point(400, 400);
 	var myBall = new Path.Circle(center, 50);
 	myBall.fillColor = 'tomato';
 
@@ -31,7 +35,7 @@
 	var radius = 100;
 	for (i = 0; i < 10; i++) {
 		var vector = new Point(Math.cos((i/10) * 2 * Math.PI)*radius, Math.sin((i/10) * 2 * Math.PI)*radius)
-    var center2 = new Point(150, 150)  + vector;
+    	var center2 = center  + vector;
 		var myBall2 = new Path.Circle(center2, 15);
 		myBall2.fillColor = 'tomato';
 
@@ -47,8 +51,9 @@
 
 		var perturb = Point.random() * 2;
 
-	myBall.position = center + perturb;
-}
+		//myBall.position = center + perturb;
+		project.activeLayer.position = refPos + perturb
+	}
 
 
 </script>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+<script>
+    
+    function readTextFile(file)
+    {
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function ()
+        {
+            if(rawFile.readyState === 4)
+            {
+                if(rawFile.status === 200 || rawFile.status == 0)
+                {
+                    var allText = rawFile.responseText;
+                    alert(allText);
+                }
+            }
+        }
+        rawFile.send(null);
+    }
+    
+    url_parts = window.location.href.split("/")
+    url_parts[url_parts.length - 1] = "test.json"
+    json_url = url_parts.join("/")
+    readTextFile(json_url);
+
+</script>
+
+</body>
+</html>
