@@ -103,12 +103,37 @@
 	}
 
 
+	var wiggle_vec = Point.random() * 4;
+	var wiggle_time_left = 1;
+	var wiggle_time_total = 0.25;
+
 	function onFrame(event) {
 
 		var perturb = Point.random() * 2;
+		perturb =  wiggle_vec * ((wiggle_time_total - wiggle_time_left) / wiggle_time_total);
+        //console.log(wiggle_vec)
 
 		//myBall.position = center + perturb;
-		project.activeLayer.position = refPos + perturb
+		project.activeLayer.position = refPos + perturb;
+		
+		wiggle_time_left = wiggle_time_left - event.delta;
+		if (wiggle_time_left <= 0.0) {
+            var wiggle_vec2 = Point.random() * 5;
+            if (wiggle_vec2.x * wiggle_vec.x > 0)
+            {
+                wiggle_vec2.x = -wiggle_vec2.x;
+            }
+            if (wiggle_vec2.y * wiggle_vec.y > 0)
+            {
+                wiggle_vec2.y = -wiggle_vec2.y;
+            }
+            wiggle_vec = wiggle_vec2;
+            //console.log(wiggle_vec)
+			wiggle_time_left = wiggle_time_total;
+            
+            // TODO this will drift
+            refPos = project.activeLayer.position;
+		}
 	}
 
 
