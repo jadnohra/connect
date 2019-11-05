@@ -1,5 +1,14 @@
-{"nodes":[  
-    {"name":"IVT"},
-    {"name":"MVT"},
-    {"name":"Integral MVT"}
-]}  
+{"nodes":[
+    {"id":0, "name":"Real Analysis"},
+    {"id":1, "name":"IVT"},
+    {"id":2, "name":"MVT"},
+    {"id":3, "name":"Integral MVT"}
+],
+"edges":[
+  {"left":0, "right":1,
+    "tags":["central"]
+  },
+  {"left":0, "right":2},
+  {"left":0, "right":3}
+]
+}
