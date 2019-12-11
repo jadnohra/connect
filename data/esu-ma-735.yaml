@@ -1,4 +1,45 @@
 ---
+def.algebra.group:
+  title: "Group"
+  left: "$G$ is a group"
+  right:
+    - structure: "$G$ is a structure: G,+,0"
+    - closure: "forall x,y in G: x+y in G"
+    - unity: "forall x in G: x+0=x"
+    - inverse: "forall x in G: exists y x+y=0"
+    - associativity: "forall x,y,z in G: x+(y+z)=(x+y)+z"
+def.algebra.group.commutative:
+  title: "Commutative Group (Abelian)"
+  left: "$A$ is a commutative group"
+  right:
+    - "$A$ is a group"
+    - commutativity: "forall x,y in A: x+y=y+x"
+def.algebra.field:
+  title: "Field"
+  left: "F is a field"
+def.algebra.field.ordered:
+  title: "Ordered Field"
+  left: "F is an oredered field"
+def.function.limit.eps-delta:
+  title: "Limit of a function"
+  environment:
+    - "f: D->"
+  left: "$L$ is the limit of f_x at $c$"
+  right:
+    - "forall epsilon>0 exists delta: (x in D land |x-c|<delta) implies |f_x-L|<epsilon"
+thm.sequence.convergence.cauchy:
+  title: "Convergence of a sequence (Cauchy)"
+  environment:
+    - "(a_n)_{n in N} sequence"
+  left: "(a_n) converges"
+  right: "forall epsilon exists N: forall m,n>N 'a_m-a_n'<epsilon"
+def.limit.sequence:
+  title: "Limit of a sequence"
+  left: "a is the limit of (a_n)"
+  right: "forall epsilon exists N: forall n>N |a_n-a|<epsilon"
+<=>.convergence.sequence:
+  left: def.limit.sequence
+  right: thm.convergence.sequence.cauchy
 def.continuity.point:
   title: "Point continuity"
   conditions:
@@ -7,8 +48,8 @@ def.continuity.point:
   right: "$forall epsilon exists delta: |x-c|<delta implies |f_x-f_c|<epsilon$"
 def.continuity.set:
   title: "Continuity"
-  left: "$f$ is continuous on $S$"
-  right: "$s$ in $S$ implies $f$ continuous at $s$"
+  left: "$f$ is continuous on $C$"
+  right: "forall $c$ in $C$: $f$ continuous at $c$"
 def.IVT:
   title: "Intermediate Value Property"
   environment:
