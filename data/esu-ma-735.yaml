@@ -1,0 +1,20 @@
+---
+def.continuity.point:
+  conditions:
+    - "$f$ is defined at $c$"
+  left: "$f$ is continuous at $c$"
+  right: "$forall epsilon exists delta: |x-c|<delta implies |f_x-f_c|<epsilon$"
+def.continuity.set:
+  left: "$f$ is continuous on $S$"
+  right: "$s$ in $S$ implies $f$ continuous at $s$"
+def.IVT:
+  environment:
+    - "Interval of IVT"
+  left: "$f$ has intermediate value property"
+  right: "$(\forall (a,b),c in I) f_a<k<f_b$ implies exists $c$ in $(a,b)$: $k=f_c$"
+=>.continuity.IVT:
+  conditions:
+    - "set is a closed interval"
+  left: continuity.set
+  right: IVT
+  text: "Continuity implies IVT on said interval"

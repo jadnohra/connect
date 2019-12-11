@@ -25,13 +25,14 @@ class _MainWindow(MovableWidget):
         self.add_widget(button)
         im = Image(source = 'data/sample_formula.png', size_hint=(None, None), pos=(500, 500), size=(400, 200))
         self.add_widget(im)
-        
+
     def update(self, dt):
         super().update()
         with self.canvas:
             Color([1,1,1])
             Line(points=[0, 0, 1000, 1000], width=2, cap='none')
             Line(ellipse=[0, 0, 400,200], width=2, cap='none')
+            #Rectangle(source='mylogo.png', pos=(500, 500), size=(400, 200))
 
 
 class ConnectViewerApp(App):
@@ -50,4 +51,3 @@ class ConnectViewerApp(App):
         # self.window.add_widget(Slider(min=-100, max=100, value=25))
         Clock.schedule_interval(self.window.update, 1.0/10.0)
         return self.window
-
