@@ -3,10 +3,10 @@ def.algebra.group:
   title: "Group"
   left: "$G$ is a group"
   right:
-    - structure: "$G$ is a structure: G,+,0"
+    - structure: "$G$ is a structure: $G,+,0$"
     - closure: "forall x,y in G: x+y in G"
     - unity: "forall x in G: x+0=x"
-    - inverse: "forall x in G: exists y x+y=0"
+    - inverse: "forall x in G: exists -x x+(-x)=0"
     - associativity: "forall x,y,z in G: x+(y+z)=(x+y)+z"
 def.algebra.group.commutative:
   title: "Commutative Group (Abelian)"
@@ -16,21 +16,114 @@ def.algebra.group.commutative:
     - commutativity: "forall x,y in A: x+y=y+x"
 def.algebra.field:
   title: "Field"
+  environment:
+    - "$G,H are commutative groups"
+    - "$x^-1$ is the inverse of x in H"
   left: "F is a field"
+  right:
+    - structure: "$F$ is a field: $(G,+,0),(H,.,1),<"
+    - unities: "1 neq 0"
+    - distributivity: "x.(y+z)=x.y+x.z"
+<=>.field.elimination:
+  title: "Elimination of addition"
+  conditions:
+    - "x,y,z in F"
+  left: "x+z=y+z"
+  right: "x=y"
+=>.field.multiplication.by.zero:
+  title: "Multiplication by zero"
+  conditions: "x in F"
+  right: "x.0=0"
+=>.field.negation:
+  title: "Multiplication by -1"
+  conditions: "x in F"
+  right: "x.(-1)=-x"
+<=>.field.multiplication.to.zero:
+  title: "Multiplication to zero"
+  conditions: "x,y in F"
+  left: "x.y=0"
+  right: "x=0 lor x=0"
 def.algebra.field.ordered:
   title: "Ordered Field"
   left: "F is an oredered field"
+  right:
+    - trichotomy: "forall x,y: x<y lor y<x lor y=x"
+    - transitivity: "forall x,y,z: x<y land y<z implies x<z"
+    - "forall x,y,z: x<y implies x+z<y+z"
+    - "forall x,y,z: x<y land z>0 implies x.z<y.z"
+<=>.field.ordered.inequality.negation:
+  title: "Inequality Negation"
+  conditions: "x,y in F"
+  left: "x<y"
+  right: "-x>-y"
+<=>.field.ordered.inequality.negative.multiplication:
+  title: "Inequality negative multiplication"
+  conditions: "x,y,z in F"
+  left:
+    - "x<y"
+    - "z<0"
+  right: "zx>zy"
+=>analysis.rational.sum:
+  title: "Sum of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}+frac{c}{d} is rational"
+=>analysis.rational.product:
+  title: "Product of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}.frac{c}{d} is rational"
+=>.analysis.inequality.epsilon:
+  conditions:
+    - "x,y,epsilon in R"
+    - "epsilon > 0"
+  left: "forall epsilon x leq y+epsilon"
+  right: "x leq epsilon"
+def.operator.absolute-value:
+  conditions: "x in ordered field"
+  left: "|x|"
+  right:
+    - "x>=0 implies |x|=x"
+    - "x<0 implies |x|=-x"
+==>.absolute-value.positive:
+  conditions: "x in ordered field"
+  right: "|x| geq 0"
+==>.absolute-value.negation:
+  conditions: "x in ordered field"
+  right: "|-x| = |x}"
+<=>.absolute-value.expand:
+  conditions:
+    - "x,a in ordered field"
+    - "a geq 0"
+  left: "|x| leq a"
+  right: "-a leq a leq a"
+==>.absolute-value.bounds:
+  conditions:
+    - "x,a in ordered field"
+    - "a geq 0"
+  right: "-|a| leq |a| leq |a|"
+==>.absolute-value.multiplication:
+  conditions: "x,y in ordered field"
+  right: "|xy| = |x||y|"
+==>.absolute-value.addition:
+  conditions: "x,y in ordered field"
+  text: "Triangle Inequality"
+  right: "|x+y| leq |x|+|y|"
+==>.absolute-value.subtraction:
+  conditions: "x,y in ordered field"
+  right: "||x|-|y|| leq |x-y| leq |x|+|y|"
+==>.absolute-value.addition.usage:
+  conditions: "x,y,z in ordered field"
+  right: "|x-y| leq |x-z|+|z-y|"
+==>.absolute-value.addition.induction:
+  conditions: "x_n in ordered field"
+  right: "|sum_k x_k| leq sum_k |x_k|"
 def.function.limit.eps-delta:
   title: "Limit of a function"
-  environment:
-    - "f: D->"
+  environment: "f: D to"
   left: "$L$ is the limit of f_x at $c$"
-  right:
-    - "forall epsilon>0 exists delta: (x in D land |x-c|<delta) implies |f_x-L|<epsilon"
+  right: "forall epsilon>0 exists delta: (x in D land |x-c|<delta) implies |f_x-L|<epsilon"
 thm.sequence.convergence.cauchy:
   title: "Convergence of a sequence (Cauchy)"
-  environment:
-    - "(a_n)_{n in N} sequence"
+  conditions: "(a_n)_{n in N} sequence"
   left: "(a_n) converges"
   right: "forall epsilon exists N: forall m,n>N 'a_m-a_n'<epsilon"
 def.limit.sequence:
@@ -42,8 +135,7 @@ def.limit.sequence:
   right: thm.convergence.sequence.cauchy
 def.continuity.point:
   title: "Point continuity"
-  conditions:
-    - "$f$ is defined at $c$"
+  conditions: "$f$ is defined at $c$"
   left: "$f$ is continuous at $c$"
   right: "$forall epsilon exists delta: |x-c|<delta implies |f_x-f_c|<epsilon$"
 def.continuity.set:
@@ -52,14 +144,12 @@ def.continuity.set:
   right: "forall $c$ in $C$: $f$ continuous at $c$"
 def.IVT:
   title: "Intermediate Value Property"
-  environment:
-    - "Interval of IVT"
+  environment: "Interval of IVT"
   left: "$f$ has IVT"
   right: "$(forall (a,b),c in I) f_a<k<f_b$ implies exists $c$ in $(a,b)$: $k=f_c$"
 =>.continuity.IVT:
   title: "Intermediate Value Theorem"
   text: "Continuity implies IVT (on same interval)"
-  conditions:
-    - "set is a closed interval"
+  conditions: "Set is a closed interval"
   left: continuity.set
   right: IVT
