@@ -1,5 +1,5 @@
 ---
-def.algebra.group:
+def.group:
   title: "Group"
   left: "$G$ is a group"
   right:
@@ -8,13 +8,13 @@ def.algebra.group:
     - unity: "forall x in G: x+0=x"
     - inverse: "forall x in G: exists -x x+(-x)=0"
     - associativity: "forall x,y,z in G: x+(y+z)=(x+y)+z"
-def.algebra.group.commutative:
+def.group.commutative:
   title: "Commutative Group (Abelian)"
   left: "$A$ is a commutative group"
   right:
     - "$A$ is a group"
     - commutativity: "forall x,y in A: x+y=y+x"
-def.algebra.field:
+def.field:
   title: "Field"
   environment:
     - "$G,H are commutative groups"
@@ -43,7 +43,7 @@ def.algebra.field:
   conditions: "x,y in F"
   left: "x.y=0"
   right: "x=0 lor x=0"
-def.algebra.field.ordered:
+def.field.ordered:
   title: "Ordered Field"
   left: "F is an oredered field"
   right:
@@ -63,21 +63,7 @@ def.algebra.field.ordered:
     - "x<y"
     - "z<0"
   right: "zx>zy"
-=>analysis.rational.sum:
-  title: "Sum of rationals is rational"
-  conditions: "a,b,c,d in N"
-  right: "frac{a}{b}+frac{c}{d} is rational"
-=>analysis.rational.product:
-  title: "Product of rationals is rational"
-  conditions: "a,b,c,d in N"
-  right: "frac{a}{b}.frac{c}{d} is rational"
-=>.analysis.inequality.epsilon:
-  conditions:
-    - "x,y,epsilon in R"
-    - "epsilon > 0"
-  left: "forall epsilon x leq y+epsilon"
-  right: "x leq epsilon"
-def.operator.absolute-value:
+def.absolute-value:
   title: "Absolute value"
   conditions: "x in ordered field"
   left: "|x|"
@@ -117,40 +103,3 @@ def.operator.absolute-value:
 ==>.absolute-value.addition.induction:
   conditions: "x_n in ordered field"
   right: "|sum_k x_k| leq sum_k |x_k|"
-def.function.limit.eps-delta:
-  title: "Limit of a function"
-  environment: "f: D to"
-  left: "$L$ is the limit of f_x at $c$"
-  right: "forall epsilon>0 exists delta: (x in D land |x-c|<delta) implies |f_x-L|<epsilon"
-thm.sequence.convergence.cauchy:
-  title: "Convergence of a sequence (Cauchy)"
-  conditions: "(a_n)_{n in N} sequence"
-  left: "(a_n) converges"
-  right: "forall epsilon exists N: forall m,n>N 'a_m-a_n'<epsilon"
-def.limit.sequence:
-  title: "Limit of a sequence"
-  left: "a is the limit of (a_n)"
-  right: "forall epsilon exists N: forall n>N |a_n-a|<epsilon"
-<=>.convergence.sequence:
-  left: def.limit.sequence
-  right: thm.convergence.sequence.cauchy
-def.continuity.point:
-  title: "Point continuity"
-  conditions: "$f$ is defined at $c$"
-  left: "$f$ is continuous at $c$"
-  right: "$forall epsilon exists delta: |x-c|<delta implies |f_x-f_c|<epsilon$"
-def.continuity.set:
-  title: "Continuity"
-  left: "$f$ is continuous on $C$"
-  right: "forall $c$ in $C$: $f$ continuous at $c$"
-def.IVT:
-  title: "Intermediate Value Property"
-  environment: "Interval of IVT"
-  left: "$f$ has IVT"
-  right: "$(forall (a,b),c in I) f_a<k<f_b$ implies exists $c$ in $(a,b)$: $k=f_c$"
-=>.continuity.IVT:
-  title: "Intermediate Value Theorem"
-  text: "Continuity implies IVT (on same interval)"
-  conditions: "Set is a closed interval"
-  left: continuity.set
-  right: IVT

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
+import os
+import sys
 import yaml
 from tabulate import tabulate
 import nltk
@@ -16,7 +18,16 @@ parser.add_argument('--dump', help='Dump the .yaml file', action='store_true')
 
 args = parser.parse_args()
 
-db = yaml.load(open(args.file if args.file else './data/esu-ma-735.yaml'), Loader=yaml.FullLoader)
+data_source = args.file if args.file else './data/.'
+db = {}
+if os.path.isfile(data_source):
+    db = yaml.load(open(data_source), Loader=yaml.FullLoader)
+else:
+    for root, dirs, files in os.walk(data_source, topdown=True):
+        for file in [x for x in files if x.lower().endswith('.yaml')]:
+            file_db = yaml.load(open(os.path.join(root, file)), Loader=yaml.FullLoader)
+            # TODO prefix keys with filename
+            db = {**db , **file_db}
 
 if args.dump:
     print(yaml.dump(db))

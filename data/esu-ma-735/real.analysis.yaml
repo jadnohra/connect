@@ -1,0 +1,52 @@
+---
+=>.rational.sum:
+  title: "Sum of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}+frac{c}{d} is rational"
+=>.rational.product:
+  title: "Product of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}.frac{c}{d} is rational"
+=>.inequality.epsilon:
+  conditions:
+    - "x,y,epsilon in R"
+    - "epsilon > 0"
+  left: "forall epsilon x leq y+epsilon"
+  right: "x leq epsilon"
+def.function.limit.eps-delta:
+  title: "Limit of a function"
+  environment: "f: D to"
+  left: "$L$ is the limit of f_x at $c$"
+  right: "forall epsilon>0 exists delta: (x in D land |x-c|<delta) implies |f_x-L|<epsilon"
+<=>.sequence.convergence.cauchy:
+  title: "Convergence of a sequence (Cauchy)"
+  conditions: "(a_n)_{n in N} sequence"
+  left: "(a_n) converges"
+  right: "forall epsilon exists N: forall m,n>N 'a_m-a_n'<epsilon"
+def.limit.sequence:
+  title: "Limit of a sequence"
+  left: "a is the limit of (a_n)"
+  right: "forall epsilon exists N: forall n>N |a_n-a|<epsilon"
+<=>.convergence.sequence:
+  left: def.limit.sequence
+  right: thm.convergence.sequence.cauchy
+def.continuity.point:
+  title: "Point continuity"
+  conditions: "$f$ is defined at $c$"
+  left: "$f$ is continuous at $c$"
+  right: "$forall epsilon exists delta: |x-c|<delta implies |f_x-f_c|<epsilon$"
+def.continuity.set:
+  title: "Continuity"
+  left: "$f$ is continuous on $C$"
+  right: "forall $c$ in $C$: $f$ continuous at $c$"
+def.IVT:
+  title: "Intermediate Value Property"
+  environment: "Interval of IVT"
+  left: "$f$ has IVT"
+  right: "$(forall (a,b),c in I) f_a<k<f_b$ implies exists $c$ in $(a,b)$: $k=f_c$"
+=>.continuity.IVT:
+  title: "Intermediate Value Theorem"
+  text: "Continuity implies IVT (on same interval)"
+  conditions: "Set is a closed interval"
+  left: continuity.set
+  right: IVT
