@@ -30,11 +30,11 @@ def.field:
     - "x,y,z in F"
   left: "x+z=y+z"
   right: "x=y"
-=>.field.multiplication.by.zero:
+==>.field.multiplication.by.zero:
   title: "Multiplication by zero"
   conditions: "x in F"
   right: "x.0=0"
-=>.field.negation:
+==>.field.negation:
   title: "Multiplication by -1"
   conditions: "x in F"
   right: "x.(-1)=-x"

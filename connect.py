@@ -14,7 +14,8 @@ k_nltk_stopwords = set(stopwords.words('english'))
 parser = argparse.ArgumentParser(description='Query the connect .yaml file')
 parser.add_argument("query", help="The search query [key]:[value]", nargs='?', default=None)
 parser.add_argument('--file', help='The connect .yaml file')
-parser.add_argument('--dump', help='Dump the .yaml file', action='store_true')
+parser.add_argument('--dump', help='Dump the database', action='store_true')
+parser.add_argument('--stats', help='Print database statistics', action='store_true')
 
 args = parser.parse_args()
 
@@ -31,6 +32,8 @@ else:
 
 if args.dump:
     print(yaml.dump(db))
+if args.stats:
+    print("Fact count: {}".format(len(db.keys())))
 
 def recurse_gather(node, search_key, search_value, key='', path='', title=''):
     def soft_match(text, search):

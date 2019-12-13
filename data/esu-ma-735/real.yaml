@@ -1,0 +1,83 @@
+---
+=>.rational.sum:
+  title: "Sum of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}+frac{c}{d} in Q"
+=>.rational.product:
+  title: "Product of rationals is rational"
+  conditions: "a,b,c,d in N"
+  right: "frac{a}{b}.frac{c}{d} in Q"
+=>.inequality.epsilon:
+  conditions:
+    - "x,y,epsilon in R"
+    - "epsilon > 0"
+  left: "forall epsilon x leq y+epsilon"
+  right: "x leq epsilon"
+=>.sqrt.prime.irrational:
+  conditions: "p in R"
+  left: "p prime"
+  right: "sqrt(p) irrational"
+def.bound.upper:
+  title: "Upper bound"
+  conditions: "S subset R"
+  left: "m upper bound of S"
+  right: "exists m: forall s in S m>=s"
+def.bound.lower:
+  title: "Lower bound"
+  conditions: "S subset R"
+  left: "m lower bound of S"
+  right: "exists m: forall s in S m<=s"
+def.bound.max:
+  title: "Maximum"
+  conditions: "S subset R"
+  left: "m max of S"
+  right:
+    - "m upper bound of S"
+    - "m in S"
+def.bound.min:
+  title: "Minimum"
+  conditions: "S subset R"
+  left: "m min of S"
+  right:
+    - "m lower bound of S"
+    - "m in S"
+def.bound.sup:
+  title: "Supremum"
+  conditions:
+    - "S in R"
+    - "S neq emptyset"
+  left: "m supremum of S"
+  right:
+    - "m upper bound of S"
+    - "m'<m implies (exists s' in S: m'<s')"
+def.bound.inf:
+  title: "Infimum"
+  conditions:
+    - "S in R"
+    - "S neq emptyset"
+  left: "m infimum of S"
+  right:
+    - "m lower bound of S"
+    - "m'>m implies (exists s' in S: s'<m')"
+==>.arithm.sup.sum:
+  title: "Supremum of sums"
+  notation: "A+B := {x+y: x in A land y in B}"
+  right: "sup A+B = sup A + sup B"
+==>.arithm.sup.scale:
+  title: "Supremum of scalar prodcut"
+  notation: "k.S := {k.x: x in S}"
+  conditions: "k geq 0"
+  right:
+    - "sup k.S = k sup S"
+    - "inf k.S = k inf S"
+    - "sup -k.S = -k inf S"
+    - "inf -k.S = -k sup S"
+==>.arithm.sup.sum.func:
+  title: "Supremum over function order"
+  environment: "f,g: D to R"
+  left:
+    - "forall x in D: f_x leq g_x"
+  right:
+    - "f_D bounded above"
+    - "g_D bounded below"
+    - "sup f_D leq inf g_D"
