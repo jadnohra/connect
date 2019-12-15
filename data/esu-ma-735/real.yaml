@@ -13,10 +13,10 @@
     - "epsilon > 0"
   left: "forall epsilon x leq y+epsilon"
   right: "x leq epsilon"
-=>.sqrt.prime.irrational:
+=>.sqrt.prime.not-rational:
   conditions: "p in R"
   left: "p prime"
-  right: "sqrt(p) irrational"
+  right: "sqrt(p) not in Q"
 def.bound.upper:
   title: "Upper bound"
   conditions: "S subset R"
@@ -59,25 +59,67 @@ def.bound.inf:
   right:
     - "m lower bound of S"
     - "m'>m implies (exists s' in S: s'<m')"
-==>.arithm.sup.sum:
+=>.completeness:
+  title: "Completeness of R"
+  symmetric: completeness.below
+  conditions:
+    - "S in R"
+    - "S neq emptyset"
+  left: "S bounded above in R"
+  right: "exists x in R: x = sup S"
+=>.completeness.below:
+  title: "Completeness of R"
+  symmetric: completeness
+  conditions:
+    - "S in R"
+    - "S neq emptyset"
+  left: "S bounded below in R"
+  right: "exists x in R: x = inf S"
+=>.arithm.sup.sum:
   title: "Supremum of sums"
   notation: "A+B := {x+y: x in A land y in B}"
+  left: "A,B subset R"
   right: "sup A+B = sup A + sup B"
-==>.arithm.sup.scale:
+=>.arithm.sup.scale:
   title: "Supremum of scalar prodcut"
   notation: "k.S := {k.x: x in S}"
-  conditions: "k geq 0"
+  left:
+    - "S subset R"
+    - "k geq 0"
   right:
     - "sup k.S = k sup S"
     - "inf k.S = k inf S"
     - "sup -k.S = -k inf S"
     - "inf -k.S = -k sup S"
-==>.arithm.sup.sum.func:
+=>.arithm.sup.sum.func:
   title: "Supremum over function order"
-  environment: "f,g: D to R"
   left:
+    - "D subset R"
+    - "f,g: D to R"
     - "forall x in D: f_x leq g_x"
   right:
     - "f_D bounded above"
     - "g_D bounded below"
     - "sup f_D leq inf g_D"
+==>.archimedean:
+  title: "Archimedean property"
+  right: "N unbounded above in R"
+  equivalences:
+    - "forall z in R: (exists n in N: n > z)"
+    - "forall x > 0 in R: (exists n in N: frac{1}{n} < frac{1}{z})"
+    - "forall x > 0, y in R: (exists n in N: nx > y"
+=>.sqrt.prime.exists:
+  conditions: "p in R"
+  left:
+    - "p prime"
+  right: "exists x in R: x^2 = p"
+  equivalences:
+    - "exists x in R: x = sqrt(p)"
+=>.density.q.r:
+  title: "Density of rationals in R"
+  left: "x<y in Q"
+  right: "exists z in R: x<z<y"
+=>.density.r.q:
+  title: "Density of R in the rationals"
+  left: "x<y in R"
+  right: "exists z in Q: x<z<y"

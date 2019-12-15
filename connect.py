@@ -16,6 +16,7 @@ parser.add_argument("query", help="The search query [key]:[value]", nargs='?', d
 parser.add_argument('--file', help='The connect .yaml file')
 parser.add_argument('--dump', help='Dump the database', action='store_true')
 parser.add_argument('--stats', help='Print database statistics', action='store_true')
+parser.add_argument('--dbg_matches', help='Debug individual query matches', action='store_true')
 
 args = parser.parse_args()
 
@@ -38,11 +39,12 @@ if args.stats:
 def recurse_gather(node, search_key, search_value, key='', path='', title=''):
     def soft_match(text, search):
         words = [x.strip().lower() for x in text.split() if len(x.strip())]
-        words = [x for x in words if x not in k_nltk_stopwords]
+        words = [x for x in words if x not in k_nltk_stopwords and len(x) > 1]
         for word in words:
             for item in search:
                 if word in item or item in word:
-                    #print(text, search, item, word)
+                    if args.dbg_matches:
+                        print("match:", text, search, item, word)
                     return True
         return False
     gathered = []
@@ -70,6 +72,8 @@ def consolidate_gathered(gathered):
             row[0] = ''
         else:
             last_title = row[0]
+            if row[0] == '':
+                row[0] = '-'
 
 if args.query:
     query = args.query

@@ -32,11 +32,11 @@ def.field:
   right: "x=y"
 ==>.field.multiplication.by.zero:
   title: "Multiplication by zero"
-  conditions: "x in F"
+  left: "x in F"
   right: "x.0=0"
 ==>.field.negation:
   title: "Multiplication by -1"
-  conditions: "x in F"
+  left: "x in F"
   right: "x.(-1)=-x"
 <=>.field.multiplication.to.zero:
   title: "Multiplication to zero"
@@ -71,10 +71,10 @@ def.absolute-value:
     - "x>=0 implies |x|=x"
     - "x<0 implies |x|=-x"
 ==>.absolute-value.positive:
-  conditions: "x in ordered field"
+  left: "x in ordered field"
   right: "|x| geq 0"
 ==>.absolute-value.negation:
-  conditions: "x in ordered field"
+  left: "x in ordered field"
   right: "|-x| = |x}"
 <=>.absolute-value.expand:
   conditions:
@@ -82,24 +82,24 @@ def.absolute-value:
     - "a geq 0"
   left: "|x| leq a"
   right: "-a leq a leq a"
-==>.absolute-value.bounds:
-  conditions:
+=>.absolute-value.bounds:
+  left:
     - "x,a in ordered field"
     - "a geq 0"
   right: "-|a| leq |a| leq |a|"
 ==>.absolute-value.multiplication:
-  conditions: "x,y in ordered field"
+  left: "x,y in ordered field"
   right: "|xy| = |x||y|"
 ==>.absolute-value.addition:
-  conditions: "x,y in ordered field"
+  left: "x,y in ordered field"
   title: "Triangle Inequality"
   right: "|x+y| leq |x|+|y|"
 ==>.absolute-value.subtraction:
-  conditions: "x,y in ordered field"
+  left: "x,y in ordered field"
   right: "||x|-|y|| leq |x-y| leq |x|+|y|"
 ==>.absolute-value.addition.usage:
-  conditions: "x,y,z in ordered field"
+  left: "x,y,z in ordered field"
   right: "|x-y| leq |x-z|+|z-y|"
 ==>.absolute-value.addition.induction:
-  conditions: "x_n in ordered field"
+  left: "x_n in ordered field"
   right: "|sum_k x_k| leq sum_k |x_k|"
