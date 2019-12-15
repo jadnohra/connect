@@ -84,11 +84,11 @@ note.real.mst.1819718:
   answers:
     - "Answering your question more directly: Yes, it is an abuse of language, but it is justified because of the isomorphism theorems. Proving those will be an excellent exercise in your understanding of the subject."
     - "This doesn't mean that in some deep existential/ontological/philosophical sense they are actually the same thing. It just means they can be identified with each other in a logically consistent and helpful way."
-notes.real.mst.65867:
+note.real.mst.65867:
   title: "Is R the only ordered field?"
   answers:
     - "Any Archimedean ordered field is (isomorphic to) a subfield of R."
-notes.ncatlab.real:
+note.ncatlab.real:
   title: "ncatlab: Real Number"
   url: "https://ncatlab.org/nlab/show/real+number"
 =>.completeness.below:
