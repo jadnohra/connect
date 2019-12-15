@@ -72,7 +72,6 @@ def consolidate_gathered(gathered, limit_field_width=80):
         for row in gathered:
             for i, col in enumerate(row):
                 if len(col) > limit_field_width:
-                    print(col)
                     row[i] = col[ : hw-3] + ' ... ' + col[len(col)-(hw+3) : -1]
     for row in gathered:
         if last_title and row[0] == last_title:
