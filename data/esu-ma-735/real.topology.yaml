@@ -1,0 +1,7 @@
+---
+def.neighborhood:
+  title: "Neighborhood"
+  environment: "R"
+  notation: "N(x, epsilon)"
+  left: "epsilon-Neighborhood of x"
+  right: "{y: y in R land |y-x| < epsilon}"

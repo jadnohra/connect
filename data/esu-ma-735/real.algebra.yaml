@@ -88,6 +88,9 @@ notes.real.mst.65867:
   title: "Is R the only ordered field?"
   answers:
     - "Any Archimedean ordered field is (isomorphic to) a subfield of R."
+notes.ncatlab.real:
+  title: "ncatlab: Real Number"
+  url: "https://ncatlab.org/nlab/show/real+number"
 =>.completeness.below:
   title: "Completeness of R"
   symmetric: completeness
