@@ -67,6 +67,27 @@ def.bound.inf:
     - "S neq emptyset"
   left: "S bounded above in R"
   right: "exists x in R: x = sup S"
+def.real:
+  title: "Definition of the reals"
+  left: "R"
+  right:
+    - "complete ordered field"
+note.real.mst.1550414:
+  title: "Why are we justified in using the real numbers to do geometry?"
+note.real.mst.1066176:
+  title: "Why are every structures I study based on Real number?"
+  answers:
+    - "Real numbers are because their arise from requirements deemed very natural in analysis: order, metric completeness, separability."
+    - "Wherever you can sacrifice any of it (order, metric completeness, separability), you are welcome to work over alternative fields."
+note.real.mst.1819718:
+  title: "Is it an abuse of language to say *the* integers, rationals, reals?"
+  answers:
+    - "Answering your question more directly: Yes, it is an abuse of language, but it is justified because of the isomorphism theorems. Proving those will be an excellent exercise in your understanding of the subject."
+    - "This doesn't mean that in some deep existential/ontological/philosophical sense they are actually the same thing. It just means they can be identified with each other in a logically consistent and helpful way."
+notes.real.mst.65867:
+  title: "Is R the only ordered field?"
+  answers:
+    - "Any Archimedean ordered field is (isomorphic to) a subfield of R."
 =>.completeness.below:
   title: "Completeness of R"
   symmetric: completeness

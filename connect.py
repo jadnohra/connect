@@ -65,8 +65,15 @@ def recurse_gather(node, search_key, search_value, key='', path='', title=''):
             gathered.append([title, path, node])
     return gathered
 
-def consolidate_gathered(gathered):
+def consolidate_gathered(gathered, limit_field_width=80):
     last_title = ''
+    if limit_field_width is not None:
+        hw = int(limit_field_width/2)
+        for row in gathered:
+            for i, col in enumerate(row):
+                if len(col) > limit_field_width:
+                    print(col)
+                    row[i] = col[ : hw-3] + ' ... ' + col[len(col)-(hw+3) : -1]
     for row in gathered:
         if last_title and row[0] == last_title:
             row[0] = ''
