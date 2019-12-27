@@ -70,8 +70,7 @@ def.bound.inf:
 def.real:
   title: "Definition of the reals"
   left: "R"
-  right:
-    - "complete ordered field"
+  right: "complete ordered field"
 note.real.mst.1550414:
   title: "Why are we justified in using the real numbers to do geometry?"
 note.real.mst.1066176:

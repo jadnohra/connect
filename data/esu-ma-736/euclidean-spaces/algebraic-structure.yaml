@@ -19,12 +19,43 @@ meta.Rn.algebra:
     - "Pointwise operations (addition, subtraction) preserve the algebraic rules of R"
     - "Broadcast operations (scalar multiplication) preserve the algebraic rules of R"
     - "Summation notation provides a direct way to prove there rule preservations"
-cat.Rn.norms:
-  title: "norms in Rn"
-  list:
-    - norm.euclidean
-    - norm.max
-    - norm.inf
+note.p-norms:
+  title: "p-norms in Rn"
+  note: "All of the norms: 'Euclidean', 'l1', 'sup' are special cases of p-norms"
 note.lp-spaces.lebesgue:
   url: "https://www.math.ucdavis.edu/~hunter/measure_theory/measure_notes_ch7.pdf"
   note: "Consider Lp spaces of functions whose pth powers are integrable. The fact that spaces of Lebesgue integrable functions are complete, and therefore Banach spaces, is another crucial reason for the success of the Lebesgue integral"
+def.p-norm:
+  notation: "||x||_{p}"
+  left: "p-norm of x"
+  conditions:
+    - "x in R^n"
+    - "p in R"
+    - "p geq 1"
+  right: "(sum_{i=1}{n} |x_i|^p)frac{1}{p}"
+def.norm.euclidean:
+  conditions: "p-norm"
+  left: "Euclidean norm"
+  right: "p=2"
+def.norm.l1:
+  conditions: "p-norm"
+  left: "l1 norm"
+  right: "p=1"
+def.norm.sup:
+  left: "sup norm of x"
+  right: "lim_{p to infty} ||x||_p"
+=>.norm.sup.eq.max:
+  right: "sup norm of x = max{|x_i|}"
+  proof-refs:
+    - mst.242779
+    - mst.295119
+    - "https://notgnoshi.github.io/l-infinity-norm/"
+  TODO: prove
+def.euclidean.dist:
+  title: "Euclidean distance"
+  conditions: "x,y in R^n"
+  left: "Euclidean distance between x and y"
+  right: "||y-x||_2"
+=>.norm.euclidean.from.dot:
+  conditions: "x in E^n"
+  right: "x.x = (||x||_2)^2"
