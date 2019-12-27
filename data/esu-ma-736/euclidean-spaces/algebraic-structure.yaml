@@ -1,0 +1,27 @@
+---
+def.dot-product:
+  title: "Dot product"
+  environment: "R^n"
+  notation: "Summation notation"
+  left: ". is the dot product on R^n"
+  right: "x.y = x_i y_i"
+def.euclidean-space:
+  title: "Euclidean Space"
+  environment:
+    - "R^n is the catersian product over R"
+    - ". is the dot product over R^n"
+  left: "$E^n$ is a Euclidean space"
+  right:
+    - structure: "$E^n$ is a structure: $R^n,.$"
+meta.Rn.algebra:
+  title: "R Algebraic rules that are preserved in Rn"
+  meta: 
+    - "Pointwise operations (addition, subtraction) preserve the algebraic rules of R"
+    - "Broadcast operations (scalar multiplication) preserve the algebraic rules of R"
+    - "Summation notation provides a direct way to prove there rule preservations"
+cat.Rn.norms:
+  title: "norms in Rn"
+  list:
+    - norm.euclidean
+    - norm.max
+    - norm.inf

@@ -21,7 +21,7 @@ def.field:
     - "$x^-1$ is the inverse of x in H"
   left: "F is a field"
   right:
-    - structure: "$F$ is a field: $(G,+,0),(H,.,1),<"
+    - structure: "$F$ is a field: $(G,+,0),(H,.,1),<$"
     - unities: "1 neq 0"
     - distributivity: "x.(y+z)=x.y+x.z"
 <=>.field.elimination:

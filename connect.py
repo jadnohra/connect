@@ -17,6 +17,8 @@ parser.add_argument('--file', help='The connect .yaml file')
 parser.add_argument('--dump', help='Dump the database', action='store_true')
 parser.add_argument('--stats', help='Print database statistics', action='store_true')
 parser.add_argument('--dbg_matches', help='Debug individual query matches', action='store_true')
+parser.add_argument('--max_col_width', help='Sets the maximum width of the output table columns', type=int, default=80) 
+# TODO use `tput cols` to autodetect a good max_col_width
 
 args = parser.parse_args()
 
@@ -85,5 +87,5 @@ if args.query:
     query = args.query
     key,value = query.split(':')
     gathered = recurse_gather(db, [key.strip().lower()], [value.strip().lower()])
-    consolidate_gathered(gathered)
+    consolidate_gathered(gathered, limit_field_width=args.max_col_width)
     print(tabulate(gathered, showindex=True))
