@@ -15,7 +15,7 @@ def.euclidean-space:
     - structure: "$E^n$ is a structure: $R^n,.$"
 meta.Rn.algebra:
   title: "R Algebraic rules that are preserved in Rn"
-  meta: 
+  meta:
     - "Pointwise operations (addition, subtraction) preserve the algebraic rules of R"
     - "Broadcast operations (scalar multiplication) preserve the algebraic rules of R"
     - "Summation notation provides a direct way to prove there rule preservations"
@@ -25,3 +25,6 @@ cat.Rn.norms:
     - norm.euclidean
     - norm.max
     - norm.inf
+note.lp-spaces.lebesgue:
+  url: "https://www.math.ucdavis.edu/~hunter/measure_theory/measure_notes_ch7.pdf"
+  note: "Consider Lp spaces of functions whose pth powers are integrable. The fact that spaces of Lebesgue integrable functions are complete, and therefore Banach spaces, is another crucial reason for the success of the Lebesgue integral"
