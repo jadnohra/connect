@@ -51,3 +51,19 @@
   left:
     - "p"
   right: "p lor q"
+<=>.pl.de-morgan.or:
+  title: "De Morgan's Theorem (or)"
+  left: "lnot (p or q)"
+  right: "(lnot p) land (lnot q)"
+<=>.pl.de-morgan.and:
+  title: "De Morgan's Theorem (and)"
+  left: "lnot (p and q)"
+  right: "(lnot p) lor (lnot q)"
+<=>.pl.commutativity.or:
+  title: "Commutativity (or)"
+  left: "p or q"
+  right: "q or p"
+<=>.pl.commutativity.and:
+  title: "Commutativity (and)"
+  left: "p and q"
+  right: "q and p"
