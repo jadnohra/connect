@@ -84,11 +84,12 @@ def consolidate_gathered(gathered, limit_field_width=80):
                 row[0] = '-'
 
 def pattern_to_keys(pattern):
-    return [x.strip().lower() for x in pattern if len(x.strip()) > 0]
+    parts = pattern.split(',')
+    return [x.strip().lower() for x in parts if len(x.strip()) > 0]
 
 if args.query:
     query = args.query
     key,value = query.split(':')
-    gathered = recurse_gather(db, pattern_to_keys([key]), pattern_to_keys([value]))
+    gathered = recurse_gather(db, pattern_to_keys(key), pattern_to_keys(value))
     consolidate_gathered(gathered, limit_field_width=args.max_col_width)
     print(tabulate(gathered, showindex=True))
