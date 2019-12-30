@@ -17,7 +17,7 @@ def.group.commutative:
 def.field:
   title: "Field"
   environment:
-    - "$G,H are commutative groups"
+    - "$G,H$ are commutative groups"
     - "$x^-1$ is the inverse of x in H"
   left: "F is a field"
   right:

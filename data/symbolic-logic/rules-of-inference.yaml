@@ -51,19 +51,35 @@
   left:
     - "p"
   right: "p lor q"
-<=>.pl.de-morgan.or:
+==>.pl.de-morgan.or:
   title: "De Morgan's Theorem (or)"
   left: "lnot (p or q)"
   right: "(lnot p) land (lnot q)"
-<=>.pl.de-morgan.and:
+==>.pl.de-morgan.and:
   title: "De Morgan's Theorem (and)"
   left: "lnot (p and q)"
   right: "(lnot p) lor (lnot q)"
-<=>.pl.commutativity.or:
-  title: "Commutativity (or)"
+==>.pl.commutation.or:
+  title: "Commutation (or)"
   left: "p or q"
   right: "q or p"
-<=>.pl.commutativity.and:
-  title: "Commutativity (and)"
+==>.pl.commutation.and:
+  title: "Commutation (and)"
   left: "p and q"
   right: "q and p"
+==>.pl.asscosition.or:
+  title: "Association (or)"
+  left: "p or (q or r)"
+  right: "(q or p) or r"
+==>.pl.asscosiation.and:
+  title: "Association (and)"
+  left: "p land (q land r)"
+  right: "(q land p) land r"
+==>.pl.distribution.or:
+  title: "Distribution (or)"
+  left: "p or (q and r)"
+  right: "(q or p) and (p or r)"
+==>.pl.distribution.and:
+  title: "Distribution (and)"
+  left: "p and (q or r)"
+  right: "(q and p) or (p and r)"
