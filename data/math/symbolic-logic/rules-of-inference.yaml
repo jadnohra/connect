@@ -164,7 +164,6 @@
     - "u is really arbitrary: not subject (in the scope of) to assumptions"
   left: "phi(u)"
   right: "forall x phi(x)"
-  examples: "p111"
 def.assumption:
   title: "Assumption"
   ref: "p86"

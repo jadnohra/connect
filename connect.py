@@ -30,8 +30,9 @@ else:
     for root, dirs, files in os.walk(data_source, topdown=True):
         for file in [x for x in files if x.lower().endswith('.yaml')]:
             file_db = yaml.load(open(os.path.join(root, file)), Loader=yaml.FullLoader)
-            # TODO prefix keys with filename
-            db = {**db , **file_db}
+            if file_db is not None:
+                # TODO prefix keys with filename
+                db = {**db , **file_db}
 
 if args.dump:
     print(yaml.dump(db))
