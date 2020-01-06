@@ -18,7 +18,7 @@ def.field:
   title: "Field"
   environment:
     - "$G,H$ are commutative groups"
-    - "$x^-1$ is the inverse of x in H"
+    - "$x^{-1}$ is the inverse of x in H"
   left: "F is a field"
   right:
     - structure: "$F$ is a field: $(G,+,0),(H,.,1),<$"
