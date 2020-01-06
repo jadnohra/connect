@@ -1,117 +1,170 @@
 ---
 =>.pl.modus-ponens:
   title: "Modus Ponens"
+  alias: "MP"
   left:
     - "p implies q"
     - "p"
   right: "q"
 =>.pl.modus-tollens:
   title: "Modus Tollens"
+  alias: "MT"
   left:
     - "p implies q"
     - "lnot q"
   right: "not p"
 =>.pl.hypothetical-syllogism:
   title: "Hypothetical Syllogism"
+  alias: "HS"
   left:
     - "p implies q"
     - "q implies r"
   right: "p implies r"
 =>.pl.disjunctive-syllogism:
   title: "Disjunctive Syllogism"
+  alias: "DS"
   left:
     - "p lor q"
     - "lnot p"
   right: "q"
 =>.pl.constructive-dilemma:
   title: "Constructive Dilemma"
+  alias: "CD"
   left:
     - "(p implies q) land (r implies s)"
     - "p or r"
   right: "q or s"
 =>.pl.distructive-dilemma:
   title: "Distructive Dilemma"
+  alias: "DD"
   left:
     - "(p implies q) land (r implies s)"
     - "lnot q or lnot s"
   right: "lnot p or lnot r"
 =>.pl.simplification:
   title: "Simplification"
-  left:
-    - "p land q"
+  alias: "Simp"
+  left: "p land q"
   right: "p"
 =>.pl.conjunction:
   title: "Conjunction"
+  alias: "Conj"
   left:
     - "p"
     - "q"
   right: "p land q"
 =>.pl.addition:
   title: "Addition"
-  left:
-    - "p"
+  alias: "Add"
+  left: "p"
   right: "p lor q"
 ==>.pl.de-morgan.or:
   title: "De Morgan's Theorem (or)"
+  alias: "Arithm"
   left: "lnot (p or q)"
   right: "(lnot p) land (lnot q)"
 ==>.pl.de-morgan.and:
   title: "De Morgan's Theorem (and)"
+  alias: "Arithm"
   left: "lnot (p and q)"
   right: "(lnot p) lor (lnot q)"
 ==>.pl.commutation.or:
   title: "Commutation (or)"
+  alias: "Arithm"
   left: "p or q"
   right: "q or p"
 ==>.pl.commutation.and:
   title: "Commutation (and)"
+  alias: "Arithm"
   left: "p and q"
   right: "q and p"
 ==>.pl.asscosition.or:
   title: "Association (or)"
+  alias: "Arithm"
   left: "p or (q or r)"
   right: "(q or p) or r"
 ==>.pl.asscosiation.and:
   title: "Association (and)"
+  alias: "Arithm"
   left: "p land (q land r)"
   right: "(q land p) land r"
 ==>.pl.distribution.or:
   title: "Distribution (or)"
+  alias: "Arithm"
   left: "p or (q and r)"
   right: "(q or p) and (p or r)"
 ==>.pl.distribution.and:
   title: "Distribution (and)"
+  alias: "Arithm"
   left: "p and (q or r)"
   right: "(q and p) or (p and r)"
 ==>.pl.double-negation:
   title: "Double Negation"
+  alias: "DN"
   left: "p"
   right: "lnot lnot p"
 ==>.pl.transposition:
   title: "Transposition"
+  alias: "Trans"
   left: "p implies q"
   right: "lnot q implies lnot p"
-==>.pl.material.implication:
+==>.pl.material-implication:
   title: "Material Implication"
+  alias: "Mat"
   left: "p implies q"
   right: "lnot p or q"
-==>.pl.material.equivalence.implies:
+==>.pl.material-equivalence.implies:
   title: "Material Equivalence (implies)"
+  alias: "Mat"
   left: "p iff q"
   right: "(p implies q) and (q implies p)"
-==>.pl.material.equivalence.and:
+==>.pl.material-equivalence.and:
   title: "Material Equivalence (and)"
+  alias: "Mat"
   left: "p iff q"
   right: "(p and q) or (lnot p and lnot q)"
-==>.exportation:
+==>.pl.exportation:
   title: "Exportation"
+  alias: "Exp"
   left: "(p land q) implies r"
   right: "p implies (q implies r)"
-==>.tautology.and:
+==>.pl.tautology.and:
   title: "Tautology (and)"
+  alias: "Taut"
   left: "p"
   right: "p and p"
-==>.tautology.or:
+==>.pl.tautology.or:
   title: "Tautology (or)"
+  alias: "Taut"
   left: "p"
   right: "p or p"
+==>.ql.instantiation.universal:
+  title: "Universal Instantiation"
+  alias: "UI"
+  non-conditions: "No conditions on u"
+  left: "(x) phi(x)"
+  right: "phi(u)"
+==>.ql.generalization.existential:
+  title: "Existential Generalization"
+  alias: "EG"
+  non-conditions: "No conditions on u"
+  left: "phi(u)"
+  right: "exists x phi(x)"
+==>.ql.instantiation.existential:
+  title: "Existential Instantiation"
+  alias: "EI"
+  conditions: "u is a new (clean) variable"
+  left: "exists x phi(x)"
+  right: "phi(u)"
+==>.ql.generalization.universal:
+  title: "Universal Generalization"
+  alias: "UG"
+  conditions:
+    - "u is really arbitrary: not an existential instantiation"
+    - "u is really arbitrary: not subject (in the scope of) to assumptions"
+  left: "phi(u)"
+  right: "forall x phi(x)"
+  examples: "p111"
+def.assumption:
+  title: "Assumption"
+  ref: "p86"
