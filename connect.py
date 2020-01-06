@@ -22,7 +22,7 @@ parser.add_argument('--max_col_width', help='Sets the maximum width of the outpu
 
 args = parser.parse_args()
 
-data_source = args.file if args.file else './data/.'
+data_source = args.file if args.file else './data/math/.'
 db = {}
 if os.path.isfile(data_source):
     db = yaml.load(open(data_source), Loader=yaml.FullLoader)
