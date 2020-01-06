@@ -41,7 +41,7 @@ def.ql.tautologous:
     - "Andrews:p52"
     - "https://en.wikipedia.org/wiki/Tautology_(logic)#Tautologies_versus_validities_in_first-order_logic"
 note.ql-tautology-validity:
-  title: "QL Tautologies are only a subset of the validities"
+  title: "QL Tautologies are (only) a proper subset of the validities"
   note: "Substitutions alone may not be sufficient to arrive to a tautologous PL formula, even when the QL wff is 'eventually' a PL tautology. This may be due to needing to first apply a number of transformations (apply QL and PL rules) before the tautologous statement becomes obvious."
   example: "$[forall x Rx] implies (lnot [exists x (lnot Rx)])"
   ref:
