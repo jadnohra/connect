@@ -83,3 +83,35 @@
   title: "Distribution (and)"
   left: "p and (q or r)"
   right: "(q and p) or (p and r)"
+==>.pl.double-negation:
+  title: "Double Negation"
+  left: "p"
+  right: "lnot lnot p"
+==>.pl.transposition:
+  title: "Transposition"
+  left: "p implies q"
+  right: "lnot q implies lnot p"
+==>.pl.material.implication:
+  title: "Material Implication"
+  left: "p implies q"
+  right: "lnot p or q"
+==>.pl.material.equivalence.implies:
+  title: "Material Equivalence (implies)"
+  left: "p iff q"
+  right: "(p implies q) and (q implies p)"
+==>.pl.material.equivalence.and:
+  title: "Material Equivalence (and)"
+  left: "p iff q"
+  right: "(p and q) or (lnot p and lnot q)"
+==>.exportation:
+  title: "Exportation"
+  left: "(p land q) implies r"
+  right: "p implies (q implies r)"
+==>.tautology.and:
+  title: "Tautology (and)"
+  left: "p"
+  right: "p and p"
+==>.tautology.or:
+  title: "Tautology (or)"
+  left: "p"
+  right: "p or p"
