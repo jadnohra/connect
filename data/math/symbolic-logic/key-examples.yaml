@@ -12,4 +12,5 @@ example.rigorous-example-of-intuitive-transformations:
     \fa \neg A & $\wedge$-Elim (1) \\
     \fa A \vee C & $\vee$-Intro (2) \\
     \fa C & $\vee$-Elim (3, 4) \\
-    \end{fitch} 
+    \end{fitch}
+  TODO: "Continue here"
