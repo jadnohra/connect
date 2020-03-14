@@ -1,0 +1,1 @@
+pandoc --toc --standalone --mathjax -f markdown -t html test.md -o test.html

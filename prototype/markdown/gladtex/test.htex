@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="section-1">Section 1</h1>
+<p>Equation 1:</p>
+<p><EQ ENV="displaymath">I = \int \rho R^{2} dV</EQ></p>
+<p>Equation 2:</p>
+
+<p>Equation 3:</p>
+<p><EQ ENV="math">e^x = \sum_{n=0}^\infty \frac{x^n}{n!} = \lim_{n\rightarrow\infty} (1+x/n)^n</EQ></p>
+<p>Pandoc style equations/references:</p>
+<ol class="example" style="list-style-type: decimal">
+<li><EQ ENV="math">a^2 + b^2 = c^2</EQ></li>
+</ol>
+<p>As (1) says, ...</p>
+<ol start="2" class="example" style="list-style-type: decimal">
+<li><EQ ENV="math">e = x + y</EQ></li>
+</ol>
+<h2 id="subsection-1.1">Subsection 1.1</h2>
+</body>
+</html>

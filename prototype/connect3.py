@@ -77,8 +77,8 @@ def recurse_gather(node, search_key, search_value, key='', path='', title=''):
     return gathered
 
 def consolidate_gathered(gathered, limit_field_width=80):
-    cw_unit = (limit_field_width - 4 - 6) / 5.0
-    col_max_widths = [int(2*cw_unit), int(1*cw_unit), int(2*cw_unit)]
+    cw_unit = (limit_field_width - 4 - 6) / 6.0
+    col_max_widths = [int(1.5*cw_unit), int(1.5*cw_unit), int(2*cw_unit)]
     last_title = ''
     if limit_field_width is not None:
         for row in gathered:
