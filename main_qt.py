@@ -51,6 +51,7 @@ class ViewTree(QTreeWidget):
                 else:
                     child = MathTextLabel(text)
                     # https://www.codecogs.com/latex/integration/htmlequations.php
+                    # http://www.holoborodko.com/pavel/quicklatex/
                 fill_item(child, val)
                 parent.addChild(child)
                 child.setExpanded(True)
