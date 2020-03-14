@@ -1,85 +1,85 @@
 ---
-=>.pl.modus-ponens:
+⊢.pl.modus-ponens:
   title: "Modus Ponens"
   left:
     - "p implies q"
     - "p"
   right: "q"
-=>.pl.modus-tollens:
+⊢.pl.modus-tollens:
   title: "Modus Tollens"
   left:
     - "p implies q"
     - "lnot q"
   right: "not p"
-=>.pl.hypothetical-syllogism:
+⊢.pl.hypothetical-syllogism:
   title: "Hypothetical Syllogism"
   left:
     - "p implies q"
     - "q implies r"
   right: "p implies r"
-=>.pl.disjunctive-syllogism:
+⊢.pl.disjunctive-syllogism:
   title: "Disjunctive Syllogism"
   left:
     - "p lor q"
     - "lnot p"
   right: "q"
-=>.pl.constructive-dilemma:
+⊢.pl.constructive-dilemma:
   title: "Constructive Dilemma"
   left:
     - "(p implies q) land (r implies s)"
     - "p or r"
   right: "q or s"
-=>.pl.distructive-dilemma:
+⊢.pl.distructive-dilemma:
   title: "Distructive Dilemma"
   left:
     - "(p implies q) land (r implies s)"
     - "lnot q or lnot s"
   right: "lnot p or lnot r"
-=>.pl.simplification:
+⊢.pl.simplification:
   title: "Simplification"
   left:
     - "p land q"
   right: "p"
-=>.pl.conjunction:
+⊢.pl.conjunction:
   title: "Conjunction"
   left:
     - "p"
     - "q"
   right: "p land q"
-=>.pl.addition:
+⊢.pl.addition:
   title: "Addition"
   left:
     - "p"
   right: "p lor q"
-==>.pl.de-morgan.or:
+≡.pl.de-morgan.or:
   title: "De Morgan's Theorem (or)"
   left: "lnot (p or q)"
   right: "(lnot p) land (lnot q)"
-==>.pl.de-morgan.and:
+≡.pl.de-morgan.and:
   title: "De Morgan's Theorem (and)"
   left: "lnot (p and q)"
   right: "(lnot p) lor (lnot q)"
-==>.pl.commutation.or:
+≡.pl.commutation.or:
   title: "Commutation (or)"
   left: "p or q"
   right: "q or p"
-==>.pl.commutation.and:
+≡.pl.commutation.and:
   title: "Commutation (and)"
   left: "p and q"
   right: "q and p"
-==>.pl.asscosition.or:
+≡.pl.asscosition.or:
   title: "Association (or)"
   left: "p or (q or r)"
   right: "(q or p) or r"
-==>.pl.asscosiation.and:
+≡.pl.asscosiation.and:
   title: "Association (and)"
   left: "p land (q land r)"
   right: "(q land p) land r"
-==>.pl.distribution.or:
+≡.pl.distribution.or:
   title: "Distribution (or)"
   left: "p or (q and r)"
   right: "(q or p) and (p or r)"
-==>.pl.distribution.and:
+≡.pl.distribution.and:
   title: "Distribution (and)"
   left: "p and (q or r)"
   right: "(q and p) or (p and r)"

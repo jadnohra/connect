@@ -7,20 +7,28 @@ import yaml
 from tabulate import tabulate
 import nltk
 
-from nltk.corpus import stopwords
-nltk.download('stopwords', quiet=True)
-k_nltk_stopwords = set(stopwords.words('english'))
-
 parser = argparse.ArgumentParser(description='Query the connect .yaml file')
 parser.add_argument("query", help="The search query [key]:[value]", nargs='?', default=None)
 parser.add_argument('--file', help='The connect .yaml file')
 parser.add_argument('--dump', help='Dump the database', action='store_true')
 parser.add_argument('--stats', help='Print database statistics', action='store_true')
 parser.add_argument('--dbg_matches', help='Debug individual query matches', action='store_true')
-parser.add_argument('--max_col_width', help='Sets the maximum width of the output table columns', type=int, default=80)
+parser.add_argument('-mc', '--max_col_width', help='Sets the maximum width of the output table columns', type=int, default=80)
+parser.add_argument('--no_nltk', help='Disable nltk', action='store_true')
 # TODO use `tput cols` to autodetect a good max_col_width
 
 args = parser.parse_args()
+
+if not args.no_nltk:
+    from nltk.corpus import stopwords
+    nltk.download('stopwords', quiet=True)
+    k_nltk_stopwords = set(stopwords.words('english'))
+else:
+    k_nltk_stopwords = set()
+
+
+tty_rows, tty_cols = [int(x) for x in os.popen('stty size', 'r').read().split()]
+
 
 data_source = args.file if args.file else './data/.'
 db = {}
@@ -68,13 +76,15 @@ def recurse_gather(node, search_key, search_value, key='', path='', title=''):
     return gathered
 
 def consolidate_gathered(gathered, limit_field_width=80):
+    cw_unit = (limit_field_width - 3) / 5.0
+    col_max_widths = [int(2*cw_unit), int(1*cw_unit), int(2*cw_unit)]
     last_title = ''
     if limit_field_width is not None:
-        hw = int(limit_field_width/2)
         for row in gathered:
             for i, col in enumerate(row):
-                if len(col) > limit_field_width:
-                    row[i] = col[ : hw-3] + ' ... ' + col[len(col)-(hw+3) : -1]
+                if len(col) > col_max_widths[i]:
+                    hw = int(col_max_widths[i] / 2)
+                    row[i] = col[:hw-3] + ' ... ' + col[len(col)-(hw+3):]
     for row in gathered:
         if last_title and row[0] == last_title:
             row[0] = ''
@@ -91,5 +101,5 @@ if args.query:
     query = args.query
     key,value = query.split(':')
     gathered = recurse_gather(db, pattern_to_keys(key), pattern_to_keys(value))
-    consolidate_gathered(gathered, limit_field_width=args.max_col_width)
+    consolidate_gathered(gathered, limit_field_width=tty_cols)
     print(tabulate(gathered, showindex=True))
