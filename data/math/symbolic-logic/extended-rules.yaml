@@ -1,0 +1,49 @@
+---
+book.logic.an-introduction-to-mathematical-logic-and-type-theory:
+  title: "An Introduction to Mathematical Logic and Type Theory"
+  author: "Andrews"
+==>.ql.substitutivity-of-equivalence:
+  title: "Substitutivity of Equivalence"
+  description: "In QL, it is allowed to substitute equivalent (iff) wf parts"
+  conditions:
+    - "A,A' are wff"
+    - "M,N are wf parts"
+    - "A with M replaced by N is A'"
+    - "M equiv N"
+  left: "A"
+  right: "A'"
+  ref: "Andrews:p55"
+=>.ql.substitutivity-of-implication:
+  title: "Substitutivity of Implication"
+  description: "In QL, it is allowed to substitute implicating wf parts"
+  conditions:
+    - "A,A' are wff"
+    - "M,N are wf parts"
+    - "A with M replaced by N is A'"
+    - "M implies N"
+  left: "A"
+  right: "A'"
+  ref: "Andrews:p54"
+def.ql.tautologous:
+  title: "Tautologous wff"
+  left: "$A$ is tautologous"
+  right:
+    - "For some chain of substitutions of 'PL propositional variables' for 'QL wf parts', $A$ becomes $A'$"
+    - "$A'$ is a PL tautology"
+  ref: "Andrews:p52"
+=>.ql.tautology:
+  title: "QL tautologies"
+  descriptions: "PL Tautologies apply to 'closed' wff QL propositions"
+  alias: "Rule P"
+  left: "A is tautologous"
+  right: "A"
+  ref:
+    - "Andrews:p52"
+    - "https://en.wikipedia.org/wiki/Tautology_(logic)#Tautologies_versus_validities_in_first-order_logic"
+note.ql-tautology-validity:
+  title: "QL Tautologies are (only) a proper subset of the validities"
+  note: "Substitutions alone may not be sufficient to arrive to a tautologous PL formula, even when the QL wff is 'eventually' a PL tautology. This may be due to needing to first apply a number of transformations (apply QL and PL rules) before the tautologous statement becomes obvious."
+  example: "$[forall x Rx] implies (lnot [exists x (lnot Rx)])"
+  ref:
+    - "https://en.wikipedia.org/wiki/Tautology_(logic)#Tautologies_versus_validities_in_first-order_logic"
+    - "folder.MA-701:30-Sep-2018"

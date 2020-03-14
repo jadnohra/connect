@@ -30,7 +30,7 @@ else:
 tty_rows, tty_cols = [int(x) for x in os.popen('stty size', 'r').read().split()]
 
 
-data_source = args.file if args.file else './data/.'
+data_source = args.file if args.file else './data/math/.'
 db = {}
 if os.path.isfile(data_source):
     db = yaml.load(open(data_source), Loader=yaml.FullLoader)
@@ -38,8 +38,9 @@ else:
     for root, dirs, files in os.walk(data_source, topdown=True):
         for file in [x for x in files if x.lower().endswith('.yaml')]:
             file_db = yaml.load(open(os.path.join(root, file)), Loader=yaml.FullLoader)
-            # TODO prefix keys with filename
-            db = {**db , **file_db}
+            if file_db is not None:
+                # TODO prefix keys with filename
+                db = {**db , **file_db}
 
 if args.dump:
     print(yaml.dump(db))
@@ -76,7 +77,7 @@ def recurse_gather(node, search_key, search_value, key='', path='', title=''):
     return gathered
 
 def consolidate_gathered(gathered, limit_field_width=80):
-    cw_unit = (limit_field_width - 3) / 5.0
+    cw_unit = (limit_field_width - 4 - 6) / 5.0
     col_max_widths = [int(2*cw_unit), int(1*cw_unit), int(2*cw_unit)]
     last_title = ''
     if limit_field_width is not None:
@@ -84,7 +85,7 @@ def consolidate_gathered(gathered, limit_field_width=80):
             for i, col in enumerate(row):
                 if len(col) > col_max_widths[i]:
                     hw = int(col_max_widths[i] / 2)
-                    row[i] = col[:hw-3] + ' ... ' + col[len(col)-(hw+3):]
+                    row[i] = col[:hw-5] + ' ... ' + col[len(col)-(hw+5):]
     for row in gathered:
         if last_title and row[0] == last_title:
             row[0] = ''

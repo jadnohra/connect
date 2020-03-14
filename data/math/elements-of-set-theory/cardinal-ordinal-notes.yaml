@@ -1,0 +1,47 @@
+---
+book.set-theory.elements-of-set-theory:
+  title: "Elements of Set Theory"
+note.cardinals-from-ordinals:
+  title: "Cardinals are defined in terms of Ordinals"
+  ref: "p167, p197"
+  note: "There is no simple way to define cardinals rigorously, while keeping the properties we need axiomatically. This requires first ascending towards a definition of ordinals, while passing partial ordering, and well orderings."
+==>.well-ordering-thm:
+  title: "Well-Ordering Theorem"
+  conditions:
+    - "A is a set"
+    - "Axiom of Choice"
+  right: "exists a well-ordering on A"
+==>.hartogs-theorem:
+  title:  "Hartog's Theorem"
+  conditions: "A is a set"
+  right: "exists an ordinal not dominated by A"
+relation:
+  left: well-ordering-thm
+  right: hartogs-theorem
+  description: "Hartog's theorem is like a weak version of the well-ordering theorem, where the axiom of choice is not assumed."
+axiomatic.cardinality:
+    right:
+      - equinumeousity-compatible: "card A = card B iff A approx B"
+      - finite-number-compatible: "card A = n when A is finite with n elements"
+pre-note.transfinite:
+  note: "The 'Transfinite Induction Principle', the 'Transfinite Recursion Theorem', 'Transfinite Recursion Theorem Scema' and the 'Replacement Axioms' form a chain of necessary ingerdients to be able to define the ordinals"
+pre-note.replacement-axioms:
+  note: "These axioms are vaguely similar to the subset axioms, but for function-classes, allowing us to assert that the collection of items nominated by a function-class (with set domain and codomain) is a set"
+  ref: "p179,180"
+pre-chain.transfinite-ordinal-cardinal:
+  chain:
+    - transfinite.induction.principle
+    - transfinite.recursion.theorem
+    - transfinite.recursion.theorem.schema
+    - replacement.axioms
+    - axioms
+    - def.epsilon-images
+    - def.ordinals
+    - def.cardinals
+==>.cardinal.arithmetic.absorption:
+  title: "Absorption law of Cardinal Arithmetic"
+  ref: "p164"
+  conditions:
+    - 'lambda nonzero'
+    - 'kappa infinite'
+  right: "kappa + lambda = kappa . lambda = max(kappa, lambda)"

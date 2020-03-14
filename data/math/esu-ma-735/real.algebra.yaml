@@ -133,11 +133,9 @@ note.ncatlab.real:
     - "forall x > 0, y in R: (exists n in N: nx > y"
 =>.sqrt.prime.exists:
   conditions: "p in R"
-  left:
-    - "p prime"
+  left: "p prime"
   right: "exists x in R: x^2 = p"
-  equivalences:
-    - "exists x in R: x = sqrt(p)"
+  equivalences: "exists x in R: x = sqrt(p)"
 =>.density.q.r:
   title: "Density of rationals in R"
   left: "x<y in Q"

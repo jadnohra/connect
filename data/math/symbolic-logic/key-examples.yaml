@@ -1,0 +1,16 @@
+---
+example.generalization.universal.conditions.1:
+  TODO: "p111"
+example.generalization.universal.conditions.2:
+  TODO: "p111"
+example.rigorous-example-of-intuitive-transformations:
+  TODO: "Folder.MA-701:30-Sep-2018"
+  proof: |
+    \begin{fitch}
+    \fj A \wedge \neg A & \\
+    \fa A & $\wedge$-Elim (1) \\
+    \fa \neg A & $\wedge$-Elim (1) \\
+    \fa A \vee C & $\vee$-Intro (2) \\
+    \fa C & $\vee$-Elim (3, 4) \\
+    \end{fitch}
+  TODO: "Continue here"

@@ -1,0 +1,11 @@
+---
+note.ql.rules-from-basics:
+  title: "QL rules from basics"
+  note: "Many QL 'extended' rules can be easily derived by applying the QL rules EI/EG/UI/UG and basic PL manipulations. What is harder is remembering counter-examples for the manipulations that do not hold."
+  ref: "Folder.MA-701:25-Sept-2018"
+note.ql.rules-from-model:
+  title: "QL rules from semantics (model)"
+  note: "The QL rules make sense when one keeps in mind the semantic model of QL. There, we have the universe containing individuals for which certain propositions hold. This discussion about the 'domain of discourse' and the syntax which includes the 'signature'"
+  ref:
+    - "https://gitlab.com/jadnohra/study/issues/17#note_91094505"
+    - "https://gitlab.com/jadnohra/study/uploads/f9d25f589f4c66ac9d90302b19583651/Free_Occurrences_in_FOL.pdf"
