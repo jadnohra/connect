@@ -35,8 +35,8 @@ def recurse_gather(node, search_key, search_value, key='', path='', title=''):
         for word in words:
             for item in search_keys:
                 if word in item or item in word:
-                    if args.dbg_matches:
-                        print("match:", text, search_keys, item, word)
+                    #if args.dbg_matches:
+                    #    print("match:", text, search_keys, item, word)
                     return True
         return False
     gathered = []
