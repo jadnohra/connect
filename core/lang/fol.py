@@ -1,4 +1,3 @@
-import typing
 from typing import List
 
 
@@ -13,9 +12,12 @@ class PrimitiveSymbol:
     def new_symbol(symbol: str) -> "PrimitiveSymbol":
         return PrimitiveSymbol(symbol)
 
-    def expression(self) -> self:
+    def expression(self) -> str:
         return self.symbol
-        
+
+    def equals(self, other: "PrimitiveSymbol") -> bool:
+        return type(self) == type(other) and self.symbol == other.symbol
+
 
 class ImproperSymbol(PrimitiveSymbol):
     def symbol_type(self) -> str:
@@ -24,7 +26,7 @@ class ImproperSymbol(PrimitiveSymbol):
 
 class LeftParenSymbol(ImproperSymbol):
     def __init__(self):
-       PrimitiveSymbol.__init__('(')
+        PrimitiveSymbol.__init__('(')
 
     def symbol_type(self) -> str:
         return 'left parenthesis'
@@ -44,6 +46,7 @@ class RightParenSymbol(ImproperSymbol):
     @staticmethod
     def new() -> "RightParenSymbol":
         return RightParenSymbol()
+
 
 class ConjSymbol(ImproperSymbol):
     def __init__(self):
@@ -67,6 +70,7 @@ class DisjSymbol(ImproperSymbol):
     @staticmethod
     def new() -> "DisjSymbol":
         return DisjSymbol()
+
 
 class NegSymbol(ImproperSymbol):
     def __init__(self):
@@ -106,7 +110,7 @@ class EquivSymbol(ImproperSymbol):
 
 class UniversalSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('A')
+        PrimitiveSymbol.__init__('∀')
 
     def symbol_type(self) -> str:
         return 'universal quantifier'
@@ -118,7 +122,7 @@ class UniversalSymbol(ImproperSymbol):
 
 class ExistentialSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('E')
+        PrimitiveSymbol.__init__('∃')
 
     def symbol_type(self) -> str:
         return 'existential quantifier'
@@ -132,13 +136,14 @@ class Thing(PrimitiveSymbol):
     def __init__(self, name: str):
         PrimitiveSymbol.__init__(name)
 
+
 class Constant(Thing):
     def __init__(self, name: str):
         Thing.__init__(name)
 
     def symbol_type(self) -> str:
         return 'constant'
-    
+
     @staticmethod
     def new(name: str) -> "Constant":
         return Constant(name)
@@ -155,7 +160,7 @@ class IndividualVariable(Variable):
 
     def symbol_type(self) -> str:
         return 'individual variable'
-    
+
     @staticmethod
     def new(name: str) -> "IndividualVariable":
         return IndividualVariable(name)
@@ -167,7 +172,7 @@ class PropositionalVariable(Variable):
 
     def symbol_type(self) -> str:
         return 'propositional variable'
-    
+
     @staticmethod
     def new(name: str) -> "PropositionalVariable":
         return PropositionalVariable(name)
@@ -180,7 +185,7 @@ class Function(PrimitiveSymbol):
 
     def symbol_type(self) -> str:
         return 'function'
-    
+
     @staticmethod
     def new(name: str, arity: int) -> "Function":
         return Function(name, arity)
@@ -193,7 +198,7 @@ class Predicate(PrimitiveSymbol):
 
     def symbol_type(self) -> str:
         return 'function'
-    
+
     @staticmethod
     def new(name: str, arity: int) -> "Predicate":
         return Predicate(name, arity)
@@ -211,64 +216,100 @@ class Formula:
         return Formula(symbols)
 '''
 
+
 class Term:
     def __init__(self, atoms: List[PrimitiveSymbol]):
-        self.atoms =  atoms
+        self.atoms = atoms
 
     @staticmethod
     def new_thing(thing: Thing) -> "Term":
-       return Term([thing])
+        return Term([thing])
 
     @staticmethod
-    def new_function(function: Function, terms: List[Term]) -> "Term":
-       return Term([function] + terms)
+    def new_function(function: Function, terms: List["Term"]) -> "Term":
+        return Term([function] + terms)
 
 
 class Wff(Term):
     def __init__(self, atoms: List[PrimitiveSymbol]):
-        self.atoms =  atoms
+        self.atoms = atoms
 
-    @staticmethod
-    def new_prop_var(var: PropositionalVariable) -> "Wff":
-       return Wff([var])
+    def is_bound(self, var: IndividualVariable) -> bool:
+        pass
 
-    @staticmethod
-    def new_predicate(predicate: Predicate, terms: List[Term]) -> "Wff":
-       return Term([predicate] + terms)
 
+class VarWff(Wff):
     @staticmethod
-    def new_neg(wff: "Wff") -> "Wff":
-        return Wff([NegSymbol.new(), var])
+    def new(var: PropositionalVariable) -> "VarWff":
+        return VarWff([var])
 
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return False
+
+
+class PredicateWff(Wff):
     @staticmethod
-    def new_binary(left: "Wff", middle: ImproperSymbol, right: "Wff") -> "Wff":
+    def new(predicate: Predicate, terms: List[Term]) -> "PredicateWff":
+        return Term([predicate] + terms)
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return False
+
+
+class NegWff(Wff):
+    @staticmethod
+    def new(wff: "Wff") -> "NegWff":
+        return Wff([NegSymbol.new(), wff])
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return self.symbols[1].is_bound(var)
+
+
+class BinaryWff(Wff):
+    @staticmethod
+    def new(left: "Wff", middle: ImproperSymbol, right: "Wff") -> "BinaryWff":
         return Wff([LeftParenSymbol.new(), 
                     left, middle, right,
                     RightParenSymbol.new()])
 
-    @staticmethod
-    def new_conj(left: "Wff", right: "Wff") -> "Wff":
-        return new_binary(left, ConjSymbol.new(), right)
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return any(self.symbols[i].is_bound(var) for i in [0, 2])
 
     @staticmethod
-    def new_disj(left: "Wff", right: "Wff") -> "Wff":
-        return new_binary(left, DisjSymbol.new(), right)
+    def new_conj(left: "Wff", right: "Wff") -> "BinaryWff":
+        return Wff.new_binary(left, ConjSymbol.new(), right)
 
     @staticmethod
-    def new_impl(left: "Wff", right: "Wff") -> "Wff":
-        return new_binary(left, ImplSymbol.new(), right)
+    def new_disj(left: "Wff", right: "Wff") -> "BinaryWff":
+        return Wff.new_binary(left, DisjSymbol.new(), right)
 
     @staticmethod
-    def new_equiv(left: "Wff", right: "Wff") -> "Wff":
-        return new_binary(left, EquivSymbol.new(), right)
+    def new_impl(left: "Wff", right: "Wff") -> "BinaryWff":
+        return Wff.new_binary(left, ImplSymbol.new(), right)
 
     @staticmethod
-    def new_universal(indiv_var: IndividualVariable, wff: "Wff") -> "Wff":
-        return new_binary([UniversalSymbol.new(), indiv_var, wff])
+    def new_equiv(left: "Wff", right: "Wff") -> "BinaryWff":
+        return Wff.new_binary(left, EquivSymbol.new(), right)
+
+
+class QuantifierWff(Wff):
+    @staticmethod
+    def new(quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
+            ) -> "QuantifierWff":
+        return Wff.new_binary([quant, indiv_var, wff])
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return self.symbols[1].equals(var) or self.symbols[2].is_bound(var)
 
     @staticmethod
-    def new_existential(indiv_var: IndividualVariable, wff: "Wff") -> "Wff":
-        return new_binary([ExistentialSymbol.new(), indiv_var, wff])
+    def new_universal(indiv_var: IndividualVariable, wff: "Wff"
+                      ) -> "QuantifierWff":
+        return Wff.new_binary([UniversalSymbol.new(), indiv_var, wff])
+
+    @staticmethod
+    def new_existential(indiv_var: IndividualVariable, wff: "Wff"
+                        ) -> "QuantifierWff":
+        return Wff.new_binary([ExistentialSymbol.new(), indiv_var, wff])
 
 # TBC
 # An Introduction to Mathematical Logic and Type Theory, Andrews p.46
