@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class PrimitiveSymbol:
@@ -221,12 +221,19 @@ class Term:
     def __init__(self, atoms: List[PrimitiveSymbol]):
         self.atoms = atoms
 
+    def get_vars(self) -> List[Variable]:
+        return [x for x in self.atoms if isinstance(x, Variable)]
+
+
+class ThingTerm(Term):
     @staticmethod
-    def new_thing(thing: Thing) -> "Term":
+    def new(thing: Thing) -> "Term":
         return Term([thing])
 
+
+class FunctionTerm(Term):
     @staticmethod
-    def new_function(function: Function, terms: List["Term"]) -> "Term":
+    def new(function: Function, terms: List["Term"]) -> "Term":
         return Term([function] + terms)
 
 
@@ -234,17 +241,61 @@ class Wff(Term):
     def __init__(self, atoms: List[PrimitiveSymbol]):
         self.atoms = atoms
 
-    def is_bound(self, var: IndividualVariable) -> bool:
+    def is_atomic(self) -> bool:
         pass
-
-
-class VarWff(Wff):
-    @staticmethod
-    def new(var: PropositionalVariable) -> "VarWff":
-        return VarWff([var])
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return False
+
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return []
+
+    def get_free(self) -> List[IndividualVariable]:
+        return self.get_vars()
+
+    def is_closed(self) -> bool:
+        return len([x for x in self.get_free()
+                    if isinstance(x, IndividualVariable)]) == 0
+
+    def is_sentence(self) -> bool:
+        return len(self.free) == 0
+
+
+# Note: https://math.stackexchange.com/questions/1011418
+class PropVarWff(Wff):
+    @staticmethod
+    def new(var: PropositionalVariable) -> "PropVarWff":
+        return PropVarWff([var])
+
+     def is_atomic(self) -> bool:
+        return True
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return False
+
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return []
+
+    def get_free(self) -> List[IndividualVariable]:
+        return []
+
+
+class IndivVarWff(Wff):
+    @staticmethod
+    def new(var: IndividualVariable) -> "IndivVarWff":
+        return IndivVarWff([var])
+
+    def is_atomic(self) -> bool:
+        return True
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return False
+
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return []
+
+    def get_free(self) -> List[IndividualVariable]:
+        return [self]
 
 
 class PredicateWff(Wff):
@@ -255,6 +306,12 @@ class PredicateWff(Wff):
     def is_bound(self, var: IndividualVariable) -> bool:
         return False
 
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return []
+
+    def get_free(self) -> List[IndividualVariable]:
+        return sum([x.get_vars() for x in self.symbols[1:]], [])
+
 
 class NegWff(Wff):
     @staticmethod
@@ -264,16 +321,28 @@ class NegWff(Wff):
     def is_bound(self, var: IndividualVariable) -> bool:
         return self.symbols[1].is_bound(var)
 
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return self.symbols[1].get_bound()
+
+    def get_free(self) -> List[IndividualVariable]:
+        return self.symbols[1].get_free()
+
 
 class BinaryWff(Wff):
     @staticmethod
     def new(left: "Wff", middle: ImproperSymbol, right: "Wff") -> "BinaryWff":
-        return Wff([LeftParenSymbol.new(), 
+        return Wff([LeftParenSymbol.new(),
                     left, middle, right,
                     RightParenSymbol.new()])
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return any(self.symbols[i].is_bound(var) for i in [0, 2])
+
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return sum(self.symbols[i].get_bound() for i in [0, 2])
+
+    def get_free(self) -> List[IndividualVariable]:
+        return sum(self.symbols[i].get_free() for i in [0, 2])
 
     @staticmethod
     def new_conj(left: "Wff", right: "Wff") -> "BinaryWff":
@@ -300,6 +369,18 @@ class QuantifierWff(Wff):
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return self.symbols[1].equals(var) or self.symbols[2].is_bound(var)
+
+    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+        return [(self, self.symbols[1])] + self.symbols[2].get_bound()
+
+    def var(self) -> IndividualVariable:
+        return self.symbols[1]
+
+    def get_free(self) -> List[IndividualVariable]:
+        free = self.symbols[2].get_free()
+        if self.var() in free:
+            free.remove(self.var())
+        return free
 
     @staticmethod
     def new_universal(indiv_var: IndividualVariable, wff: "Wff"
