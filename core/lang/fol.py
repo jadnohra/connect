@@ -1,5 +1,10 @@
 from typing import List, Tuple
 
+'''
+References:
+ - An Introduction to Mathematical Logic and Type Theory, Andrews p.46
+'''
+
 
 class PrimitiveSymbol:
     def __init__(self, symbol):
@@ -132,14 +137,9 @@ class ExistentialSymbol(ImproperSymbol):
         return ExistentialSymbol()
 
 
-class Thing(PrimitiveSymbol):
+class Constant(PrimitiveSymbol):
     def __init__(self, name: str):
         PrimitiveSymbol.__init__(name)
-
-
-class Constant(Thing):
-    def __init__(self, name: str):
-        Thing.__init__(name)
 
     def symbol_type(self) -> str:
         return 'constant'
@@ -149,9 +149,9 @@ class Constant(Thing):
         return Constant(name)
 
 
-class Variable(Thing):
+class Variable(PrimitiveSymbol):
     def __init__(self, name: str):
-        Thing.__init__(name)
+        PrimitiveSymbol.__init__(name)
 
 
 class IndividualVariable(Variable):
@@ -203,19 +203,6 @@ class Predicate(PrimitiveSymbol):
     def new(name: str, arity: int) -> "Predicate":
         return Predicate(name, arity)
 
-'''
-class Formula:
-    def __init__(self, symbols: List[PrimitiveSymbol]):
-        self.symbols =  symbols
-
-    def symbol_type(self) -> str:
-        return 'formula'
-
-    @staticmethod
-    def new(symbols: List[PrimitiveSymbol]) -> "Variable":
-        return Formula(symbols)
-'''
-
 
 class Term:
     def __init__(self, atoms: List[PrimitiveSymbol]):
@@ -225,10 +212,16 @@ class Term:
         return [x for x in self.atoms if isinstance(x, Variable)]
 
 
-class ThingTerm(Term):
+class ConstantTerm(Term):
     @staticmethod
-    def new(thing: Thing) -> "Term":
-        return Term([thing])
+    def new(constant: Constant) -> "ConstantTerm":
+        return Term([constant])
+
+
+class IndivVarTerm(Term):
+    @staticmethod
+    def new(var: IndividualVariable) -> "IndivVarTerm":
+        return Term([var])
 
 
 class FunctionTerm(Term):
@@ -237,53 +230,37 @@ class FunctionTerm(Term):
         return Term([function] + terms)
 
 
-class Wff(Term):
-    def __init__(self, atoms: List[PrimitiveSymbol]):
-        self.atoms = atoms
+class Wff:
+    def __init__(self, symbols: List[PrimitiveSymbol]):
+        self.symbols = symbols
 
     def is_atomic(self) -> bool:
         pass
 
-    def is_bound(self, var: IndividualVariable) -> bool:
-        return False
-
-    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+    def get_bound_vars(self) -> List[Tuple["Wff", IndividualVariable]]:
         return []
 
-    def get_free(self) -> List[IndividualVariable]:
+    def get_free_vars(self) -> List[IndividualVariable]:
         return self.get_vars()
 
+    def substitute(self):  # TODO Andrews p.49
+        pass
+
+    def is_bound(self, var: IndividualVariable) -> bool:
+        return any(var == x for (x, y) in self.get_bound_vars())
+
     def is_closed(self) -> bool:
-        return len([x for x in self.get_free()
+        return len([x for x in self.get_free_vars()
                     if isinstance(x, IndividualVariable)]) == 0
 
     def is_sentence(self) -> bool:
-        return len(self.free) == 0
+        return len(self.get_free_vars()) == 0
 
 
-# Note: https://math.stackexchange.com/questions/1011418
 class PropVarWff(Wff):
     @staticmethod
     def new(var: PropositionalVariable) -> "PropVarWff":
-        return PropVarWff([var])
-
-     def is_atomic(self) -> bool:
-        return True
-
-    def is_bound(self, var: IndividualVariable) -> bool:
-        return False
-
-    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
-        return []
-
-    def get_free(self) -> List[IndividualVariable]:
-        return []
-
-
-class IndivVarWff(Wff):
-    @staticmethod
-    def new(var: IndividualVariable) -> "IndivVarWff":
-        return IndivVarWff([var])
+        return Wff([var])
 
     def is_atomic(self) -> bool:
         return True
@@ -291,17 +268,20 @@ class IndivVarWff(Wff):
     def is_bound(self, var: IndividualVariable) -> bool:
         return False
 
-    def get_bound(self) -> List[Tuple["Wff", IndividualVariable]]:
+    def get_bound_vars(self) -> List[Tuple["Wff", IndividualVariable]]:
         return []
 
-    def get_free(self) -> List[IndividualVariable]:
-        return [self]
+    def get_free_vars(self) -> List[IndividualVariable]:
+        return self.symbols[0]
 
 
 class PredicateWff(Wff):
     @staticmethod
     def new(predicate: Predicate, terms: List[Term]) -> "PredicateWff":
-        return Term([predicate] + terms)
+        return Wff([predicate] + terms)
+
+    def is_atomic(self) -> bool:
+        return True
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return False
@@ -317,6 +297,9 @@ class NegWff(Wff):
     @staticmethod
     def new(wff: "Wff") -> "NegWff":
         return Wff([NegSymbol.new(), wff])
+
+    def is_atomic(self) -> bool:
+        return False
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return self.symbols[1].is_bound(var)
@@ -334,6 +317,9 @@ class BinaryWff(Wff):
         return Wff([LeftParenSymbol.new(),
                     left, middle, right,
                     RightParenSymbol.new()])
+
+    def is_atomic(self) -> bool:
+        return False
 
     def is_bound(self, var: IndividualVariable) -> bool:
         return any(self.symbols[i].is_bound(var) for i in [0, 2])
@@ -367,6 +353,9 @@ class QuantifierWff(Wff):
             ) -> "QuantifierWff":
         return Wff.new_binary([quant, indiv_var, wff])
 
+    def is_atomic(self) -> bool:
+        return False
+
     def is_bound(self, var: IndividualVariable) -> bool:
         return self.symbols[1].equals(var) or self.symbols[2].is_bound(var)
 
@@ -391,6 +380,3 @@ class QuantifierWff(Wff):
     def new_existential(indiv_var: IndividualVariable, wff: "Wff"
                         ) -> "QuantifierWff":
         return Wff.new_binary([ExistentialSymbol.new(), indiv_var, wff])
-
-# TBC
-# An Introduction to Mathematical Logic and Type Theory, Andrews p.46
