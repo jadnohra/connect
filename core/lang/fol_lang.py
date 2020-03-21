@@ -1,9 +1,9 @@
-from typing import List, Tuple
-
 '''
 References:
  - An Introduction to Mathematical Logic and Type Theory, Andrews p.46
 '''
+
+from typing import List, Tuple
 
 
 class PrimitiveSymbol:
@@ -12,10 +12,6 @@ class PrimitiveSymbol:
 
     def symbol_type(self) -> str:
         return 'primitive symbol'
-
-    @staticmethod
-    def new_symbol(symbol: str) -> "PrimitiveSymbol":
-        return PrimitiveSymbol(symbol)
 
     def expression(self) -> str:
         return self.symbol
@@ -36,10 +32,6 @@ class LeftParenSymbol(ImproperSymbol):
     def symbol_type(self) -> str:
         return 'left parenthesis'
 
-    @staticmethod
-    def new() -> "LeftParenSymbol":
-        return LeftParenSymbol()
-
 
 class RightParenSymbol(ImproperSymbol):
     def __init__(self):
@@ -47,10 +39,6 @@ class RightParenSymbol(ImproperSymbol):
 
     def symbol_type(self) -> str:
         return 'right parenthesis'
-
-    @staticmethod
-    def new() -> "RightParenSymbol":
-        return RightParenSymbol()
 
 
 class ConjSymbol(ImproperSymbol):
@@ -60,10 +48,6 @@ class ConjSymbol(ImproperSymbol):
     def symbol_type(self) -> str:
         return 'conjunction'
 
-    @staticmethod
-    def new() -> "ConjSymbol":
-        return ConjSymbol()
-
 
 class DisjSymbol(ImproperSymbol):
     def __init__(self):
@@ -71,10 +55,6 @@ class DisjSymbol(ImproperSymbol):
 
     def symbol_type(self) -> str:
         return 'disjunction'
-
-    @staticmethod
-    def new() -> "DisjSymbol":
-        return DisjSymbol()
 
 
 class NegSymbol(ImproperSymbol):
@@ -84,10 +64,6 @@ class NegSymbol(ImproperSymbol):
     def symbol_type(self) -> str:
         return 'negation'
 
-    @staticmethod
-    def new() -> "NegSymbol":
-        return NegSymbol()
-
 
 class ImplSymbol(ImproperSymbol):
     def __init__(self):
@@ -95,10 +71,6 @@ class ImplSymbol(ImproperSymbol):
 
     def symbol_type(self) -> str:
         return 'material implication'
-
-    @staticmethod
-    def new() -> "ImplSymbol":
-        return ImplSymbol()
 
 
 class EquivSymbol(ImproperSymbol):
@@ -108,10 +80,6 @@ class EquivSymbol(ImproperSymbol):
     def symbol_type(self) -> str:
         return 'material equivalence'
 
-    @staticmethod
-    def new() -> "EquivSymbol":
-        return EquivSymbol()
-
 
 class UniversalSymbol(ImproperSymbol):
     def __init__(self):
@@ -119,10 +87,6 @@ class UniversalSymbol(ImproperSymbol):
 
     def symbol_type(self) -> str:
         return 'universal quantifier'
-
-    @staticmethod
-    def new() -> "UniversalSymbol":
-        return UniversalSymbol()
 
 
 class ExistentialSymbol(ImproperSymbol):
@@ -132,10 +96,6 @@ class ExistentialSymbol(ImproperSymbol):
     def symbol_type(self) -> str:
         return 'existential quantifier'
 
-    @staticmethod
-    def new() -> "ExistentialSymbol":
-        return ExistentialSymbol()
-
 
 class Constant(PrimitiveSymbol):
     def __init__(self, name: str):
@@ -143,10 +103,6 @@ class Constant(PrimitiveSymbol):
 
     def symbol_type(self) -> str:
         return 'constant'
-
-    @staticmethod
-    def new(name: str) -> "Constant":
-        return Constant(name)
 
 
 class Variable(PrimitiveSymbol):
