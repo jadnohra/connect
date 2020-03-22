@@ -283,27 +283,31 @@ class BinaryWff(Wff):
     def get_free(self) -> List[IndividualVariable]:
         return sum(self.symbols[i].get_free() for i in [0, 2])
 
-    @staticmethod
-    def new_conj(left: "Wff", right: "Wff") -> "BinaryWff":
-        return BinaryWff(left, ConjSymbol.new(), right)
 
-    @staticmethod
-    def new_disj(left: "Wff", right: "Wff") -> "BinaryWff":
-        return BinaryWff(left, DisjSymbol.new(), right)
+class ConjWff(BinaryWff):
+    def __init__(self, left: "Wff", right: "Wff"):
+        return super().__init__(left, ConjSymbol(), right)
 
-    @staticmethod
-    def new_impl(left: "Wff", right: "Wff") -> "BinaryWff":
-        return BinaryWff(left, ImplSymbol.new(), right)
 
-    @staticmethod
-    def new_equiv(left: "Wff", right: "Wff") -> "BinaryWff":
-        return BinaryWff(left, EquivSymbol.new(), right)
+class DisjWff(BinaryWff):
+    def __init__(self, left: "Wff", right: "Wff"):
+        return super().__init__(left, DisjSymbol(), right)
+
+
+class ImplWff(BinaryWff):
+    def __init__(self, left: "Wff", right: "Wff"):
+        return super().__init__(left, ImplSymbol(), right)
+
+
+class EquivWff(BinaryWff):
+    def __init__(self, left: "Wff", right: "Wff"):
+        return super().__init__(left, EquivSymbol(), right)
 
 
 class QuantifierWff(Wff):
     def __init__(self, quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
                  ):
-        return BinaryWff([quant, indiv_var, wff])
+        return Wff([quant, indiv_var, wff])
 
     def is_atomic(self) -> bool:
         return False
@@ -323,12 +327,12 @@ class QuantifierWff(Wff):
             free.remove(self.var())
         return free
 
-    @staticmethod
-    def new_universal(indiv_var: IndividualVariable, wff: "Wff"
-                      ) -> "QuantifierWff":
-        return Wff.new_binary([UniversalSymbol.new(), indiv_var, wff])
 
-    @staticmethod
-    def new_existential(indiv_var: IndividualVariable, wff: "Wff"
-                        ) -> "QuantifierWff":
-        return Wff.new_binary([ExistentialSymbol.new(), indiv_var, wff])
+class UniversalWff(QuantifierWff):
+    def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
+        return super().__init__(UniversalSymbol(), indiv_var, wff)
+
+
+class ExistentialWff(QuantifierWff):
+    def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
+        return super().__init__(ExistentialSymbol(), indiv_var, wff)

@@ -1,6 +1,6 @@
 '''
 References:
- - Symbolic Logic, Copi, p.33, 396
+ - Symbolic Logic, Copi, p.396
 '''
 from .fol_lang import Wff, PropVarWff, BinaryWff, PropositionalVariable, NegWff
 
@@ -20,7 +20,7 @@ class DeMorganConj(Replacement):
         q = PropVarWff(PropositionalVariable('q'))
         pat1 = NegWff(BinaryWff.new_conj(p, q))
         pat2 = BinaryWff.new_disj(
-                NegWff(p), 
+                NegWff(p),
                 NegWff(q))
         super().__init__(pat1, pat2)
 
