@@ -214,9 +214,8 @@ class Wff:
 
 
 class PropVarWff(Wff):
-    @staticmethod
-    def new(var: PropositionalVariable) -> "PropVarWff":
-        return Wff([var])
+    def __init__(self, var: PropositionalVariable):
+        super.__init__([var])
 
     def is_atomic(self) -> bool:
         return True
@@ -232,9 +231,8 @@ class PropVarWff(Wff):
 
 
 class PredicateWff(Wff):
-    @staticmethod
-    def new(predicate: Predicate, terms: List[Term]) -> "PredicateWff":
-        return Wff([predicate] + terms)
+    def __init__(self, predicate: Predicate, terms: List[Term]) -> "PredicateWff":
+        return super.__init__([predicate] + terms)
 
     def is_atomic(self) -> bool:
         return True
@@ -250,9 +248,8 @@ class PredicateWff(Wff):
 
 
 class NegWff(Wff):
-    @staticmethod
-    def new(wff: "Wff") -> "NegWff":
-        return Wff([NegSymbol.new(), wff])
+    def __init__(self, wff: "Wff"):
+        return super().__init__([NegSymbol.new(), wff])
 
     def is_atomic(self) -> bool:
         return False
@@ -268,11 +265,11 @@ class NegWff(Wff):
 
 
 class BinaryWff(Wff):
-    @staticmethod
-    def new(left: "Wff", middle: ImproperSymbol, right: "Wff") -> "BinaryWff":
-        return Wff([LeftParenSymbol.new(),
-                    left, middle, right,
-                    RightParenSymbol.new()])
+    def __init__(self, left: "Wff", middle: ImproperSymbol, right: "Wff"):
+        return super().__init__(
+                    [LeftParenSymbol(),
+                     left, middle, right,
+                     RightParenSymbol()])
 
     def is_atomic(self) -> bool:
         return False
@@ -288,26 +285,25 @@ class BinaryWff(Wff):
 
     @staticmethod
     def new_conj(left: "Wff", right: "Wff") -> "BinaryWff":
-        return Wff.new_binary(left, ConjSymbol.new(), right)
+        return BinaryWff(left, ConjSymbol.new(), right)
 
     @staticmethod
     def new_disj(left: "Wff", right: "Wff") -> "BinaryWff":
-        return Wff.new_binary(left, DisjSymbol.new(), right)
+        return BinaryWff(left, DisjSymbol.new(), right)
 
     @staticmethod
     def new_impl(left: "Wff", right: "Wff") -> "BinaryWff":
-        return Wff.new_binary(left, ImplSymbol.new(), right)
+        return BinaryWff(left, ImplSymbol.new(), right)
 
     @staticmethod
     def new_equiv(left: "Wff", right: "Wff") -> "BinaryWff":
-        return Wff.new_binary(left, EquivSymbol.new(), right)
+        return BinaryWff(left, EquivSymbol.new(), right)
 
 
 class QuantifierWff(Wff):
-    @staticmethod
-    def new(quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
-            ) -> "QuantifierWff":
-        return Wff.new_binary([quant, indiv_var, wff])
+    def __init__(self, quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
+                 ):
+        return BinaryWff([quant, indiv_var, wff])
 
     def is_atomic(self) -> bool:
         return False
