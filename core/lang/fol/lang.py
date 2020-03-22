@@ -117,10 +117,6 @@ class IndividualVariable(Variable):
     def symbol_type(self) -> str:
         return 'individual variable'
 
-    @staticmethod
-    def new(name: str) -> "IndividualVariable":
-        return IndividualVariable(name)
-
 
 class PropositionalVariable(Variable):
     def __init__(self, name: str):
@@ -128,10 +124,6 @@ class PropositionalVariable(Variable):
 
     def symbol_type(self) -> str:
         return 'propositional variable'
-
-    @staticmethod
-    def new(name: str) -> "PropositionalVariable":
-        return PropositionalVariable(name)
 
 
 class Function(PrimitiveSymbol):
@@ -142,10 +134,6 @@ class Function(PrimitiveSymbol):
     def symbol_type(self) -> str:
         return 'function'
 
-    @staticmethod
-    def new(name: str, arity: int) -> "Function":
-        return Function(name, arity)
-
 
 class Predicate(PrimitiveSymbol):
     def __init__(self, name: str, arity: int):
@@ -154,10 +142,6 @@ class Predicate(PrimitiveSymbol):
 
     def symbol_type(self) -> str:
         return 'function'
-
-    @staticmethod
-    def new(name: str, arity: int) -> "Predicate":
-        return Predicate(name, arity)
 
 
 class Term:
@@ -169,21 +153,18 @@ class Term:
 
 
 class ConstantTerm(Term):
-    @staticmethod
-    def new(constant: Constant) -> "ConstantTerm":
-        return Term([constant])
+    def __init__(self, constant: Constant):
+        super().__init__([constant])
 
 
 class IndivVarTerm(Term):
-    @staticmethod
-    def new(var: IndividualVariable) -> "IndivVarTerm":
-        return Term([var])
+    def __init__(self, var: IndividualVariable):
+        super().__init__([var])
 
 
 class FunctionTerm(Term):
-    @staticmethod
-    def new(function: Function, terms: List["Term"]) -> "Term":
-        return Term([function] + terms)
+    def __init__(self, function: Function, terms: List["Term"]):
+        super().__init__([function] + terms)
 
 
 class Wff:
