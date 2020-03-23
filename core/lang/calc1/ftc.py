@@ -70,7 +70,21 @@ Actually, we have a tree of contexts!
 and our idea from connect somehow still applies
 
 predicate real number
-    axiomatic how?
+    - axiomatic how ?
+    - like sup
+        - exists set R
+        - predicates that hold for R
+
+axiom
+    - exists set R 'constant' ℝ
+axioms
+    - complete ordered field
+
+
+
+declare constant R
+
+
 
 predicate set of reals
     context:

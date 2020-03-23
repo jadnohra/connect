@@ -1,0 +1,62 @@
+constant ℝ
+constant 0
+constant 1
+symbol +
+symbol *
+axiom ∃ ℝ
+''' Too complicated, prefer flattened version, even if it means duplicate, find a meta-programming language
+with
+    context
+        op ∈ (S x S -> S)
+    content
+        predicate Inverse(S, op, u) x ∈ S => (∃ y ∈ S ^ op(x, y) = u)
+    with
+        x ∈ S
+    content
+        predicate Unit(S, op, u) op(x, u) = x
+        with
+            context
+                y ∈ S
+            content
+                predicate Closed(S, op) (x ∈ S ^ y ∈ S) => op(x, y) ∈ S 
+'''
+predicate BinaryOperator(S, op)  op ∈ (S x S -> S)
+
+with (S, op: BinaryOperator(S, op))
+
+    predicate Closed(S, op) 
+        (x ∈ S ^ y ∈ S) => op(x, y) ∈ S
+
+    predicate Associative(S, op) 
+        (x ∈ S ^ y ∈ S) => op(op(x, y), z) = op(x, op(y, z))
+
+    predicate Commutative(S, op) 
+        (x ∈ S ^ y ∈ S) => op(x, y) = op(y, x)
+
+    with (u: Element(S, u))
+
+        predicate HasInverse(S, op, u) 
+            x ∈ S => (∃ y ∈ S ^ op(x, y) = u)
+
+        predicate IsRightUnit(S, op, u) 
+            op(x, u) = x
+
+        predicate IsLeftUnit(S, op, u) 
+            op(x, u) = x
+
+        predicate IsUnit(S, op, u) 
+            LeftUnit(S, op, u) ^ RightUnit(S, op, u)
+
+        predicate AbelianGroup(S, op, u)
+            Closed(S, op)
+            IsUnit(S, op, u)
+            HasInverse(S, op, u)
+            Associative(S, op)
+            Commutative(S, op)
+
+predicate Inverse(S, op: BinaryOperator(S, op), u: Element(S, u)) 
+    x ∈ S => (∃ y ∈ S ^ op(x, y) = u)
+    
+predicate Group(G, op, u) Closed()
+axiom Group(ℝ, 0, +)
+axiom Group(ℝ, 1, *)
