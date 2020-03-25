@@ -97,17 +97,25 @@ class ExistentialSymbol(ImproperSymbol):
         return 'existential quantifier'
 
 
-class Constant(PrimitiveSymbol):
+class InvididualSymbol(PrimitiveSymbol):
     def __init__(self, name: str):
         PrimitiveSymbol.__init__(name)
+
+    def symbol_type(self) -> str:
+        return 'individual'
+
+
+class Constant(InvididualSymbol):
+    def __init__(self, name: str):
+        InvididualSymbol.__init__(name)
 
     def symbol_type(self) -> str:
         return 'constant'
 
 
-class Variable(PrimitiveSymbol):
+class Variable(InvididualSymbol):
     def __init__(self, name: str):
-        PrimitiveSymbol.__init__(name)
+        InvididualSymbol.__init__(name)
 
 
 class IndividualVariable(Variable):

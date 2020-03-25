@@ -22,6 +22,75 @@ with
 '''
 predicate BinaryOperator(S, op)  op ∈ (S x S -> S)
 
+# predicate Set(S), generlization for later? but we would like set versus proper class
+
+
+'''
+with (p: PropositionalVar, q: PropositionalVar)
+    inference ModusPonens(p, q)
+        premisses
+            p => q
+            p
+        conclusion
+            q
+
+    replacement ConjunctionCommutation(p, q)
+        p ^ q
+        q ^ p
+not user space for now
+'''
+     
+theory SET
+    constant EmptySet
+        ∅
+
+    predicate Set(S: IndividualVar)
+        ⊤
+
+    # axiom ExistsEmptySet
+    #    ∃ ∅
+
+    axiom EmptySetIsSet
+        Set(∅)
+
+    axiom EmptySetIsEmpty
+        x ∉ ∅
+
+    axiom Pairing
+        ∃B ∀x (x ∈ B ⇔ [x=u ∨ x=v])
+    
+    predicate Subset(S: Set(S), X: Set(X))
+        t ∈ X => t ∈ S
+        notation operator ⊆
+
+    schema(t...: Set(t), P: Predicate)
+        function Subset(c: Set(c)) -> Set
+            predicate
+                Set(Subset)
+                x ∈ Subset <=> (x ∈ c ^ P(x, t...))
+            notation 
+
+    axiom_schema SubsetAxioms(F: Formula) # formula not containing B! how to express
+        ?
+
+    axiom Power(S)
+        ?
+
+    notation SetAbstraction
+        ? p.20
+
+    function Intersection(A: Set(A), B: Set(B)) -> Set
+        SubsetAxiom(???)
+
+
+# do we need this if we add equality to FOL?
+axiom Extentionality
+    (x ∈ A ⇔ x ∈ B) => (A = B)
+
+function Cart(A, B)
+    Set()
+
+
 with (S, op: BinaryOperator(S, op))
 
     predicate Closed(S, op) 
@@ -36,7 +105,7 @@ with (S, op: BinaryOperator(S, op))
     with (u: Element(S, u))
 
         predicate HasInverse(S, op, u) 
-            x ∈ S => (∃ y ∈ S ^ op(x, y) = u)
+            x ∈ S => (∃y ∈ S ^ op(x, y) = u)
 
         predicate IsRightUnit(S, op, u) 
             op(x, u) = x
@@ -55,7 +124,7 @@ with (S, op: BinaryOperator(S, op))
             Commutative(S, op)
 
 predicate Inverse(S, op: BinaryOperator(S, op), u: Element(S, u)) 
-    x ∈ S => (∃ y ∈ S ^ op(x, y) = u)
+    x ∈ S => (∃y ∈ S ^ op(x, y) = u)
     
 predicate Group(G, op, u) Closed()
 axiom Group(ℝ, 0, +)

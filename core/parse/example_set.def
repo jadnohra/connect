@@ -1,0 +1,96 @@
+  
+language SET
+    binary_operator Element
+        ∈
+    constant EmptySet
+        ∅
+    
+    predicate Set(x)
+    
+    axiom IndividualsAreSets
+        ∀x Set(x)
+
+    axiom EmptySetIsEmpty
+        ∀x x ∉ ∅
+
+    axiom Pairing
+        ∀u ∀v ∃B ∀x (x ∈ B ⇔ [x=u ∨ x=v])
+
+    # advantage over axiom is that we don't need a dummy 'B'!
+    # we can make this a design leitmotif?
+    # but this is then not 'axiomatic'!
+    # but we want to be 'operational'! the equivalence can be shown on 'meta'
+    # but then we create a barrier to entry of others and to translation
+    # but what about 'no B' condition in the axiom schema?! :X
+        # this points to a 'flaw' in the axiomatic description
+        # what ppl use operationally is the abstraction notation anyway
+        # we would get a function schema
+        # this would make this an 'in-context' axiom, the needed context providing the closed sentence
+            # as opposed to a 'floating' high-level schema of axioms that hover over all possible sentences
+            # but that's operationally OK, we are interested in operational proving, not in doing logic, studying the axioms of set theory or any other language
+            # but will that block us from building layers?
+                # construct reals -> axiomatic reals?
+                # how to bridge?
+            # OK but we must be able to handle arbitrary unions, is this possible?
+            Subset(c, P: P being a sentence predicate! )
+                axiom
+                 Vx (x in Subset <=> x in c and P(context)) # any predicate that we can think of! how do we get this from the context? -> here all combs of predicates is infinite! MUST be given, no all combs version, schematic_predicate
+    function Pair(u, v)
+        axiom
+            ∀x (x ∈ Pair ⇔ [x=u ∨ x=v])
+        notation
+            {u, v}
+    
+    axiom Pairing
+        ∀u ∀v ∃Pairing ∀x (x ∈ Pairing ⇔ [x=u ∨ x=v])
+
+    schema t
+        predicate P(t)
+            function Subset
+    schema -> user choice needed to instantiate or all combs
+        condition
+            N/A
+        function ArbitaryUnion(context)
+            axiom 
+                ∀x (x ∈ ArbitaryUnion ⇔ [x in u_1 ∨ x in u_2])
+                ∀x (x ∈ ArbitaryUnion ⇔ [ LOR(x in context)] ) # need LOR as a logical axiom function :( schematic_lor
+
+    predicate Subset(S, X)
+        ∀t t ∈ X => t ∈ S
+        notation
+            S ⊆ X
+
+    meta_function() Subset(S)
+     
+     meta(t: list(indiv_var, i), P: wff([], t), S, X)
+        axiom SubsetAxiomSchema(S, X)
+           `∀t_i`[:] (∃B ∀x (x ∈ B ⇔ [x ∈ S ^ P(t)]))
+
+    meta(t: list(indiv_var, i), P: wff([], t), S, X)
+        axiom SubsetAxiomSchema(S, X)
+           `∀t_i`[:] (∃B ∀x (x ∈ B ⇔ [x ∈ S ^ P(t)]))
+
+    axiom_schema SubsetAxiomSchema(`t: List[IndivVar]`, `P: PredicateWff`)
+        axiom SubsetAxiom(S, X)
+        `   if P.is_free('X')
+            
+            t_universals = WffUniversal()
+        `
+
+    ''' eg this matches
+        ∀t_1 ∀c ∃B ∀x (x ∈ B ⇔ [x=a ^ x=t_1])
+    '''
+
+    meta_list(indiv_var, t, i)
+        meta_predicate(P, t)
+            meta_()
+            axiom SubsetAxiomSchema(S, X)
+                `∀ti` (∃B ∀x (x ∈ B ⇔ [x ∈ S ^ P(t)]))
+
+
+
+    meta_list(i, n)
+        prefix = `∀t_[i] (∃B ∀x (x ∈ B ⇔ [x ∈ S ^ P(t)]))`
+        axiom SubsetAxiomSchema(S, X)
+           `∀t_i`[:] 
+    
