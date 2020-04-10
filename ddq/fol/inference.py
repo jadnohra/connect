@@ -1,5 +1,5 @@
 from typing import List
-from .fol import Wff
+from .lang import Wff
 
 
 class Inference:

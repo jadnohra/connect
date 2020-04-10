@@ -5,9 +5,23 @@ References:
 
 from typing import List, Tuple
 
+class Symbol:
+    def __init__(self):
+        pass
 
-class PrimitiveSymbol:
+    def symbol_type(self) -> str:
+        return 'symbol'
+
+    def expression(self) -> str:
+        return ''
+
+    @staticmethod
+    def canonical_instance() -> "Symbol":
+        return Symbol()
+
+class PrimitiveSymbol(Symbol):
     def __init__(self, symbol):
+        super().__init__()
         self.symbol = symbol
 
     def symbol_type(self) -> str:
@@ -19,137 +33,211 @@ class PrimitiveSymbol:
     def equals(self, other: "PrimitiveSymbol") -> bool:
         return type(self) == type(other) and self.symbol == other.symbol
 
+    @staticmethod
+    def canonical_instance() -> "PrimitiveSymbol":
+        return PrimitiveSymbol('?')
 
 class ImproperSymbol(PrimitiveSymbol):
     def symbol_type(self) -> str:
         return 'improper symbol'
 
+    @staticmethod
+    def canonical_instance() -> "ImproperSymbol":
+        return ImproperSymbol('?')
+
 
 class LeftParenSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('(')
+        super().__init__('(')
 
     def symbol_type(self) -> str:
         return 'left parenthesis'
 
+    @staticmethod
+    def canonical_instance() -> "LeftParenSymbol":
+        return LeftParenSymbol()
+
 
 class RightParenSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__(')')
+        super().__init__(')')
 
     def symbol_type(self) -> str:
         return 'right parenthesis'
 
+    @staticmethod
+    def canonical_instance() -> "RightParenSymbol":
+        return RightParenSymbol()
+
 
 class ConjSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('^')
+        super().__init__('^')
 
     def symbol_type(self) -> str:
         return 'conjunction'
 
+    @staticmethod
+    def canonical_instance() -> "ConjSymbol":
+        return ConjSymbol()
+
 
 class DisjSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('v')
+        super().__init__('v')
 
     def symbol_type(self) -> str:
         return 'disjunction'
 
+    @staticmethod
+    def canonical_instance() -> "DisjSymbol":
+        return DisjSymbol()
+
 
 class NegSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('~')
+        super().__init__('~')
 
     def symbol_type(self) -> str:
         return 'negation'
 
+    @staticmethod
+    def canonical_instance() -> "NegSymbol":
+        return NegSymbol()
+
 
 class ImplSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('=>')
+        super().__init__('=>')
 
     def symbol_type(self) -> str:
         return 'material implication'
 
+    @staticmethod
+    def canonical_instance() -> "ImplSymbol":
+        return ImplSymbol()
+
 
 class EquivSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('==')
+        super().__init__('==')
 
     def symbol_type(self) -> str:
         return 'material equivalence'
 
+    @staticmethod
+    def canonical_instance() -> "EquivSymbol":
+        return EquivSymbol()
+
 
 class UniversalSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('∀')
+        super().__init__('∀')
 
     def symbol_type(self) -> str:
         return 'universal quantifier'
+    
+    @staticmethod
+    def canonical_instance() -> "UniversalSymbol":
+        return UniversalSymbol()
 
 
 class ExistentialSymbol(ImproperSymbol):
     def __init__(self):
-        PrimitiveSymbol.__init__('∃')
+        super().__init__('∃')
 
     def symbol_type(self) -> str:
         return 'existential quantifier'
 
+    @staticmethod
+    def canonical_instance() -> "ExistentialSymbol":
+        return ExistentialSymbol()
 
-class InvididualSymbol(PrimitiveSymbol):
+
+class IndividualSymbol(PrimitiveSymbol):
     def __init__(self, name: str):
-        PrimitiveSymbol.__init__(name)
+        super().__init__(name)
 
     def symbol_type(self) -> str:
         return 'individual'
 
+    @staticmethod
+    def canonical_instance() -> "IndividualSymbol":
+        return IndividualSymbol('?')
 
-class Constant(InvididualSymbol):
+
+class Constant(IndividualSymbol):
     def __init__(self, name: str):
-        InvididualSymbol.__init__(name)
+        super().__init__(name)
 
     def symbol_type(self) -> str:
         return 'constant'
 
+    @staticmethod
+    def canonical_instance() -> "Constant":
+        return Constant('c')
 
-class Variable(InvididualSymbol):
+
+class Variable(IndividualSymbol):
     def __init__(self, name: str):
-        InvididualSymbol.__init__(name)
+        super().__init__(name)
+
+    def symbol_type(self) -> str:
+        return 'variable'
+
+    @staticmethod
+    def canonical_instance() -> "Variable":
+        return Variable('?')
 
 
 class IndividualVariable(Variable):
     def __init__(self, name: str):
-        Variable.__init__(name)
+        super().__init__(name)
 
     def symbol_type(self) -> str:
         return 'individual variable'
 
+    @staticmethod
+    def canonical_instance() -> "IndividualVariable":
+        return IndividualVariable('p')
+
 
 class PropositionalVariable(Variable):
     def __init__(self, name: str):
-        Variable.__init__(name)
+        super().__init__(name)
 
     def symbol_type(self) -> str:
         return 'propositional variable'
 
+    @staticmethod
+    def canonical_instance() -> "PropositionalVariable":
+        return PropositionalVariable('X')
+
 
 class Function(PrimitiveSymbol):
     def __init__(self, name: str, arity: int):
-        PrimitiveSymbol.__init__(name)
+        super().__init__(name)
         self.arity = arity
 
     def symbol_type(self) -> str:
         return 'function'
+
+    @staticmethod
+    def canonical_instance() -> "Function":
+        return Function('f', 1)
 
 
 class Predicate(PrimitiveSymbol):
     def __init__(self, name: str, arity: int):
-        PrimitiveSymbol.__init__(name)
+        super().__init__(name)
         self.arity = arity
 
     def symbol_type(self) -> str:
-        return 'function'
+        return 'predicate'
+
+    @staticmethod
+    def canonical_instance() -> "Predicate":
+        return Predicate('P', 1)
 
 
 class Term:
@@ -183,10 +271,10 @@ class Wff:
         pass
 
     def get_bound_vars(self) -> List[Tuple["Wff", IndividualVariable]]:
-        return []
+        pass
 
     def get_free_vars(self) -> List[IndividualVariable]:
-        return self.get_vars()
+        pass
 
     def substitute(self):  # TODO Andrews p.49
         pass
@@ -220,8 +308,8 @@ class PropVarWff(Wff):
 
 
 class PredicateWff(Wff):
-    def __init__(self, predicate: Predicate, terms: List[Term]) -> "PredicateWff":
-        return super.__init__([predicate] + terms)
+    def __init__(self, predicate: Predicate, terms: List[Term]):
+        super.__init__([predicate] + terms)
 
     def is_atomic(self) -> bool:
         return True
@@ -238,7 +326,7 @@ class PredicateWff(Wff):
 
 class NegWff(Wff):
     def __init__(self, wff: "Wff"):
-        return super().__init__([NegSymbol.new(), wff])
+        super().__init__([NegSymbol(), wff])
 
     def is_atomic(self) -> bool:
         return False
@@ -255,7 +343,7 @@ class NegWff(Wff):
 
 class BinaryWff(Wff):
     def __init__(self, left: "Wff", middle: ImproperSymbol, right: "Wff"):
-        return super().__init__(
+        super().__init__(
                     [LeftParenSymbol(),
                      left, middle, right,
                      RightParenSymbol()])
@@ -275,28 +363,28 @@ class BinaryWff(Wff):
 
 class ConjWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
-        return super().__init__(left, ConjSymbol(), right)
+        super().__init__(left, ConjSymbol(), right)
 
 
 class DisjWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
-        return super().__init__(left, DisjSymbol(), right)
+        super().__init__(left, DisjSymbol(), right)
 
 
 class ImplWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
-        return super().__init__(left, ImplSymbol(), right)
+        super().__init__(left, ImplSymbol(), right)
 
 
 class EquivWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
-        return super().__init__(left, EquivSymbol(), right)
+        super().__init__(left, EquivSymbol(), right)
 
 
 class QuantifierWff(Wff):
     def __init__(self, quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
                  ):
-        return Wff([quant, indiv_var, wff])
+        Wff([quant, indiv_var, wff])
 
     def is_atomic(self) -> bool:
         return False
@@ -319,9 +407,9 @@ class QuantifierWff(Wff):
 
 class UniversalWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
-        return super().__init__(UniversalSymbol(), indiv_var, wff)
+        super().__init__(UniversalSymbol(), indiv_var, wff)
 
 
 class ExistentialWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
-        return super().__init__(ExistentialSymbol(), indiv_var, wff)
+        super().__init__(ExistentialSymbol(), indiv_var, wff)
