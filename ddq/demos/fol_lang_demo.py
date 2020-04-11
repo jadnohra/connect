@@ -28,33 +28,20 @@ def print_tree(root, children_func=iter, name_func=str):
                 # i.e. space because last, └── , above so no more |
                 yield from tree(path, children_func, name_func, prefix=prefix+extension)
 
+    print(name_func(root))
     for line in tree(root, children_func, name_func):
         print(line)
 
-
-def print_symbol_hierarchy(root_class):
-    """Print the hierarchy and include a canonical example for each class"""
+def print_class_hierarchy(root_class):
+    """Print a class hierarchy"""
     print_tree(root_class, 
                lambda cls: cls.__subclasses__(), 
-               lambda cls: cls.__name__ 
-                           + " [ " + cls.canonical_instance().symbol_type() 
-                           + ": " + cls.canonical_instance().expression()
-                           + " ]")
-
-def print_term_hierarchy(root_class):
-    """Print the hierarchy and include a canonical example for each class"""
-    print_tree(root_class, 
-               lambda cls: cls.__subclasses__(), 
-               lambda cls: cls.__name__
-                      + " [ " + cls.canonical_instance().expression()
-                      + " ]")
+               lambda cls: cls.__name__)
 
 def main():
-    print("ddq FOL language demo\n")
-    print('\nSymbol Hierarchy')
-    print_symbol_hierarchy(lang.Symbol)
-    print('\nTerm Hierarchy')
-    print_term_hierarchy(lang.Term)
+    print("\nddq FOL language demo")
+    print('\nSyntax Taxonomy\n')
+    print_class_hierarchy(lang.Node)
 
 if __name__ == "__main__":
     # execute only if run as a script

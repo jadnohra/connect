@@ -5,7 +5,17 @@ References:
 
 from typing import List, Tuple
 
-class Symbol:
+class Node:
+    def is_leaf(self) -> bool:
+        return self.children() is None
+
+    def children(self) -> List["Node"]:
+        pass
+
+    def name(self) -> str:
+        pass
+
+class Symbol(Node):
     def __init__(self):
         pass
 
@@ -14,6 +24,12 @@ class Symbol:
 
     def expression(self) -> str:
         return ''
+
+    def children(self) -> List["Node"]:
+        return None
+
+    def name(self) -> str:
+        return self.expression()
 
     @staticmethod
     def canonical_instance() -> "Symbol":
@@ -240,7 +256,7 @@ class Predicate(PrimitiveSymbol):
         return Predicate('P', 1)
 
 
-class Term:
+class Term(Node):
     def __init__(self, atoms: List[PrimitiveSymbol]):
         self.atoms = atoms
 
@@ -249,6 +265,12 @@ class Term:
 
     def expression(self) -> str:
         return "".join(atom.expression() for atom in self.atoms)
+
+    def children(self) -> List["Node"]:
+        return self.atoms
+
+    def name(self) -> str:
+        return "Term"
 
     @staticmethod
     def canonical_instance() -> "Term":
@@ -259,6 +281,9 @@ class ConstantTerm(Term):
     def __init__(self, constant: Constant):
         super().__init__([constant])
 
+    def name(self) -> str:
+        return "Constant Term"
+
     @staticmethod
     def canonical_instance() -> "ConstantTerm":
         return ConstantTerm(Constant.canonical_instance())
@@ -267,6 +292,9 @@ class ConstantTerm(Term):
 class IndivVarTerm(Term):
     def __init__(self, var: IndividualVariable):
         super().__init__([var])
+
+    def name(self) -> str:
+        return "Individual Variable Term"
 
     @staticmethod
     def canonical_instance() -> "IndivVarTerm":
@@ -278,13 +306,16 @@ class FunctionTerm(Term):
     def __init__(self, function: Function, terms: List["Term"]):
         super().__init__([function] + terms)
 
+    def name(self) -> str:
+        return "Function Term"
+
     @staticmethod
     def canonical_instance() -> "FunctionTerm":
         return FunctionTerm(Function.canonical_instance(),
                             [IndivVarTerm.canonical_instance()])
 
 
-class Wff:
+class Wff(Node):
     def __init__(self, symbols: List[PrimitiveSymbol]):
         self.symbols = symbols
 
@@ -313,6 +344,12 @@ class Wff:
     def expression(self) -> str:
         return "".join(symbol.expression() for symbol in self.symbols)
 
+    def children(self) -> List["Node"]:
+        return self.symbols
+
+    def name(self) -> str:
+        return "Wff"
+
     @staticmethod
     def canonical_instance() -> "Wff":
         return Wff([Constant.canonical_instance()])
@@ -334,6 +371,9 @@ class PropVarWff(Wff):
     def get_free_vars(self) -> List[IndividualVariable]:
         return self.symbols[0]
 
+    def name(self) -> str:
+        return "Propositional Variable Wff"
+
     @staticmethod
     def canonical_instance() -> "PropVarWff":
         return PropVarWff([PropositionalVariable.canonical_instance()])
@@ -354,6 +394,9 @@ class PredicateWff(Wff):
 
     def get_free(self) -> List[IndividualVariable]:
         return sum([x.get_vars() for x in self.symbols[1:]], [])
+
+    def name(self) -> str:
+        return "Predicate Wff"
 
     @staticmethod
     def canonical_instance() -> "PredicateWff":
@@ -377,6 +420,9 @@ class NegWff(Wff):
     def get_free(self) -> List[IndividualVariable]:
         return self.symbols[1].get_free()
 
+    def name(self) -> str:
+        return "Negation Wff"
+
 
 class BinaryWff(Wff):
     def __init__(self, left: "Wff", middle: ImproperSymbol, right: "Wff"):
@@ -397,25 +443,40 @@ class BinaryWff(Wff):
     def get_free(self) -> List[IndividualVariable]:
         return sum(self.symbols[i].get_free() for i in [0, 2])
 
+    def name(self) -> str:
+        return "Binary Wff"
+
 
 class ConjWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
         super().__init__(left, ConjSymbol(), right)
+
+    def name(self) -> str:
+        return "Conjunction Wff"
 
 
 class DisjWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
         super().__init__(left, DisjSymbol(), right)
 
+    def name(self) -> str:
+        return "Disjunction Wff"
+
 
 class ImplWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
         super().__init__(left, ImplSymbol(), right)
 
+    def name(self) -> str:
+        return "Implication Wff"
+
 
 class EquivWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
         super().__init__(left, EquivSymbol(), right)
+
+    def name(self) -> str:
+        return "Equivalence Wff"
 
 
 class QuantifierWff(Wff):
@@ -441,12 +502,21 @@ class QuantifierWff(Wff):
             free.remove(self.var())
         return free
 
+    def name(self) -> str:
+        return "Quantifier Wff"
+
 
 class UniversalWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
         super().__init__(UniversalSymbol(), indiv_var, wff)
 
+    def name(self) -> str:
+        return "Universal Quantifier Wff"
+
 
 class ExistentialWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
         super().__init__(ExistentialSymbol(), indiv_var, wff)
+
+    def name(self) -> str:
+        return "Existenstial Quantifier Wff"
