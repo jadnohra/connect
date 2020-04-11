@@ -247,20 +247,41 @@ class Term:
     def get_vars(self) -> List[Variable]:
         return [x for x in self.atoms if isinstance(x, Variable)]
 
+    def expression(self) -> str:
+        return "".join(atom.expression() for atom in self.atoms)
+
+    @staticmethod
+    def canonical_instance() -> "Term":
+        return Term([IndividualSymbol.canonical_instance()])
+
 
 class ConstantTerm(Term):
     def __init__(self, constant: Constant):
         super().__init__([constant])
+
+    @staticmethod
+    def canonical_instance() -> "ConstantTerm":
+        return ConstantTerm(Constant.canonical_instance())
 
 
 class IndivVarTerm(Term):
     def __init__(self, var: IndividualVariable):
         super().__init__([var])
 
+    @staticmethod
+    def canonical_instance() -> "IndivVarTerm":
+        return IndivVarTerm(IndividualVariable.canonical_instance())
+
+
 
 class FunctionTerm(Term):
     def __init__(self, function: Function, terms: List["Term"]):
         super().__init__([function] + terms)
+
+    @staticmethod
+    def canonical_instance() -> "FunctionTerm":
+        return FunctionTerm(Function.canonical_instance(),
+                            [IndivVarTerm.canonical_instance()])
 
 
 class Wff:
@@ -289,6 +310,13 @@ class Wff:
     def is_sentence(self) -> bool:
         return len(self.get_free_vars()) == 0
 
+    def expression(self) -> str:
+        return "".join(symbol.expression() for symbol in self.symbols)
+
+    @staticmethod
+    def canonical_instance() -> "Wff":
+        return Wff([Constant.canonical_instance()])
+
 
 class PropVarWff(Wff):
     def __init__(self, var: PropositionalVariable):
@@ -306,6 +334,10 @@ class PropVarWff(Wff):
     def get_free_vars(self) -> List[IndividualVariable]:
         return self.symbols[0]
 
+    @staticmethod
+    def canonical_instance() -> "PropVarWff":
+        return PropVarWff([PropositionalVariable.canonical_instance()])
+
 
 class PredicateWff(Wff):
     def __init__(self, predicate: Predicate, terms: List[Term]):
@@ -322,6 +354,11 @@ class PredicateWff(Wff):
 
     def get_free(self) -> List[IndividualVariable]:
         return sum([x.get_vars() for x in self.symbols[1:]], [])
+
+    @staticmethod
+    def canonical_instance() -> "PredicateWff":
+        return PredicateWff(Predicate.canonical_instance(), 
+                            [IndividualVariable.canonical_instance()])
 
 
 class NegWff(Wff):
