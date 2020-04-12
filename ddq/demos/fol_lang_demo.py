@@ -14,12 +14,12 @@ def print_tree(root, children_func=iter, name_func=str):
     tee =    '├── '
     last =   '└── '
     
-    def tree(dir_path, children_func, name_func, prefix: str=''):
+    def tree(node, children_func, name_func, prefix: str=''):
         """A recursive generator, given a tree
         will yield a visual tree structure line by line
         with each line prefixed by the same characters
         """    
-        contents = children_func(dir_path)
+        contents = children_func(node)
         # contents each get pointers that are ├── with a final └── :
         pointers = [tee] * (len(contents) - 1) + [last]
         for pointer, path in zip(pointers, contents):
@@ -29,6 +29,7 @@ def print_tree(root, children_func=iter, name_func=str):
                 # i.e. space because last, └── , above so no more |
                 yield from tree(path, children_func, name_func, prefix=prefix+extension)
 
+    # Print the resulting tree
     print(name_func(root))
     for line in tree(root, children_func, name_func):
         print(line)
@@ -59,15 +60,14 @@ def main():
     print('\n## Terms\n')
     all_terms = [cls for cls in all_classes if issubclass(cls, lang.Term)]
     for term in all_terms:
-        #print(term.__name__)
         print()
         print_node_hierarchy(term.canonical_instance())
     print('\n## Wffs\n')
     all_wffs = [cls for cls in all_classes if issubclass(cls, lang.Wff)]
     for wff in all_wffs:
-        #print(wff.__name__)
         print()
         print_node_hierarchy(wff.canonical_instance())
+
 
 if __name__ == "__main__":
     # execute only if run as a script
