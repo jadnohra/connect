@@ -1,3 +1,4 @@
+import inspect
 import ddq.fol.lang as lang
 
 
@@ -38,10 +39,33 @@ def print_class_hierarchy(root_class):
                lambda cls: cls.__subclasses__(), 
                lambda cls: cls.__name__)
 
+def print_node_hierarchy(root_node):
+    """Print a class hierarchy"""
+    print_tree(root_node, 
+               lambda node: (node) if isinstance(node, list) 
+                            else (node.children() if node.children() is not None else []), 
+               lambda node: "" if isinstance(node, list) else node.name())
+
 def main():
     print("\nddq FOL language demo")
-    print('\nSyntax Taxonomy\n')
+    print('\n# Syntax Taxonomy\n')
     print_class_hierarchy(lang.Node)
+    print('\n# Canonical Instances')
+    all_classes = [obj for (name, obj) in inspect.getmembers(lang) if inspect.isclass(obj)]
+    all_symbols = [cls for cls in all_classes if issubclass(cls, lang.Symbol)]
+    print('\n## Symbols\n')
+    for symbol in all_symbols:
+        print("{}: {}".format(symbol.__name__, symbol.canonical_instance().name()))
+    print('\n## Terms\n')
+    all_terms = [cls for cls in all_classes if issubclass(cls, lang.Term)]
+    for term in all_terms:
+        print(term.__name__)
+        print_node_hierarchy(term.canonical_instance())
+    print('\n## Wffs\n')
+    all_wffs = [cls for cls in all_classes if issubclass(cls, lang.Wff)]
+    for wff in all_wffs:
+        print(wff.__name__)
+        print_node_hierarchy(wff.canonical_instance())
 
 if __name__ == "__main__":
     # execute only if run as a script

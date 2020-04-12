@@ -23,7 +23,7 @@ class Symbol(Node):
         return 'symbol'
 
     def expression(self) -> str:
-        return ''
+        return '?'
 
     def children(self) -> List["Node"]:
         return None
@@ -357,7 +357,7 @@ class Wff(Node):
 
 class PropVarWff(Wff):
     def __init__(self, var: PropositionalVariable):
-        super.__init__([var])
+        super().__init__([var])
 
     def is_atomic(self) -> bool:
         return True
@@ -381,7 +381,7 @@ class PropVarWff(Wff):
 
 class PredicateWff(Wff):
     def __init__(self, predicate: Predicate, terms: List[Term]):
-        super.__init__([predicate] + terms)
+        super().__init__([predicate] + terms)
 
     def is_atomic(self) -> bool:
         return True
@@ -423,6 +423,10 @@ class NegWff(Wff):
     def name(self) -> str:
         return "Negation Wff"
 
+    @staticmethod
+    def canonical_instance() -> "NegWff":
+        return NegWff(PredicateWff.canonical_instance())
+
 
 class BinaryWff(Wff):
     def __init__(self, left: "Wff", middle: ImproperSymbol, right: "Wff"):
@@ -454,6 +458,11 @@ class ConjWff(BinaryWff):
     def name(self) -> str:
         return "Conjunction Wff"
 
+    @staticmethod
+    def canonical_instance() -> "ConjWff":
+        return ConjWff(PredicateWff.canonical_instance(),
+                       PredicateWff.canonical_instance())
+
 
 class DisjWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
@@ -461,6 +470,11 @@ class DisjWff(BinaryWff):
 
     def name(self) -> str:
         return "Disjunction Wff"
+
+    @staticmethod
+    def canonical_instance() -> "DisjWff":
+        return DisjWff(PredicateWff.canonical_instance(),
+                       PredicateWff.canonical_instance())
 
 
 class ImplWff(BinaryWff):
@@ -470,6 +484,11 @@ class ImplWff(BinaryWff):
     def name(self) -> str:
         return "Implication Wff"
 
+    @staticmethod
+    def canonical_instance() -> "ImplWff":
+        return ImplWff(PredicateWff.canonical_instance(),
+                       PredicateWff.canonical_instance())
+
 
 class EquivWff(BinaryWff):
     def __init__(self, left: "Wff", right: "Wff"):
@@ -478,11 +497,16 @@ class EquivWff(BinaryWff):
     def name(self) -> str:
         return "Equivalence Wff"
 
+    @staticmethod
+    def canonical_instance() -> "EquivWff":
+        return EquivWff(PredicateWff.canonical_instance(),
+                       PredicateWff.canonical_instance())
+
 
 class QuantifierWff(Wff):
     def __init__(self, quant: ImproperSymbol, indiv_var: IndividualVariable, wff: "Wff"
                  ):
-        Wff([quant, indiv_var, wff])
+        super().__init__([quant, indiv_var, wff])
 
     def is_atomic(self) -> bool:
         return False
@@ -505,6 +529,12 @@ class QuantifierWff(Wff):
     def name(self) -> str:
         return "Quantifier Wff"
 
+    @staticmethod
+    def canonical_instance(
+            quant: ImproperSymbol = ImproperSymbol.canonical_instance()) -> "QuantifierWff":
+        return QuantifierWff(quant,
+                             IndividualVariable.canonical_instance(),
+                             PredicateWff.canonical_instance())
 
 class UniversalWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
@@ -513,6 +543,10 @@ class UniversalWff(QuantifierWff):
     def name(self) -> str:
         return "Universal Quantifier Wff"
 
+    @staticmethod
+    def canonical_instance() -> "UniversalWff":
+        return QuantifierWff.canonical_instance(UniversalSymbol())
+
 
 class ExistentialWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
@@ -520,3 +554,7 @@ class ExistentialWff(QuantifierWff):
 
     def name(self) -> str:
         return "Existenstial Quantifier Wff"
+
+    @staticmethod
+    def canonical_instance() -> "ExistentialWff":
+        return QuantifierWff.canonical_instance(ExistentialSymbol())
