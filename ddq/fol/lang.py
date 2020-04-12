@@ -215,7 +215,7 @@ class IndividualVariable(Variable):
 
     @staticmethod
     def canonical_instance() -> "IndividualVariable":
-        return IndividualVariable('p')
+        return IndividualVariable('q')
 
 
 class PropositionalVariable(Variable):
@@ -401,7 +401,7 @@ class PredicateWff(Wff):
     @staticmethod
     def canonical_instance() -> "PredicateWff":
         return PredicateWff(Predicate.canonical_instance(), 
-                            [IndividualVariable.canonical_instance()])
+                            [IndivVarTerm.canonical_instance()])
 
 
 class NegWff(Wff):
@@ -449,6 +449,12 @@ class BinaryWff(Wff):
 
     def name(self) -> str:
         return "Binary Wff"
+
+    @staticmethod
+    def canonical_instance() -> "BinaryWff":
+        return BinaryWff(PredicateWff.canonical_instance(),
+                         ImproperSymbol.canonical_instance(),
+                         PredicateWff.canonical_instance())
 
 
 class ConjWff(BinaryWff):
@@ -530,9 +536,8 @@ class QuantifierWff(Wff):
         return "Quantifier Wff"
 
     @staticmethod
-    def canonical_instance(
-            quant: ImproperSymbol = ImproperSymbol.canonical_instance()) -> "QuantifierWff":
-        return QuantifierWff(quant,
+    def canonical_instance() -> "QuantifierWff":
+        return QuantifierWff(ImproperSymbol.canonical_instance(),
                              IndividualVariable.canonical_instance(),
                              PredicateWff.canonical_instance())
 
@@ -545,7 +550,8 @@ class UniversalWff(QuantifierWff):
 
     @staticmethod
     def canonical_instance() -> "UniversalWff":
-        return QuantifierWff.canonical_instance(UniversalSymbol())
+        return UniversalWff(IndividualVariable.canonical_instance(),
+                            PredicateWff.canonical_instance())
 
 
 class ExistentialWff(QuantifierWff):
@@ -556,5 +562,6 @@ class ExistentialWff(QuantifierWff):
         return "Existenstial Quantifier Wff"
 
     @staticmethod
-    def canonical_instance() -> "ExistentialWff":
-        return QuantifierWff.canonical_instance(ExistentialSymbol())
+    def canonical_instance() -> "UniExistentialWffversalWff":
+        return ExistentialWff(IndividualVariable.canonical_instance(),
+                              PredicateWff.canonical_instance())

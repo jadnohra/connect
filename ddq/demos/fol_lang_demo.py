@@ -59,12 +59,14 @@ def main():
     print('\n## Terms\n')
     all_terms = [cls for cls in all_classes if issubclass(cls, lang.Term)]
     for term in all_terms:
-        print(term.__name__)
+        #print(term.__name__)
+        print()
         print_node_hierarchy(term.canonical_instance())
     print('\n## Wffs\n')
     all_wffs = [cls for cls in all_classes if issubclass(cls, lang.Wff)]
     for wff in all_wffs:
-        print(wff.__name__)
+        #print(wff.__name__)
+        print()
         print_node_hierarchy(wff.canonical_instance())
 
 if __name__ == "__main__":
