@@ -26,6 +26,12 @@ class Node:
            This is used for printing per example"""
         pass
 
+    @classproperty
+    def childtype(cls) -> type:
+        """Type of this node's children.
+        Only valid when is_leaf is False."""
+        pass
+
 
 class LeafNode(Node):
     @classproperty
@@ -55,7 +61,7 @@ class NamedLeafNode(LeafNode):
         return self._name
 
 
-class NamedNonLeafNode(LeafNode):
+class NamedNonLeafNode(NonLeafNode):
     def __init__(self, name: str = None):
         super().__init__()
         self._name = None
