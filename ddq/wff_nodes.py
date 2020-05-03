@@ -1,14 +1,25 @@
-from .node import NamedNonLeafNode, classproperty
+from .node import (
+    NamedNonLeafNode, NamedLeafNode, classproperty
+)
 
+# class hierarchies don't seem to be the best thing. Maybe we need just labels ...
+# a 'component-entity' design or duck-typing.
 
 class Wff:
     def __init__(self):
         pass
 
 
-class Term:
+class Term(Wff):
     def __init__(self):
         pass
+
+
+class Constant(NamedLeafNode, Term):
+    @classproperty
+    def typename(cls) -> str:
+        return "constant"
+
 
 class Predicate(NamedNonLeafNode, Wff):
     @classproperty

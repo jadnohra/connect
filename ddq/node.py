@@ -3,22 +3,30 @@ from .classproperty import classproperty
 
 
 class Node:
+    def __init__(self, name: str = None, children: List = None,
+                 child_type: type = None):
+        """Note: We adopt the convention that the children
+        list being None signifies a leaf node.
+        """
+        self._name = None
+        self._children = children
+
     @property
     def children(self) -> List["Node"]:
         """Returns a list of children.
            Only valid when is_leaf is False."""
-        pass
+        self._children
 
     @classproperty
     def is_leaf(cls) -> bool:
         """True if this node is a leaf"""
-        pass
+        self._children is None
 
     @property
     def name(self) -> str:
         """A friendly name for this node.
            This is used for printing per example"""
-        pass
+        return self._name
 
     @classproperty
     def typename(cls) -> str:
@@ -33,39 +41,16 @@ class Node:
         pass
 
 
-class LeafNode(Node):
-    @classproperty
-    def is_leaf(cls) -> bool:
-        return True
-
-
 class NonLeafNode(Node):
-    def __init__(self):
-        self._children = []
-    
-    @classproperty
-    def is_leaf(cls) -> bool:
-        return False
-
-    @property
-    def children(self) -> List["Node"]:
-        return self._children
+    def __init__(self, children: List):
+        super().__init__(self, children=children)
 
 
-class NamedLeafNode(LeafNode):
-    def __init__(self, name: str = None):
-        self._name = None
-
-    @property
-    def name(self) -> str:
-        return self._name
+class NamedLeafNode(Node):
+    def __init__(self, name: str):
+        super().__init__(self, name=name)
 
 
 class NamedNonLeafNode(NonLeafNode):
-    def __init__(self, name: str = None):
-        super().__init__()
-        self._name = None
-
-    @property
-    def name(self) -> str:
-        return self._name
+    def __init__(self, name: str, children: List):
+        super().__init__(name=name, children=children)
