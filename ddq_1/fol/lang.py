@@ -4,16 +4,8 @@ References:
 '''
 
 from typing import List, Tuple
+from .node import Node
 
-class Node:
-    def is_leaf(self) -> bool:
-        return self.children() is None
-
-    def children(self) -> List["Node"]:
-        pass
-
-    def name(self) -> str:
-        pass
 
 class Symbol(Node):
     def __init__(self):
@@ -35,6 +27,7 @@ class Symbol(Node):
     def canonical_instance() -> "Symbol":
         return Symbol()
 
+
 class PrimitiveSymbol(Symbol):
     def __init__(self, symbol):
         super().__init__()
@@ -52,6 +45,7 @@ class PrimitiveSymbol(Symbol):
     @staticmethod
     def canonical_instance() -> "PrimitiveSymbol":
         return PrimitiveSymbol('?')
+
 
 class ImproperSymbol(PrimitiveSymbol):
     def symbol_type(self) -> str:
@@ -152,7 +146,7 @@ class UniversalSymbol(ImproperSymbol):
 
     def symbol_type(self) -> str:
         return 'universal quantifier'
-    
+
     @staticmethod
     def canonical_instance() -> "UniversalSymbol":
         return UniversalSymbol()
@@ -301,7 +295,6 @@ class IndivVarTerm(Term):
         return IndivVarTerm(IndividualVariable.canonical_instance())
 
 
-
 class FunctionTerm(Term):
     def __init__(self, function: Function, terms: List["Term"]):
         super().__init__([function] + terms)
@@ -400,7 +393,7 @@ class PredicateWff(Wff):
 
     @staticmethod
     def canonical_instance() -> "PredicateWff":
-        return PredicateWff(Predicate.canonical_instance(), 
+        return PredicateWff(Predicate.canonical_instance(),
                             [IndivVarTerm.canonical_instance()])
 
 
@@ -431,9 +424,9 @@ class NegWff(Wff):
 class BinaryWff(Wff):
     def __init__(self, left: "Wff", middle: ImproperSymbol, right: "Wff"):
         super().__init__(
-                    [LeftParenSymbol(),
-                     left, middle, right,
-                     RightParenSymbol()])
+            [LeftParenSymbol(),
+             left, middle, right,
+             RightParenSymbol()])
 
     def is_atomic(self) -> bool:
         return False
@@ -506,7 +499,7 @@ class EquivWff(BinaryWff):
     @staticmethod
     def canonical_instance() -> "EquivWff":
         return EquivWff(PredicateWff.canonical_instance(),
-                       PredicateWff.canonical_instance())
+                        PredicateWff.canonical_instance())
 
 
 class QuantifierWff(Wff):
@@ -540,6 +533,7 @@ class QuantifierWff(Wff):
         return QuantifierWff(ImproperSymbol.canonical_instance(),
                              IndividualVariable.canonical_instance(),
                              PredicateWff.canonical_instance())
+
 
 class UniversalWff(QuantifierWff):
     def __init__(self, indiv_var: IndividualVariable, wff: "Wff"):
