@@ -4,7 +4,7 @@ from .predicate import Predicate
 from .function import Function
 
 
-class Universe:
+class Universe(NameContext): # For unbound variables (individuals), although, this should happen for a specific proof, do not pollute a universe? 
     def __init__(self):
         self._indiv_id_counter = 0
         self._pred_id_counter = 0

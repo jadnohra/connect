@@ -1,7 +1,7 @@
 from ddq.node import Node
 
 
-class BindContext:
+class Line(NameContext): # for bound variables (variables)
     def __init__(self):
         self._id_counter = 0
 
@@ -11,7 +11,11 @@ class BindContext:
 
 
 class BoundVariable:
-    def __init__(self, id: int):
+    def __init__(self, id: int = None):
+        self._id = id
+
+    def bind(self, id: int):
+        assert self._id is None, "Bound variable id should not be reset"
         self._id = id
 
 
