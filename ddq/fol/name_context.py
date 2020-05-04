@@ -14,7 +14,7 @@ class NameContext:
     def __init__(self, prefix: str = None):
         self._prefix = prefix
         self._name_counter = 0
-       
+
     def add_instance(self, instance: NamedInstance):
         if self._prefix:
             instance.set_name(str(self._name_counter))
