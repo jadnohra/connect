@@ -1,4 +1,4 @@
-from .types import DiscourseType, FunctionalType, Term, TermTuple
+from .types import FunctionalType, Term, TermTuple
 from .thing import Thing
 
 

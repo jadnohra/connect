@@ -1,11 +1,11 @@
-from .types import DiscourseType, FunctionalType, TruthValue, TermTuple
+from .types import FunctionalType, Formula, TermTuple
 from .thing import Thing
 
 
 class Function(Thing):
     def __init__(self, arity: int):
         super().__init__()
-        self._functional_type = FunctionalType(TruthValue, TermTuple(arity))
+        self._functional_type = FunctionalType(Formula, TermTuple(arity))
 
     def arity(self) -> int:
         return self._functional_type.from_type().arity()

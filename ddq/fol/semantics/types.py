@@ -5,15 +5,11 @@ class Type:
     pass
 
 
-class DiscourseType(Type):
+class Term(Type):
     pass
 
 
-class Term(DiscourseType):
-    pass
-
-
-class TruthValue(DiscourseType):
+class Formula(Type):
     pass
 
 

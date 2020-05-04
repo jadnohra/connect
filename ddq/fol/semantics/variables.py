@@ -3,9 +3,6 @@ from .thing import Thing
 
 
 class Variable(Thing):
-    def __init__(self):
-        super().__init__()
-
     def functional_type(self) -> FunctionalType:
         return FunctionalType(Term, None)
 
