@@ -1,7 +1,14 @@
-from .classproperty import classproperty
+from abc import ABC, abstractmethod
 
 
-class PrettyClass:
-    @classproperty
-    def typename(cls) -> str:
+class PrettyType(ABC):
+    @staticmethod
+    @abstractmethod
+    def typename() -> str:
+        pass
+
+
+class PrettyInstance(ABC):
+    @abstractmethod
+    def instancename(self) -> str:
         pass

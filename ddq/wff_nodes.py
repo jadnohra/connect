@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 from .node import (
     NamedNonLeafNode, NamedLeafNode, classproperty
 )
@@ -5,14 +7,13 @@ from .node import (
 # class hierarchies don't seem to be the best thing. Maybe we need just labels ...
 # a 'component-entity' design or duck-typing.
 
-class Wff:
-    def __init__(self):
-        pass
+
+class Wff(ABC):
+    pass
 
 
 class Term(Wff):
-    def __init__(self):
-        pass
+    pass
 
 
 class Constant(NamedLeafNode, Term):
