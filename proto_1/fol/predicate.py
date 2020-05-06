@@ -1,5 +1,5 @@
-from typing import List
-from .node import Node
+from ..node import Node
+from .node_types import is_term
 
 
 class Predicate:
@@ -7,26 +7,23 @@ class Predicate:
         self._symbol = symbol
         self._arity = arity
 
-    def new_node(self) -> type:
-        return PredicateNode
+    def symbol(self) -> str:
+        return self._symbol
+
+    def new_node(self) -> Node:
+        return PredicateNode(self)
 
 
 class PredicateNode(Node):
     def __init__(self, predicate: Predicate):
+        super().__init__([None] * predicate.arity())
         self._predicate = predicate
-        self._children = [None] * predicate.arity()
 
-    def children(self) -> List:
-        return self._children
+    def acceptChild(self, index: int, child: "Node") -> bool:
+        if child is None:
+            return True
+        return is_term(child)
 
-    def setChild(self, index: int, child: Node) -> bool:
-        if not child.is_term():
-            return False
-        self._children[index] = child
-        return True
-
-    def setLeft(self, child: Node) -> bool:
-        return self.setChild(0, child)
-
-    def setRight(self, child: Node) -> bool:
-        return self.setChild(1, child)
+    def repr_node(self) -> str:
+        return self._predicate.symbol() if self._predicate else None
+def repr_node(self) -> str:

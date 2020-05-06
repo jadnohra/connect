@@ -243,7 +243,7 @@ class Predicate(PrimitiveSymbol):
         self.arity = arity
 
     def symbol_type(self) -> str:
-        return 'predicate'
+        return 'predicate' 
 
     @staticmethod
     def canonical_instance() -> "Predicate":

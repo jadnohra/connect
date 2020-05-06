@@ -1,16 +1,34 @@
-from .node import Node
+from enum import Enum, auto
+from ..node import Node
 
 
-class Variable:
-    def __init__(self):
-        self._symbol = symbol
-        self._arity = arity
+class VarInhabitance(Enum):
+    UNIVERSAL = auto()
+    EXISTENTIAL = auto()
+    ASSUMED = auto()
 
-    def new_node(self) -> type:
-        return VariableNode
+
+class VariableDeclarationNode(Node):
+    def __init__(self, inhabitance: VarInhabitance = None):
+        self._inhabitance = inhabitance
+
+    def validate(self,
+                 ensureFullyBuilt: bool = False,
+                 validateChildren: bool = False):
+        if self.parent() is not None:
+            assert(self._inhabitance is not None)
+        super().validate(ensureFullyBuilt, validateChildren)
+
+    def inhabitance(self) -> VarInhabitance:
+        self._inhabitance
 
 
 class VariableNode(Node):
-    def __init__(self, predicate: Predicate):
-        self._predicate = predicate
-        self._children = [None] * predicate.arity()
+    def __init__(self, declaration: VariableDeclarationNode = None):
+        self._declaration = declaration
+
+    def is_term(self) -> bool:
+        return True
+
+    def inhabitance(self) -> VarInhabitance:
+        self._declaration.inhabitance()
