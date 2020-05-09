@@ -46,7 +46,8 @@ class Node:
             self._children[index] = child
             self.on_changed()
             return self
-        logging.error("Child {} not accepted by {}".format(child, self))
+        logging.error("Child {} not accepted by {} at index {}"
+                      .format(child, self, index))
         return None
 
     def set(self, child: "Node") -> "Node":

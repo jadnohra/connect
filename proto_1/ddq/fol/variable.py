@@ -34,7 +34,7 @@ class VariableNode(Node):
         self._declaration.inhabitance()
 
     def repr_node(self) -> str:
-        return self._declaration.repr_node() if self._declaration else None
+        return self._declaration if self._declaration else super().repr_node()
 
 
 def universal_var() -> VariableDeclarationNode:

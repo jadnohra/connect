@@ -1,5 +1,9 @@
 from ddq.node import Node
-from .node_types import is_variable_declaration, is_predicate, is_connective
+from .node_types import (
+    is_variable_declaration,
+    is_predicate,
+    is_connective,
+    is_quantifier)
 
 
 class QuantifierNode(Node):
@@ -12,7 +16,8 @@ class QuantifierNode(Node):
         if index == 0:
             return is_variable_declaration(child)
         if index == 1:
-            return is_predicate(child) or is_connective(child)
+            return any(is_type(child) for is_type in
+                       [is_predicate, is_connective, is_quantifier])
 
 
 class UniversalQuantifierNode(QuantifierNode):

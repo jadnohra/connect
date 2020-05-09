@@ -1,3 +1,4 @@
+from typing import List
 from ddq.node import Node
 from .node_types import is_term
 
@@ -29,3 +30,6 @@ class PredicateNode(Node):
 
     def repr_node(self) -> str:
         return self._predicate.symbol() if self._predicate else None
+
+    def notes(self) -> List[str]:
+        return []

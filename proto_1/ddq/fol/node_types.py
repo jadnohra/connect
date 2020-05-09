@@ -16,6 +16,11 @@ def is_connective(node: Node) -> bool:
     return isinstance(node, ConnectiveNode)
 
 
+def is_quantifier(node: Node) -> bool:
+    from .quantifier import QuantifierNode
+    return isinstance(node, QuantifierNode)
+
+
 def is_variable_declaration(node: Node) -> bool:
     from .variable import VariableDeclarationNode
     return isinstance(node, VariableDeclarationNode)

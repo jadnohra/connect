@@ -1,6 +1,7 @@
 import copy
-from typing import Set
+from typing import Set, Any
 from .node import Node
+from .fol.node_types import is_variable_declaration
 
 
 class Namer:
@@ -29,7 +30,7 @@ class Namer:
         return name
 
     def _name_node(self, node: Node, taken_names: Set[str]) -> str:
-        if isinstance(node.repr_node(), int):
+        if isinstance(self.repr_node(node), int):
             # We only need to name nodes that return the object id
             # as their representation. This is a convention.
             return self._new_name(taken_names)
@@ -37,23 +38,40 @@ class Namer:
             return None
 
     def analyze(self, node: Node):
-        def recurse_analyze(node, parent_names: Set[str]):
+        def recurse_analyze(node, taken_names: Set[str]):
             if node is None:
                 return
-            new_node_name = self._name_node(node, parent_names)
-            if new_node_name is None:
-                recurse_set = parent_names
-            else:
-                recurse_set = copy.copy(parent_names)
-                recurse_set.add(new_node_name)
+            new_node_name = self._name_node(node, taken_names)
+            if new_node_name is not None:
+                taken_names.add(new_node_name)
                 self._name_dict[node] = new_node_name
-            for child in node.children():
-                recurse_analyze(child, recurse_set)
+            decl_children = [x for x in node.children()
+                             if is_variable_declaration(x)]
+            nondecl_children = [x for x in node.children()
+                                if not is_variable_declaration(x)]
+            # Variable declarations as our children affect the names
+            # of our other children, so we pass in taken_names by
+            # reference, so that the declared names are added to it
+            for child in decl_children:
+                recurse_analyze(child, taken_names)
+            for child in nondecl_children:
+                recurse_analyze(child, copy.copy(taken_names))
         recurse_analyze(node, set())
 
-    def repr_node(self, node: Node) -> str:
-        if node is None:
+    def _repr_resolve(self, thing: Any) -> str:
+        if thing is None:
+            # Support None gracefully
             return "None"
-        return (self._name_dict[node]
-                if node in self._name_dict
-                else node.repr_node())
+        if not isinstance(thing, Node):
+            # If we have a string or an int return them
+            # This complication is needed to handle Node.repr_node
+            # returing a reference node.
+            return thing
+        else:
+            node = thing
+            return (self._name_dict[node]
+                    if node in self._name_dict
+                    else self._repr_resolve(node.repr_node()))
+
+    def repr_node(self, node: Node) -> str:
+        return self._repr_resolve(node)

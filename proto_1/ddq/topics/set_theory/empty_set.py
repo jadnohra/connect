@@ -1,3 +1,4 @@
+from typing import List
 from ddq.fol.constant import Constant
 from ddq.axiom import Axiom, Node
 from ddq.builder import Builder
@@ -10,6 +11,9 @@ from .membership import st_in
 class EmptySetConstant(Constant):
     def __init__(self):
         super().__init__("∅")
+
+    def notes(self) -> List[str]:
+        return ["Not essential, but very common and convenient"]
 
 
 class EmptySetAxiom(Axiom):
