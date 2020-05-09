@@ -1,4 +1,5 @@
 import ddq.node
+from ddq.namer import Namer
 
 
 def print_tree(root, children_func=list, name_func=str):
@@ -41,8 +42,9 @@ def print_class_hierarchy(root_class: type):
                lambda cls: cls.__name__)
 
 
-def print_node(root_node: ddq.node.Node):
+def print_node(root_node: ddq.node.Node, namer: Namer = Namer()):
     """Print a node hierarchy"""
+    namer.analyze(root_node)
     print_tree(root_node,
                lambda node: node.children(),
-               lambda node: node.repr_node() if node is not None else "None")
+               lambda node: namer.repr_node(node))

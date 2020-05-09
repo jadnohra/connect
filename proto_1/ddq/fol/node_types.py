@@ -15,6 +15,7 @@ def is_connective(node: Node) -> bool:
     from .connective import ConnectiveNode
     return isinstance(node, ConnectiveNode)
 
+
 def is_variable_declaration(node: Node) -> bool:
     from .variable import VariableDeclarationNode
     return isinstance(node, VariableDeclarationNode)

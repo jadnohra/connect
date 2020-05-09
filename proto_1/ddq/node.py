@@ -1,16 +1,17 @@
-from typing import List
+from typing import List, Any, Union
 import logging
 
 
 class Node:
     def __init__(self, children: List = []):
         self._parent = None
+        self._label_dict = {}
         self._children = [None] * len(children)
         for i, child in enumerate(children):
             self.set_child(i, child)
 
-    def repr_node(self) -> str:
-        return str(id(self))
+    def repr_node(self) -> Union[str, int]:
+        return id(self)
 
     def validate(self,
                  ensureFullyBuilt: bool = False,
@@ -56,3 +57,10 @@ class Node:
 
     def set_right(self, child: "Node") -> "Node":
         return self.set_child(1, child)
+
+    def set_label(self, key: Any, value: Any) -> None:
+        assert key not in self._label_dict, "Nodes cannot be relabelled"
+        self._label_dict[key] = value
+
+    def label(self, key: Any, value: Any) -> Any:
+        return self._label_dict[key]

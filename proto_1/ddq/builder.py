@@ -1,7 +1,7 @@
 from typing import Any
 
 
-class Build:
+class Builder:
     def __init__(self):
         self._dict = {}
 

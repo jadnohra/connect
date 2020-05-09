@@ -1,6 +1,6 @@
 from ddq.fol.constant import Constant
 from ddq.axiom import Axiom, Node
-from ddq.build import Build
+from ddq.builder import Builder
 from ddq.fol.variable import universal_var, var
 from ddq.fol.quantifier import forall
 from ddq.fol.natural_deduction.import_all import *
@@ -14,7 +14,7 @@ class EmptySetConstant(Constant):
 
 class EmptySetAxiom(Axiom):
     def __init__(self, empty_set_constant: EmptySetConstant):
-        build = Build()
+        build = Builder()
         self._formula = (
             forall()
             .set_left(build.put('x', universal_var()))
