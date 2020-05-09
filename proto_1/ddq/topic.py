@@ -16,3 +16,11 @@ class Topic:
 
     def get_axioms(self) -> List[Axiom]:
         return []
+
+    def find_axioms(self, axiom_class: type) -> List[Axiom]:
+        return [x for x in self.get_axioms() if isinstance(x, axiom_class)]
+
+    def find_axiom(self, axiom_class: type) -> Axiom:
+        candidates = self.find_axioms(axiom_class)
+        assert len(candidates) == 1
+        return candidates[0]

@@ -29,8 +29,12 @@ class EmptySetAxiom(Axiom):
         )
         pass
 
-    def get_name(self) -> str:
+    @staticmethod
+    def name() -> str:
         return "Empty Set"
+
+    def get_name(self) -> str:
+        return self.name()
 
     def get_formula(self) -> Node:
         return self._formula
