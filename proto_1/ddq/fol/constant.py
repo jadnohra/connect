@@ -8,3 +8,7 @@ class Constant(VariableDeclarationNode):
 
     def repr_node(self) -> str:
         return self._symbol if self._symbol is not None else super().repr_node()
+
+
+def declare_constant(symbol: str) -> Constant:
+    return Constant(symbol)

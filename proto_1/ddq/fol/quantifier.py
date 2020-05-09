@@ -6,7 +6,7 @@ class QuantifierNode(Node):
     def __init__(self):
         super().__init__([None, None])
 
-    def acceptChild(self, index: int, child: "Node") -> bool:
+    def accepts_child(self, index: int, child: "Node") -> bool:
         if child is None:
             return True
         if index == 0:
@@ -23,3 +23,11 @@ class UniversalQuantifierNode(QuantifierNode):
 class ExistentialQuantifierNode(QuantifierNode):
     def node_repr(self) -> str:
         return "∃"
+
+
+def forall() -> UniversalQuantifierNode:
+    return UniversalQuantifierNode()
+
+
+def exists() -> ExistentialQuantifierNode:
+    return ExistentialQuantifierNode()

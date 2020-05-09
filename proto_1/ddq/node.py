@@ -6,7 +6,7 @@ class Node:
         self._parent = None
         self._children = [None] * len(children)
         for i, child in enumerate(children):
-            self.setChild(i, child)
+            self.set_child(i, child)
 
     def repr_node(self) -> str:
         return id(self)
@@ -20,12 +20,12 @@ class Node:
             for child in self.children():
                 child.validate(ensureFullyBuilt, validateChildren)
 
-    def onChildChanged(self):
+    def on_child_changed(self):
         pass
 
-    def onChanged(self):
+    def on_changed(self):
         if self._parent is not None:
-            self._parent.onChildChanged(self)
+            self._parent.on_child_changed(self)
 
     def parent(self) -> "Node":
         return None
@@ -36,18 +36,21 @@ class Node:
     def arity(self) -> int:
         return len(self.children()) if self.children() is not None else 0
 
-    def acceptChild(self, index: int, child: "Node") -> bool:
+    def accepts_child(self, index: int, child: "Node") -> bool:
         return True
 
-    def setChild(self, index: int, child: "Node") -> "Node":
-        if self.acceptChild(index, child):
+    def set_child(self, index: int, child: "Node") -> "Node":
+        if self.accepts_child(index, child):
             self._children[index] = child
-            self.onChanged()
+            self.on_changed()
             return self
         return None
 
-    def setLeft(self, child: "Node") -> "Node":
-        return self.setChild(0, child)
+    def set(self, child: "Node") -> "Node":
+        return self.set_child(0, child)
 
-    def setRight(self, child: "Node") -> "Node":
-        return self.setChild(1, child)
+    def set_left(self, child: "Node") -> "Node":
+        return self.set_child(0, child)
+
+    def set_right(self, child: "Node") -> "Node":
+        return self.set_child(1, child)

@@ -19,7 +19,7 @@ class PredicateNode(Node):
         super().__init__([None] * predicate.arity())
         self._predicate = predicate
 
-    def acceptChild(self, index: int, child: "Node") -> bool:
+    def accepts_child(self, index: int, child: "Node") -> bool:
         if child is None:
             return True
         return is_term(child)
