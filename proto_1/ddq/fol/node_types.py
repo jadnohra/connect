@@ -1,4 +1,4 @@
-from ..node import Node
+from ddq.node import Node
 
 
 def is_term(node: Node) -> bool:

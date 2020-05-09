@@ -1,11 +1,12 @@
 from enum import Enum, auto
-from ..node import Node
+from ddq.node import Node
 
 
 class VarInhabitance(Enum):
     UNIVERSAL = auto()
     EXISTENTIAL = auto()
     ASSUMED = auto()
+    UNIQUE = auto()
 
 
 class VariableDeclarationNode(Node):

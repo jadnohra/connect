@@ -1,4 +1,4 @@
-from ..node import Node
+from ddq.node import Node
 from .node_types import is_variable_declaration, is_predicate
 
 

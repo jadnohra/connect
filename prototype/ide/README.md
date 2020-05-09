@@ -1,0 +1,41 @@
+- A full IDE, online, would be nice one day: eg electron-based
+    - More natural version of MS's lean: https://leanprover.github.io/logic_and_proof/first_order_logic_in_lean.html
+- Options are
+    - python with Cairo
+    - python with js frontend, this is due to the fact that there are many js libraries that seem fitting as opposed to python libraries
+    - go 2d engine eg pixel: but not UI
+        - https://github.com/faiface/pixel
+        - https://github.com/wailsapp/wails
+        - 'cairo for go': https://github.com/tdewolff/canvas
+    - Julia: https://juliagraphics.github.io/Luxor.jl/v0.11/index.html
+    - js engines
+        - http://processingjs.org/exhibition/
+        - anychart: https://docs.anychart.com/Maps/Labels
+        - vue.js
+            - https://vuejs.org/v2/examples/svg.html
+            - https://awesomejs.dev/for/vue/pkg/263682762783851008/
+        - electron!
+            - https://www.electronjs.org/blog/simple-samples
+            - https://www.electronjs.org/apps?category=utilities
+            - go + electron: https://github.com/asticode/astilectron, https://github.com/asticode/go-astilectron
+        - two.js: https://two.js.org/#two-text
+        - js other: https://blog.udemy.com/react-js-vs-angular-vs-vue-js-which-is-the-best-javascript-framework
+        - vanilla js+svg: https://github.com/petercollingridge/code-for-blog/tree/master/svg-interaction
+        - snap.svg (commercial): http://snapsvg.io/
+        - svg.js https://svgjs.com/docs/3.0/
+        - fabricjs http://fabricjs.com/stickman
+        - vivus: https://github.com/maxwellito/vivus
+        - gojs (commercial): https://gojs.net/latest/samples/orgChartEditor.html
+        - paperjs http://paperjs.org/examples/hit-testing/
+    - networkx: https://networkx.github.io/documentation/stable/tutorial.html#drawing-graphs
+    - non-interactive in jupyter+graphviz: https://towardsdatascience.com/interactive-visualization-of-decision-trees-with-jupyter-widgets-ca15dd312084
+    - Node editors
+        - https://github.com/LeGoffLoic/Nodz
+        - https://github.com/mjwybrow/dunnart
+        - https://stackoverflow.com/questions/5759878/is-there-an-interactive-graphing-library-for-python
+        - https://gephi.org/features/
+        - https://www.nodebox.net/
+        - https://www.cairographics.org/todo/
+        - http://zetcode.com/gui/pygtk/drawing/
+        - https://gitlab.gnome.org/GNOME/goocanvas (deprecated)
+- Note that for all svg, picking is never available directly. So one do one's own picking implementation on top (eg rectangles and line approximations)
