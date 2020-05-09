@@ -7,6 +7,9 @@ class Predicate:
         self._symbol = symbol
         self._arity = arity
 
+    def arity(self) -> int:
+        return self._arity
+
     def symbol(self) -> str:
         return self._symbol
 

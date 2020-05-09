@@ -1,5 +1,4 @@
 from typing import List
-from .universe import Universe
 from ddq.fol.predicate import Predicate
 from ddq.fol.constant import Constant
 from ddq.axiom import Axiom

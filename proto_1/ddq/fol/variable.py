@@ -11,6 +11,7 @@ class VarInhabitance(Enum):
 
 class VariableDeclarationNode(Node):
     def __init__(self, inhabitance: VarInhabitance = None):
+        super().__init__()
         self._inhabitance = inhabitance
 
     def validate(self,
@@ -26,13 +27,14 @@ class VariableDeclarationNode(Node):
 
 class VariableNode(Node):
     def __init__(self, declaration: VariableDeclarationNode = None):
+        super().__init__()
         self._declaration = declaration
-
-    def is_term(self) -> bool:
-        return True
 
     def inhabitance(self) -> VarInhabitance:
         self._declaration.inhabitance()
+
+    def repr_node(self) -> str:
+        return self._declaration.repr_node() if self._declaration else None
 
 
 def universal_var() -> VariableDeclarationNode:
@@ -45,15 +47,3 @@ def existential_var() -> VariableDeclarationNode:
 
 def var(decl_node: VariableDeclarationNode) -> VariableNode:
     return VariableNode(decl_node)
-
-
-class VarBuilContext:
-    def __init__(self):
-        self._dict = {}
-
-    def declare(self, name: str, decl_node: VariableDeclarationNode) -> VariableDeclarationNode:
-        assert name not in self._dict
-        self._dict[name] = decl_node
-
-    def reference(self, name: str) -> VariableNode:
-        return var(self._dict[name])

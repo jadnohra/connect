@@ -8,6 +8,9 @@ class Connective:
         self._arity = arity
         self._node_class = node_class
 
+    def arity(self) -> int:
+        return self._arity
+
     def symbol(self) -> str:
         return self._symbol
 

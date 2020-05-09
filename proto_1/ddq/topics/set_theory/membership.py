@@ -1,3 +1,4 @@
+from ddq.node import Node
 from ddq.fol.predicate import Predicate
 
 
@@ -6,5 +7,5 @@ class Membership(Predicate):
         super().__init__('∈', 2)
 
 
-def st_in() -> Membership:
-    return Membership()
+def st_in() -> Node:
+    return Membership().new_node()

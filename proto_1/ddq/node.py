@@ -1,4 +1,5 @@
 from typing import List
+import logging
 
 
 class Node:
@@ -9,7 +10,7 @@ class Node:
             self.set_child(i, child)
 
     def repr_node(self) -> str:
-        return id(self)
+        return str(id(self))
 
     def validate(self,
                  ensureFullyBuilt: bool = False,
@@ -44,6 +45,7 @@ class Node:
             self._children[index] = child
             self.on_changed()
             return self
+        logging.error("Child {} not accepted by {}".format(child, self))
         return None
 
     def set(self, child: "Node") -> "Node":
