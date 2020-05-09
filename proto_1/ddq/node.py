@@ -45,3 +45,9 @@ class Node:
             self.onChanged()
             return self
         return None
+
+    def setLeft(self, child: "Node") -> "Node":
+        return self.setChild(0, child)
+
+    def setRight(self, child: "Node") -> "Node":
+        return self.setChild(1, child)
