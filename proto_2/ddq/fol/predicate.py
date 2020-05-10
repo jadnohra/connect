@@ -14,9 +14,6 @@ class Predicate(Instantiator):
     def symbol(self) -> str:
         return self._symbol
 
-    def new_node(self) -> Node:
-        return PredicateNode(self)
-
     def __call__(self, *children):
         return PredicateNode(self, *children)
 
