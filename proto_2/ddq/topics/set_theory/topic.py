@@ -11,7 +11,7 @@ def build_topic(FOL: SimpleNamespace = FOL) -> SimpleNamespace:
     ]
     st.In = Membership()
     st.Nin = NonMembership()
-    st.NinDef = NonMembeshipDefinition(FOL, st)
+    st.NinDef = NonMembeshipDefinition(FOL, st).get_formula()
     return st
 
 
