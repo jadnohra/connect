@@ -1,5 +1,4 @@
 from typing import Any
-from ddq.fol.variable import var, VariableNode
 
 
 class Builder:
@@ -13,11 +12,3 @@ class Builder:
 
     def get(self, name: str) -> object:
         return self._dict[name]
-
-    def __getitem__(self, name: str) -> object:
-        return self.get(name)
-
-
-class VarBuilder(Builder):
-    def __getitem__(self, name: str) -> VariableNode:
-        return var(self._dict[name])

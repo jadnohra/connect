@@ -37,11 +37,11 @@ class VariableNode(Node):
         return self._declaration if self._declaration else super().repr_node()
 
 
-def universal_var() -> VariableDeclarationNode:
+def var_universal() -> VariableDeclarationNode:
     return VariableDeclarationNode(VarInhabitance.UNIVERSAL)
 
 
-def existential_var() -> VariableDeclarationNode:
+def var_existential() -> VariableDeclarationNode:
     return VariableDeclarationNode(VarInhabitance.EXISTENTIAL)
 
 
