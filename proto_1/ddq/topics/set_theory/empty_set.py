@@ -5,7 +5,7 @@ from ddq.builder import VarBuilder
 from ddq.fol.variable import universal_var, var
 from ddq.fol.quantifier import forall
 from ddq.fol.natural_deduction.import_all import l_not
-from .membership import st_in
+from .non_membership import st_nin
 
 
 class EmptySetConstant(Constant):
@@ -22,11 +22,9 @@ class EmptySetAxiom(Axiom):
         self._formula = (
             forall().set_binary(
                 vars.put('x', universal_var()),
-                l_not().set(
-                    st_in().set_binary(
-                        vars['x'],
-                        var(empty_set_constant)
-                    )
+                st_nin().set_binary(
+                    vars['x'],
+                    var(empty_set_constant)
                 )
             )
         )
