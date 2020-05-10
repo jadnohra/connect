@@ -4,7 +4,7 @@ from ddq.axiom import Axiom, Node
 from ddq.builder import VarBuilder
 from ddq.fol.variable import universal_var, var
 from ddq.fol.quantifier import forall
-from ddq.fol.natural_deduction.import_all import *
+from ddq.fol.natural_deduction.import_all import l_not
 from .membership import st_in
 
 
