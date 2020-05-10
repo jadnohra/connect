@@ -59,6 +59,10 @@ class Node:
     def set_right(self, child: "Node") -> "Node":
         return self.set_child(1, child)
 
+    def set_binary(self, left: "Node", right: "Node") -> "Node":
+        self.set_left(left)
+        return self.set_right(right)
+
     def set_label(self, key: Any, value: Any) -> None:
         assert key not in self._label_dict, "Nodes cannot be relabelled"
         self._label_dict[key] = value

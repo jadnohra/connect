@@ -7,6 +7,7 @@ from .membership import Membership
 from .empty_set import EmptySetConstant, EmptySetAxiom
 from .non_membership import NonMembeshipDefinition
 
+
 class SetTheoryTopic(BaseTopic):
     def __init__(self):
         build = Builder()

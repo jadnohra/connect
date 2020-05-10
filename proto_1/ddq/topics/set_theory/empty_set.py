@@ -1,7 +1,7 @@
 from typing import List
 from ddq.fol.constant import Constant
 from ddq.axiom import Axiom, Node
-from ddq.builder import Builder
+from ddq.builder import VarBuilder
 from ddq.fol.variable import universal_var, var
 from ddq.fol.quantifier import forall
 from ddq.fol.natural_deduction.import_all import *
@@ -18,20 +18,18 @@ class EmptySetConstant(Constant):
 
 class EmptySetAxiom(Axiom):
     def __init__(self, empty_set_constant: EmptySetConstant):
-        build = Builder()
+        vars = VarBuilder()
         self._formula = (
-            forall()
-            .set_left(build.put('x', universal_var()))
-            .set_right(
-                l_not()
-                .set(
-                    st_in()
-                    .set_left(var(build.get('x')))
-                    .set_right(var(empty_set_constant))
+            forall().set_binary(
+                vars.put('x', universal_var()),
+                l_not().set(
+                    st_in().set_binary(
+                        vars['x'],
+                        var(empty_set_constant)
+                    )
                 )
             )
         )
-        pass
 
     @staticmethod
     def name() -> str:

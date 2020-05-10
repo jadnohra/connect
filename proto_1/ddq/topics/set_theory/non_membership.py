@@ -1,7 +1,7 @@
 from typing import List
 from ddq.node import Node
 from ddq.definition import Definition
-from ddq.builder import Builder
+from ddq.builder import VarBuilder
 from ddq.fol.predicate import Predicate
 from ddq.fol.variable import universal_var, var
 from ddq.fol.quantifier import forall
@@ -23,26 +23,20 @@ def st_nin() -> Node:
 
 class NonMembeshipDefinition(Definition):
     def __init__(self):
-        build = Builder()
+        vars = VarBuilder()
         self._formula = (
-            forall()
-            .set_left(build.put('x', universal_var()))
-            .set_right(
-                forall()
-                .set_left(build.put('y', universal_var()))
-                .set_right(
-                    l_equiv()
-                    .set_left(
-                        st_in()
-                        .set_left(var(build.get('x')))
-                        .set_right(var(build.get('y')))
-                    )
-                    .set_right(
-                        l_not()
-                        .set(
-                            st_nin()
-                            .set_left(var(build.get('x')))
-                            .set_right(var(build.get('y')))
+            forall().set_binary(
+                vars.put('x', universal_var()),
+                forall().set_binary(
+                    vars.put('y', universal_var()),
+                    l_equiv().set_binary(
+                        st_in().set_binary(
+                            vars['x'], vars['y']
+                        ),
+                        l_not().set(
+                            st_nin().set_binary(
+                                vars['x'], vars['y']
+                            )
                         )
                     )
                 )
