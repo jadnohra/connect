@@ -9,7 +9,7 @@ class Constant(Instantiator):
     def symbol(self) -> str:
         return self._symbol
 
-    def __call__(self):
+    def __call__(self) -> "ConstantNode":
         return ConstantNode(self)
 
 

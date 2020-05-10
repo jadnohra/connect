@@ -24,6 +24,9 @@ class VariableDeclarationNode(Node):
     def inhabitance(self) -> VarInhabitance:
         self._inhabitance
 
+    def __call__(self):
+        return VariableNode(self)
+
 
 class VariableNode(Node):
     def __init__(self, declaration: VariableDeclarationNode = None):
