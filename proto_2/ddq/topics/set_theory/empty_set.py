@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 from typing import List
-from ddq.fol.constant import Constant
+from ddq.fol.constant import Constant, ConstantNode
 from ddq.axiom import Axiom, Node
 from ddq.var_builder import VarBuilder
 
@@ -11,6 +11,11 @@ class EmptySetConstant(Constant):
 
     def notes(self) -> List[str]:
         return ["Not essential, but very common and convenient"]
+
+
+class EmptySetConstantNode(ConstantNode):
+    def __init__(self):
+        super().__init__(EmptySetConstant())
 
 
 class EmptySetAxiom(Axiom):
