@@ -64,3 +64,13 @@ self._formula = (
     )
 )
 ```
+
+We would also like to build eg ST as we build it in a book
+
+ST.add (will use adding member)
+    - ch1 (section)
+        - sec1 (section)
+            - theorem 1.1.2 (unique name)
+
+pprint(ST.1_1_2)
+pprint(ST("empty set definition"))
