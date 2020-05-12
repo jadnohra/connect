@@ -1,35 +1,34 @@
 from types import SimpleNamespace
 from typing import List
-from ddq.node import Node
-from ddq.definition import Definition
-from ddq.var_builder import VarBuilder
+from ddq.definition import Definition, Node
 from ddq.fol.predicate import Predicate
+from ddq.var_builder import VarBuilder
 
 
-class NonMembership(Predicate):
+class Subset(Predicate):
     def __init__(self):
-        super().__init__('∉', 2)
+        super().__init__('⊆', 2)
 
     def notes(self) -> List[str]:
-        return ["Not essential, definitionally replacable by membership"]
+        return ["Not essential, definitionally replacable"]
 
 
-class NonMembeshipDefinition(Definition):
+class SubsetDefinition(Definition):
     def __init__(self, FOL: SimpleNamespace, ST: SimpleNamespace):
-        self._defined = ST.Nin
+        self._defined = ST.Subset
         vars = VarBuilder()
         self._formula = (
             FOL.Forall(
-                vars.universal('u'),
+                vars.universal("Set"),
                 FOL.Forall(
-                    vars.universal('v'),
+                    vars.universal("Subset"),
                     FOL.Equiv(
-                        ST.In(
-                            vars['u'], vars['v']
-                        ),
-                        FOL.Not(
-                            ST.Nin(
-                                vars['u'], vars['v']
+                        ST.Subset(vars["Subset"], vars["Set"]),
+                        FOL.Forall(
+                            vars.universal("u"),
+                            FOL.Impl(
+                                ST.In(vars["u"], vars["Subset"]),
+                                ST.In(vars["u"], vars["Set"]),
                             )
                         )
                     )
@@ -43,7 +42,7 @@ class NonMembeshipDefinition(Definition):
 
     @staticmethod
     def name() -> str:
-        return "Non-membership definition"
+        return "Subset Definition"
 
     def get_name(self) -> str:
         return self.name()

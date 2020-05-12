@@ -3,7 +3,7 @@ from ddq.axiom import Axiom, Node
 from ddq.var_builder import VarBuilder
 
 
-class PairingAxiom(Axiom):
+class PreliminaryUnionAxiom(Axiom):
     def __init__(self, FOL: SimpleNamespace, ST: SimpleNamespace):
         vars = VarBuilder()
         self._formula = (
@@ -18,8 +18,8 @@ class PairingAxiom(Axiom):
                             FOL.Equiv(
                                 ST.In(vars['x'], vars['Pair']),
                                 FOL.Or(
-                                    FOL.Eq(vars['x'], vars['u']),
-                                    FOL.Eq(vars['x'], vars['v']),
+                                    ST.In(vars['x'], vars['u']),
+                                    ST.In(vars['x'], vars['v']),
                                 )
                             )
                         )
@@ -31,7 +31,7 @@ class PairingAxiom(Axiom):
 
     @staticmethod
     def name() -> str:
-        return "Pairing Axiom"
+        return "Preliminary Union Axiom"
 
     def get_name(self) -> str:
         return self.name()
