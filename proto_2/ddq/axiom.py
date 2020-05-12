@@ -7,3 +7,6 @@ class Axiom:
 
     def get_formula(self) -> Node:
         pass
+
+    def __call__(self):
+        return self.get_formula()

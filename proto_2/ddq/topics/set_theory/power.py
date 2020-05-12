@@ -2,33 +2,39 @@ from types import SimpleNamespace
 from typing import List
 from ddq.definition import Definition, Defined, Node
 from ddq.fol.predicate import Predicate
+from ddq.fol.function import Function
 from ddq.var_builder import VarBuilder
 
 
-class Subset(Predicate):
+class Power(Function):
     def __init__(self):
-        super().__init__('⊆', 2)
+        super().__init__('𝒫', 1)
 
     def notes(self) -> List[str]:
         return ["Not essential, definitionally replacable"]
 
 
-class SubsetDefinition(Definition):
+class PowerDefinition(Definition):
     def __init__(self, FOL: SimpleNamespace, ST: SimpleNamespace):
         self._defined = ST.Subset
         vars = VarBuilder()
         self._formula = (
             FOL.Forall(
-                vars.universal("Set"),
+                vars.universal("Powerset"),
                 FOL.Forall(
-                    vars.universal("Subset"),
+                    vars.universal("Set"),
                     FOL.Equiv(
-                        ST.Subset(vars["Subset"], vars["Set"]),
+                        FOL.Eq(
+                            vars["Powerset"],
+                            ST.Power(
+                                vars["Set"]
+                            )
+                        ),
                         FOL.Forall(
                             vars.universal("u"),
-                            FOL.Impl(
-                                ST.In(vars["u"], vars["Subset"]),
-                                ST.In(vars["u"], vars["Set"]),
+                            FOL.Equiv(
+                                ST.Subset(vars["u"], vars["Set"]),
+                                ST.In(vars["u"], vars["Powerset"]),
                             )
                         )
                     )
@@ -42,7 +48,7 @@ class SubsetDefinition(Definition):
 
     @staticmethod
     def name() -> str:
-        return "Subset Definition"
+        return "Power Definition"
 
     def get_name(self) -> str:
         return self.name()

@@ -1,4 +1,5 @@
 import sys
+import json
 from pprint import pprint
 from ddq.node import Node
 from ddq.util.print_tree import print_node
@@ -33,5 +34,4 @@ if len(sys.argv) > 1:
                     print_help = False
 
 if print_help:
-    pprint(vars(FOL))
-    pprint(vars(ST))
+    pprint(list(topics.keys()))

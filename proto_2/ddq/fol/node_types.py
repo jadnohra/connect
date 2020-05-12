@@ -3,7 +3,9 @@ from ddq.node import Node
 
 def is_term(node: Node) -> bool:
     from .variable import VariableNode
-    return isinstance(node, VariableNode)
+    from .function import FunctionNode
+    return any(isinstance(node, term_type) for term_type in
+               [VariableNode, FunctionNode])
 
 
 def is_predicate(node: Node) -> bool:

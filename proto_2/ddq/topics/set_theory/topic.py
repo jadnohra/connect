@@ -6,6 +6,7 @@ from .non_membership import NonMembership, NonMembeshipDefinition
 from .pairing import PairingAxiom
 from .preliminary_union import PreliminaryUnionAxiom
 from .subset import Subset, SubsetDefinition
+from .power import Power, PowerDefinition
 
 
 def build_topic(FOL: SimpleNamespace = FOL) -> SimpleNamespace:
@@ -16,12 +17,14 @@ def build_topic(FOL: SimpleNamespace = FOL) -> SimpleNamespace:
     st.Empty = EmptySetConstantNode()
     st.In = Membership()
     st.Nin = NonMembership()
-    st.NinDefinition = NonMembeshipDefinition(FOL, st).get_formula()
-    st.EmptySetAxiom = EmptySetAxiom(FOL, st).get_formula()
-    st.PairingAxiom = PairingAxiom(FOL, st).get_formula()
-    st.PreliminaryUnionAxiom = PreliminaryUnionAxiom(FOL, st).get_formula()
+    st.NinDefinition = NonMembeshipDefinition(FOL, st)
+    st.EmptySetAxiom = EmptySetAxiom(FOL, st)
+    st.PairingAxiom = PairingAxiom(FOL, st)
+    st.PreliminaryUnionAxiom = PreliminaryUnionAxiom(FOL, st)
     st.Subset = Subset()
-    st.SubsetDefinition = SubsetDefinition(FOL, st).get_formula()
+    st.SubsetDefinition = SubsetDefinition(FOL, st)
+    st.Power = Power()
+    st.PowerDefinition = PowerDefinition(FOL, st)
     return st
 
 
