@@ -19,16 +19,16 @@ class NonMembeshipDefinition(Definition):
         vars = VarBuilder()
         self._formula = (
             FOL.Forall(
-                vars.universal('x'),
+                vars.universal('u'),
                 FOL.Forall(
-                    vars.universal('y'),
+                    vars.universal('v'),
                     FOL.Equiv(
                         ST.In(
-                            vars['x'], vars['y']
+                            vars['u'], vars['v']
                         ),
                         FOL.Not(
                             ST.Nin(
-                                vars['x'], vars['y']
+                                vars['u'], vars['v']
                             )
                         )
                     )

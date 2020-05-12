@@ -2,6 +2,8 @@ from types import SimpleNamespace
 from .equality import Equality
 from .quantifier import UniversalQuantifier, ExistentialQuantifier
 from .natural_deduction.negation import Negation
+from .natural_deduction.conjunction import Conjunction
+from .natural_deduction.disjunction import Disjunction
 from .natural_deduction.equivalence import Equivalence
 
 
@@ -17,6 +19,8 @@ def build_topic() -> SimpleNamespace:
     fol.Forall = UniversalQuantifier()
     fol.Exists = ExistentialQuantifier()
     fol.Not = Negation()
+    fol.And = Conjunction()
+    fol.Or = Disjunction()
     fol.Equiv = Equivalence()
     return fol
 

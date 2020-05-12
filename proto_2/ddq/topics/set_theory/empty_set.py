@@ -23,9 +23,9 @@ class EmptySetAxiom(Axiom):
         vars = VarBuilder()
         self._formula = (
             FOL.Forall(
-                vars.universal('x'),
+                vars.universal('u'),
                 ST.Nin(
-                    vars['x'],
+                    vars['u'],
                     ST.Empty()
                 )
             )
