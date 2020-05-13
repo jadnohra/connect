@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 
 class Builder:
@@ -12,3 +12,7 @@ class Builder:
 
     def get(self, name: str) -> object:
         return self._dict[name]
+    
+    def keys(self) -> List[str]:
+        return self._dict.keys()
+    

@@ -7,20 +7,20 @@ from .fol.node_types import is_variable_declaration
 class Namer:
     def __init__(self):
         self._name_dict = {}
-        self._first_name_candidates = ['x', 'y', 'z', 'w']
+        self._first_name_candidates = ['t', 'u', 'v', 'x', 'y', 'z', 'w']
 
     def _new_name(self, taken_names: Set[str]) -> str:
         def make_name(prefix, index):
-            return '{}_{}'.format(name, index)
+            return '{}_{}'.format(prefix, index)
 
         for cand in self._first_name_candidates:
             if cand not in taken_names:
                 return cand
         for cand in self._first_name_candidates:
             for index in range(1, 3):
-                name = make_name(name, index)
+                name = make_name(cand, index)
                 if name not in taken_names:
-                    return cand
+                    return name
         index = 4
         prefix = self._first_name_candidates[0]
         name = make_name(prefix, index)

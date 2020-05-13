@@ -46,5 +46,5 @@ def print_node(root_node: ddq.node.Node, namer: Namer = Namer()):
     """Print a node hierarchy"""
     namer.analyze(root_node)
     print_tree(root_node,
-               lambda node: node.children(),
-               lambda node: namer.repr_node(node))
+               lambda node: node.children() if node is not None else [],
+               lambda node: namer.repr_node(node) if node is not None else "None")

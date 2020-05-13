@@ -49,6 +49,15 @@ class Node:
         logging.error("Child {} not accepted by {} at index {}"
                       .format(child, self, index))
         return None
+    
+    def get_child(self, index: int) -> "Node":
+        return self._children[index]
+
+    def left(self) -> "Node":
+        return self.get_child(0)
+
+    def right(self) -> "Node":
+        return self.get_child(1)
 
     def set(self, child: "Node") -> "Node":
         return self.set_child(0, child)
