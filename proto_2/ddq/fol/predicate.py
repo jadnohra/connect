@@ -23,7 +23,7 @@ class PredicateNode(Node):
         # Build full children by taking the passed-in children
         #  and completing up to arity with None children.
         full_children = (list(children)
-                         + ([None] * (len(children) - predicate.arity())))
+                         + ([None] * (predicate.arity() - len(children))))
         super().__init__(*full_children)
         self._predicate = predicate
 

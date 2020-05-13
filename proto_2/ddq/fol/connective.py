@@ -21,7 +21,7 @@ class Connective(Instantiator):
 class ConnectiveNode(Node):
     def __init__(self, connective: Connective, *children):
         full_children = (list(children)
-                         + ([None] * (len(children) - connective.arity())))
+                         + ([None] * (connective.arity() - len(children))))
         super().__init__(*full_children)
         self._connective = connective
 
