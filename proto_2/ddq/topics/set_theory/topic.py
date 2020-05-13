@@ -6,7 +6,7 @@ from .non_membership import NonMembership, NonMembeshipDefinition
 from .pairing import PairingAxiom
 from .preliminary_union import PreliminaryUnionAxiom
 from .subset import Subset, SubsetDefinition
-from .power import Power, PowerDefinition
+from .powerset import Powerset, PowersetDefinition
 from .inductive_formation import (
     InductiveFormationInductor,
     InductiveFormationDefinitionInductor)
@@ -26,8 +26,8 @@ def build_topic(FOL: SimpleNamespace = FOL) -> SimpleNamespace:
     st.PreliminaryUnionAxiom = PreliminaryUnionAxiom(FOL, st)
     st.Subset = Subset()
     st.SubsetDefinition = SubsetDefinition(FOL, st)
-    st.Power = Power()
-    st.PowerDefinition = PowerDefinition(FOL, st)
+    st.Powerset = Powerset()
+    st.PowersetDefinition = PowersetDefinition(FOL, st)
     st.InductiveFormation = InductiveFormationInductor()
     st.InductiveFormationDefinition = \
         InductiveFormationDefinitionInductor(FOL, st)

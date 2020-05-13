@@ -2,6 +2,9 @@ import logging
 from typing import List, Any, Union
 
 
+NodeRepr = Union[str, int]
+
+
 class Node:
     def __init__(self, *children):
         self._parent = None
@@ -10,7 +13,7 @@ class Node:
         for i, child in enumerate(children):
             self.set_child(i, child)
 
-    def repr_node(self) -> Union[str, int]:
+    def repr_node(self) -> NodeRepr:
         return id(self)
 
     def validate(self,

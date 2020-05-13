@@ -9,10 +9,10 @@ from ddq.fol.variable import (
 
 class VarBuilder(Builder):
     def universal(self, name: str) -> VariableDeclarationNode:
-        return self.put(name, var_universal())
+        return self.put(name, var_universal(name))
 
     def existential(self, name: str) -> VariableDeclarationNode:
-        return self.put(name, var_existential())
+        return self.put(name, var_existential(name))
 
     def __getitem__(self, name: str) -> VariableNode:
         return self.get(name)()

@@ -6,7 +6,7 @@ from ddq.fol.function import Function
 from ddq.var_builder import VarBuilder
 
 
-class Power(Function):
+class Powerset(Function):
     def __init__(self):
         super().__init__('𝒫', 1)
 
@@ -14,7 +14,7 @@ class Power(Function):
         return ["Not essential, definitionally replacable"]
 
 
-class PowerDefinition(Definition):
+class PowersetDefinition(Definition):
     def __init__(self, FOL: SimpleNamespace, ST: SimpleNamespace):
         self._defined = ST.Subset
         vars = VarBuilder()
@@ -26,7 +26,7 @@ class PowerDefinition(Definition):
                     FOL.Equiv(
                         FOL.Eq(
                             vars["Powerset"],
-                            ST.Power(
+                            ST.Powerset(
                                 vars["Set"]
                             )
                         ),
