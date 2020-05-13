@@ -2,7 +2,6 @@ from types import SimpleNamespace
 from typing import List, Any
 from ddq.inductor import Inductor
 from ddq.definition import Definition, Defined, Node
-from ddq.fol.predicate import Predicate
 from ddq.fol.function import Function
 from ddq.var_builder import VarBuilder
 
