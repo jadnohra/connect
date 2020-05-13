@@ -89,3 +89,6 @@ class Instantiator:
 
     def symbol(self) -> str:
         pass
+    
+    def notes(self) -> List[str]:
+        return []

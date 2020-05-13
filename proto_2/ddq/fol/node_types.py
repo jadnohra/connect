@@ -1,11 +1,18 @@
 from ddq.node import Node
 
 
-def is_term(node: Node) -> bool:
+def is_variable(node: Node) -> bool:
     from .variable import VariableNode
+    return isinstance(node, VariableNode)
+
+
+def is_function(node: Node) -> bool:
     from .function import FunctionNode
-    return any(isinstance(node, term_type) for term_type in
-               [VariableNode, FunctionNode])
+    return isinstance(node, FunctionNode)
+
+
+def is_term(node: Node) -> bool:
+    return is_variable(node) or is_function(node)
 
 
 def is_predicate(node: Node) -> bool:
