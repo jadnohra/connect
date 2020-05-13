@@ -12,7 +12,7 @@ class FunctionDefinitionOperator(Instantiator):
         return ["Syntactic sugar"]
     
     def symbol(self) -> str:
-        return '≣'
+        return '≜'
     
     def arity(self) -> int:
         return 2
