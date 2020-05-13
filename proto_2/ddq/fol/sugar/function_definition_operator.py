@@ -53,6 +53,9 @@ class DefinitionOperationDefinition(Definition):
         # TODO: the problem here that this node depends on the function being defined
         # So it can only be applied based on a concrete function definition? or can we provide 
         # a recipe?
+        # making this work nicely needs a refactoring, every entity eg function must be expressible as a partially-expanded parametrizable 
+        # node
+        # TBC
         self._formula = (
             FOL.Forall(
                 vars.universal("f"),
