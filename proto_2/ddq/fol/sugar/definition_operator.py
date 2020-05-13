@@ -9,7 +9,7 @@ from ddq.var_builder import VarBuilder
 '''
 
 
-class FunctionDefinition(Predicate):
+class DefinitionOperator(Predicate):
     def __init__(self):
         super().__init__('≣', 2)
 
