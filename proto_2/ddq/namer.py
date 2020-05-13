@@ -5,9 +5,10 @@ from .fol.node_types import is_variable_declaration
 
 
 class Namer:
-    def __init__(self):
+    def __init__(self, name_id_representations = True):
         self._name_dict = {}
         self._first_name_candidates = ['t', 'u', 'v', 'x', 'y', 'z', 'w']
+        self._name_id_representations = name_id_representations
 
     def _new_name(self, taken_names: Set[str]) -> str:
         def make_name(prefix, index):
@@ -30,7 +31,8 @@ class Namer:
         return name
 
     def _name_node(self, node: Node, taken_names: Set[str]) -> str:
-        if isinstance(self.repr_node(node), int):
+        if (self._name_id_representations and 
+            isinstance(self.repr_node(node), int)):
             # We only need to name nodes that return the object id
             # as their representation. This is a convention.
             return self._new_name(taken_names)
