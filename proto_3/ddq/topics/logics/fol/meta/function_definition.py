@@ -1,12 +1,9 @@
-from ddq.topics.logics.logic import Meta
+from ddq.topics.logics.logic import MetaOperator, Formula
 
 
-class FunctionDefinitionMetaOperator(Meta):
+class FunctionDefinitionMetaOperator(MetaOperator):
     def symbol(self) -> str:
-        return "N/A"
-    
-    def info(self) -> str:
         return "≜"
- 
-    def __call__(self, *parameters):
+    
+    def __call__(self, *parameters) -> Formula:
         pass
