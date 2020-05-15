@@ -13,4 +13,4 @@ class Thing:
         return []
     
     def references(self) -> List[Reference]:
-        return ""
+        return []
