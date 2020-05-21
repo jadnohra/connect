@@ -1,7 +1,8 @@
 from typing import List
 from ddq.taxonomy.reference import Reference
 from ddq.taxonomy.node import NodeRepr
-from ddq.topics.logics.logic import Meta, Node, Formulator, Function, Predicate
+from ddq.topics.logics.logic import (
+    Meta, Node, Formulator, FunctionLike, Predicate, OperatorLike)
 
 
 class PredicativeClassFunctionDefinitionFormulator(Formulator):
@@ -36,10 +37,10 @@ class PredicativeClassFunctionDefinitionFormulator(Formulator):
         return PredicativeClassFunctionDefinition(*parameters)
 
 
-class PredicativeClassFunctionDefinition(Meta):
+class PredicativeClassFunctionDefinition(Meta, OperatorLike):
     def __init__(self, *in_children):
         super().__init__()
-        children = [Function, Predicate]
+        children = [FunctionLike, Predicate]
         for i in range(len(children)):
             if i < len(in_children):
                 children[i] = in_children[i]
