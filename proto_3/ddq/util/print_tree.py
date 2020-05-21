@@ -1,5 +1,6 @@
-import ddq.node
-from ddq.namer import Namer
+from ddq.taxonomy.node import Node
+from pprint import pprint
+# from ddq.namer import Namer
 
 
 def print_tree(root, children_func=list, name_func=str):
@@ -41,10 +42,36 @@ def print_class_hierarchy(root_class: type):
                lambda cls: cls.__subclasses__(),
                lambda cls: cls.__name__)
 
-
-def print_node(root_node: ddq.node.Node, namer: Namer = Namer()):
+'''
+def print_node(root_node: Node, namer: Namer = Namer()):
     """Print a node hierarchy"""
     namer.analyze(root_node)
     print_tree(root_node,
                lambda node: node.children() if node is not None else [],
                lambda node: namer.repr_node(node) if node is not None else "None")
+'''
+
+def print_node(root_node: Node, print_full_type: bool = False):
+    """Print a node hierarchy"""
+    def impl_children(node):
+        if isinstance(node, Node):
+            return node.children()
+        else:
+            return []
+        
+    def impl_repr(node):
+        if isinstance(node, Node):
+            return node.repr_node()
+        if isinstance(node, type):
+            if print_full_type:
+                return node.__module__ + '.' + node.__name__
+            else:
+                return node.__name__
+        elif node is not None:
+            return pprint(node)
+        else:
+            return "None"
+    
+    print_tree(root_node,
+               lambda node: impl_children(node),
+               lambda node: impl_repr(node))

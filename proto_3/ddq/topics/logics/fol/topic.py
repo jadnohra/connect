@@ -1,4 +1,4 @@
-from ddq.topics.logics.logic import Logic
+from ddq.topics.logics.topic import Logic
 
 
 class FirstOrderLogic(Logic):

@@ -1,15 +1,5 @@
-from ddq.taxonomy.reference import Reference
-from ddq.taxonomy.thing import Thing, List
+from ddq.taxonomy.thing import Thing
 from ddq.taxonomy.node import Node
-from ddq.topics.topic import Topic
-
-
-class Logic(Topic):
-    def references(self) -> List[Reference]:
-        return [
-            Reference("Classical and Nonclassical Logics", 
-                      [("Eric", "Schechter")])
-        ]
 
 
 class Function(Node):

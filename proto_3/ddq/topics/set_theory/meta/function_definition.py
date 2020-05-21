@@ -4,7 +4,7 @@ from ddq.taxonomy.node import NodeRepr
 from ddq.topics.logics.logic import Meta, Node, Formulator, Function, Predicate
 
 
-class PredicativClassFunctionDefinition(Formulator):
+class PredicativeClassFunctionDefinitionFormulator(Formulator):
     def info(self) -> str:
         return ("Definition sugar for class functions that can be"
                 " defined using a predicate")
@@ -33,14 +33,15 @@ class PredicativClassFunctionDefinition(Formulator):
         return PredicativeClassFunctionDefinition.symbol()
     
     def __call__(self, *parameters) -> Node:
-        self._shape = PredicativeClassFunctionDefinition(*parameters)
+        return PredicativeClassFunctionDefinition(*parameters)
 
 
 class PredicativeClassFunctionDefinition(Meta):
     def __init__(self, *in_children):
+        super().__init__()
         children = [Function, Predicate]
         for i in range(len(children)):
-            if i < len(children):
+            if i < len(in_children):
                 children[i] = in_children[i]
         self.set_children(children)
         
