@@ -25,9 +25,6 @@ class PredicativeFunctionDefinitionFormulator(Formulator):
             # and EST p.10
         ]
 
-    def symbol(self) -> str:
-        return PredicativeFunctionDefinition.symbol()
-    
     def __call__(self, *parameters) -> Node:
         return PredicativeFunctionDefinition(*parameters)
 

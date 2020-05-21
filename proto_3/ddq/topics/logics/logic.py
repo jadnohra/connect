@@ -1,10 +1,15 @@
+from typing import Any
 from ddq.taxonomy.thing import Thing
 from ddq.taxonomy.node import Node
 
 class Term:
     pass
 
-class Individual(Node, Term):
+class Constant(Node, Term):
+    pass
+
+
+class Variable(Node, Term):
     pass
 
 
@@ -21,8 +26,15 @@ class Meta(Node):
 
 
 class Formulator(Thing):
-    def symbol(self) -> str:
-        pass
-    
     def __call__(self, *parameters) -> Node:
         pass
+
+
+class Definition(Formulator):
+    
+    def get_defined(self) -> Any:
+        pass
+
+
+class Axiom(Formulator):
+    pass
