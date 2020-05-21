@@ -1,4 +1,7 @@
-from ddq.topics.logics.logic import Formulator, Node, FunctionLike
+from ddq.taxonomy.node import Node, NodeRepr
+from ddq.topics.logics.logic import Formulator, Term
+from ddq.topics.logics.logic import Function as LogicalFunction 
+from ddq.util.check_type import check_type
 
 
 class InductiveFormationFormulator(Formulator):
@@ -6,21 +9,20 @@ class InductiveFormationFormulator(Formulator):
         pass
     
     def __call__(self, *parameters) -> Node:
-        pass
+        return InductiveFormation(*parameters)
     
     
-class InductiveFormation(FunctionLike):
+class InductiveFormation(LogicalFunction):
     def __init__(self, *in_children):
         super().__init__()
-        children = [Set, Set]
-        for i in range(len(children)):
-            if i < len(in_children):
-                children[i] = in_children[i]
-        self.set_children(children)
+        self.set_children(in_children)
+        
+    def accepts_child(self, index: int, child: "Node") -> bool:
+        return check_type(child, Term)
         
     @staticmethod
     def symbol() -> str:
-        return "≜"
+        return "{}"
     
     def repr_node(self) -> NodeRepr:
         return self.symbol()

@@ -1,18 +1,14 @@
 from ddq.taxonomy.thing import Thing
 from ddq.taxonomy.node import Node
 
-class OperatorLike:
+class Term:
+    pass
+
+class Individual(Node, Term):
     pass
 
 
-class FunctionLike(Node):
-    pass
-
-
-class ClassFunction(FunctionLike):
-    pass
-
-class Function(FunctionLike):
+class Function(Node, Term):
     pass
 
 

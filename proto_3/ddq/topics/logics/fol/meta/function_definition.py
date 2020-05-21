@@ -1,20 +1,15 @@
 from typing import List
 from ddq.taxonomy.reference import Reference
-from ddq.taxonomy.node import NodeRepr
-from ddq.topics.logics.logic import (
-    Meta, Node, Formulator, FunctionLike, Predicate, OperatorLike)
+from ddq.taxonomy.node import Node, NodeRepr
+from ddq.topics.logics.logic import Meta, Formulator, Function, Predicate
+from ddq.util.check_type import check_type
 
 
-class PredicativeClassFunctionDefinitionFormulator(Formulator):
+class PredicativeFunctionDefinitionFormulator(Formulator):
     def info(self) -> str:
-        return ("Definition sugar for class functions that can be"
-                " defined using a predicate")
+        return ("Definition sugar for functions that can be "
+                "defined using a predicate")
 
-    def notes(self) -> List[str]:
-        return ["The defined construct may look a like function, "
-                "but may not formally be so, as its domain may be a "
-                "proper class and not a set."]
-    
     def references(self) -> List[Reference]:
         return [
             Reference(
@@ -31,21 +26,25 @@ class PredicativeClassFunctionDefinitionFormulator(Formulator):
         ]
 
     def symbol(self) -> str:
-        return PredicativeClassFunctionDefinition.symbol()
+        return PredicativeFunctionDefinition.symbol()
     
     def __call__(self, *parameters) -> Node:
-        return PredicativeClassFunctionDefinition(*parameters)
+        return PredicativeFunctionDefinition(*parameters)
 
 
-class PredicativeClassFunctionDefinition(Meta, OperatorLike):
+class PredicativeFunctionDefinition(Meta):
     def __init__(self, *in_children):
         super().__init__()
-        children = [FunctionLike, Predicate]
+        children = [Function, Predicate]
         for i in range(len(children)):
             if i < len(in_children):
                 children[i] = in_children[i]
         self.set_children(children)
         
+    def accepts_child(self, index: int, child: "Node") -> bool:
+        type_checks = {0: Function, 1: Predicate}
+        return check_type(child, type_checks[index])
+    
     @staticmethod
     def symbol() -> str:
         return "≜"
