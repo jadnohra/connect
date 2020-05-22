@@ -1,9 +1,14 @@
-from typing import Any
+from typing import Any, Tuple
 from ddq.taxonomy.thing import Thing
 from ddq.taxonomy.node import Node
 
 class Term:
     pass
+
+class Duck:
+    @staticmethod
+    def types() -> Tuple:
+        pass
 
 class Constant(Node, Term):
     pass

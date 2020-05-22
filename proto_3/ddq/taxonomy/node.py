@@ -11,6 +11,10 @@ class Node:
         self._label_dict = {}
         self.set_children(children)
 
+    def overwrite_children(self, children: List):
+        for i in range(len(children)):
+            self.set_child(i, children[i])
+
     def set_children(self, children: List):
         self._children = [None] * len(children)
         for i, child in enumerate(children):
