@@ -6,6 +6,9 @@ import pprint
 from tabulate import tabulate
 import tinydb
 
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import FuzzyWordCompleter
+
 
 FuzzyBoxType = Union[str, UUID]
 
@@ -74,12 +77,25 @@ class WorldDb:
 
     def _boxes(self):
         return self._db.table("Boxes")
+    
+    def _relations(self):
+        return self._db.table("Relations")
 
-    def boxes(self) -> List[Box]:
+    def boxes(self) -> List[Any]:
         return self._boxes().all()
+    
+    def relations(self) -> List[Any]:
+        return self._relations().all()
 
     def add_box(self, name: str):
-        self._boxes().insert({"name": name, "relations": []})
+        self._boxes().insert({"name": name})
+        
+    def add_relation(self, 
+                     relation: FuzzyBoxType, 
+                     a: FuzzyBoxType, 
+                     b: FuzzyBoxType):
+        # TODO: do not duplicate
+        self._relations().insert({"relation": relation, "a": a, "b": b})
         
     def find_box_ids_by_name(self, name: str) -> List[int]:
         exact_boxes = [x.doc_id for x in self._boxes() if x["name"] == name]
@@ -117,29 +133,79 @@ class WorldDb:
                a: FuzzyBoxType,
                relation: FuzzyBoxType,
                b: FuzzyBoxType):
-        a_box = self.find_box(a)
-        relation_box = self.soft_find_box_id(relation)
-        b_box = self.soft_find_box_id(b)
-        new_relations = a_box["relations"] + [
-            [relation_box, b_box]
-        ]
-        self._boxes().update(
-            {"relations": new_relations},
-            doc_ids = [a_box.doc_id]
+        self.add_relation(
+            self.soft_find_box_id(a),
+            self.soft_find_box_id(relation),
+            self.soft_find_box_id(b)
         )
+
+
+    def build_relation_tree(self, 
+                            box: FuzzyBoxType, 
+                            relation: FuzzyBoxType = None):
+        def find_related_box_ids(all_relations, box_id, relation_id):
+            relatex_box_ids = set()
+            for rel in all_relations:
+                if relation_id is None or relation_id == rel["relation"]:
+                    if rel["a"] == box_id:
+                        relatex_box_ids.add(rel["b"])
+                    elif rel["b"] == box_id:
+                        relatex_box_ids.add(rel["a"])
+            return relatex_box_ids
+        
+        if self.find_box_id(box) is None:
+            return []
+        if relation is not None and self.find_box_id(relation) is None:
+            return []
+        relation_id = (self.find_box_id(relation) 
+                       if relation is not None else None)
+        all_relations = self.relations()
+        relations = {}
+        related_box_ids = set()
+        new_box_ids = set([self.find_box_id(box)])
+        while len(new_box_ids) > 0:
+            related_box_ids = related_box_ids.union(new_box_ids)
+            next_box_ids = set()
+            for box_id in new_box_ids:
+                rel_ids = find_related_box_ids(all_relations, 
+                                               box_id, 
+                                               relation_id)
+                next_box_ids = next_box_ids.union(
+                                    set([x for x in rel_ids 
+                                        if x not in related_box_ids]))
+            new_box_ids =  next_box_ids
+        # something like this? https://github.com/Nelarius/imnodes
+        return related_box_ids
+
 
 def make_sep(count = 1):
     return "".join(["  "] * count)
 
+
+def prompt_box(world: World, text: str):
+    name_completer = FuzzyWordCompleter([x["name"] for x in world.boxes()])
+    return prompt(
+        text, 
+        completer=name_completer, 
+        complete_while_typing=True)
+
+
 def cmd_box(world: World):
-    name = input(make_sep() + "name\n" + make_sep(2))
+    name = prompt(make_sep() + "name\n" + make_sep(2))
     world.add_box(name)
 
+
 def cmd_relate(world: World):
-    a = input(make_sep() + "box\n" + make_sep(2))
-    relation = input(make_sep() + "relation\n" + make_sep(2))
-    b = input(make_sep() + "to\n" + make_sep(2))
+    a = prompt_box(world, make_sep() + "box\n" + make_sep(2))
+    relation = prompt_box(world, make_sep() + "relation\n" + make_sep(2))
+    b = prompt_box(world, make_sep() + "to\n" + make_sep(2))
     world.relate(a, relation, b)
+
+
+def cmd_tree(world: World):
+    a = prompt_box(world, make_sep() + "box\n" + make_sep(2))
+    print(world.build_relation_tree(a))
+
 
 def cmd_list(world: World):
     boxes = sorted(world.boxes(), key= lambda box: box["name"])
@@ -150,6 +216,7 @@ command_handlers = {
     "box": cmd_box,
     "relate": cmd_relate,
     "ls": cmd_list,
+    "tree": cmd_tree,
 }
 
 
