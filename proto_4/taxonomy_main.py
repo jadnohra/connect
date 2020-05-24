@@ -1,6 +1,6 @@
 import uuid
 from uuid import UUID
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Any
 import logging
 import pprint
 from tabulate import tabulate
@@ -81,39 +81,52 @@ class WorldDb:
     def add_box(self, name: str):
         self._boxes().insert({"name": name, "relations": []})
         
-    def find_boxes_by_name(self, name: str) -> List:
-        exact_boxes = [x for x in self._boxes() if x["name"] == name]
+    def find_box_ids_by_name(self, name: str) -> List[int]:
+        exact_boxes = [x.doc_id for x in self._boxes() if x["name"] == name]
         if len(exact_boxes) > 0:
             return exact_boxes
-        fuzzy_boxes = [x for x in self._boxes() if name in x["name"]]
+        fuzzy_boxes = [x.doc_id for x in self._boxes() if name in x["name"]]
         if len(fuzzy_boxes) > 0:
             return fuzzy_boxes
-        very_fuzzy_boxes = [x for x in self._boxes()
+        very_fuzzy_boxes = [x.doc_id for x in self._boxes()
                             if name.lower() in x["name"].lower()]
         if len(very_fuzzy_boxes) > 0:
             return very_fuzzy_boxes
         return []
 
-    def find_box(self, box: FuzzyBoxType) -> int:
+    def find_box_id(self, box: FuzzyBoxType) -> int:
         if isinstance(box, int):
-            return self._db.get(doc_id = box)
+            return self.get_box(box).doc_id
         else:
-            boxes = self.find_boxes_by_name(box)
-            if len(boxes) == 1:
-                return boxes[0]
-        return box
+            box_ids = self.find_box_ids_by_name(box)
+            if len(box_ids) == 1:
+                return box_ids[0]
+        return None
+    
+    def soft_find_box_id(self, box: FuzzyBoxType) -> Union[int, str]:
+        box_id = self.find_box_id(box)
+        return box_id if box_id is not None else box
+
+    def get_box(self, id: int) -> Any:
+        return self._boxes().get(doc_id = id)
+
+    def find_box(self, box: FuzzyBoxType) -> Any:
+        return self.get_box(self.find_box_id(box))
 
     def relate(self, 
-                     a: FuzzyBoxType, 
-                     relation: FuzzyBoxType, 
-                     b: FuzzyBoxType):
-        abox = self.find_box(a)
-        relation = self.find_box(relation)
-        bbox = self.find_box(b)
-        abox = self._db.get(doc_id = a)
-        abox["relations"].append([relation, bbox])
-        self._db.write_back(abox)
-        
+               a: FuzzyBoxType,
+               relation: FuzzyBoxType,
+               b: FuzzyBoxType):
+        a_box = self.find_box(a)
+        relation_box = self.soft_find_box_id(relation)
+        b_box = self.soft_find_box_id(b)
+        new_relations = a_box["relations"] + [
+            [relation_box, b_box]
+        ]
+        self._boxes().update(
+            {"relations": new_relations},
+            doc_ids = [a_box.doc_id]
+        )
 
 def make_sep(count = 1):
     return "".join(["  "] * count)
