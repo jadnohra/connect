@@ -1,0 +1,121 @@
+--->
+(-2) taxonomy
+
+--->
+(-1) note
+
+semantics are hard coded?
+
+--- 
+book
+
+--- 
+math book
+is a: book
+
+
+--- 
+topic
+
+--- 
+math topic
+is a: topic
+
+---
+(0) Mathematics Subject Classification
+
+---
+(0.1) https://zbmath.org/classification/?q=cc%3A03B10
+
+is a: note, url
+applies to: (0)
+
+'note' parent is (0)
+
+has url semantics
+---
+(1) Logic
+
+'taxonomy' parent is (0)
+
+---
+(2) First order Logic
+is a: math topic
+
+'taxonomy' parent is (1)
+---
+(2) Copi book
+is a: math book
+produces a: 'math first order logic theory'
+
+'taxonomy' is (1)
+
+has math book semantics
+---
+Copi's book math theory producer
+
+comes from: Copi book
+is a: Producer ( -> )
+
+---
+Set Theory producer
+
+needs a: FOL
+needs a: (partial) Set Theory!
+
+---
+
+script
+
+box
+	name
+		relation
+
+box
+	name	
+		relates
+
+box 
+    name
+        is a
+	relations
+		relates
+	relation
+box 
+    name
+        book
+box 
+    name
+        math book
+relate
+    box
+        math book
+    relations
+        is a
+    to
+        book
+
+relate (box (is a   is b)   book)
+
+in
+    math book
+    *
+
+in
+    math book
+
+
+out
+    math book
+    rel
+        is a
+        book
+
+
+ls
+
+tree
+    box
+        math book
+    rels
+        is a
