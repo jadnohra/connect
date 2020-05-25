@@ -140,42 +140,58 @@ class WorldDb:
         )
 
 
-    def build_relation_tree(self, 
+    def build_relation_matrix(self, 
                             box: FuzzyBoxType, 
                             relation: FuzzyBoxType = None):
-        def find_related_box_ids(all_relations, box_id, relation_id):
+        def find_related_box_ids(all_relations, box_id):
             relatex_box_ids = set()
             for rel in all_relations:
-                if relation_id is None or relation_id == rel["relation"]:
-                    if rel["a"] == box_id:
-                        relatex_box_ids.add(rel["b"])
-                    elif rel["b"] == box_id:
-                        relatex_box_ids.add(rel["a"])
+                if rel["a"] == box_id:
+                    relatex_box_ids.add(rel["b"])
+                elif rel["b"] == box_id:
+                    relatex_box_ids.add(rel["a"])
             return relatex_box_ids
         
+        def make_relation_matrix(all_relations, box_ids):
+            box_id_index = {}
+            matrix = []
+            for i, box_id in enumerate(box_ids):
+                box_id_index[box_id] = i
+            for _r in range(len(box_ids)):
+                cols = []
+                for _c in range(len(box_ids)):
+                    cols.append([])
+                matrix.append(cols)
+            for rel in all_relations:
+                if rel["a"] == box_id or rel["b"] == box_id:
+                    row = box_id_index[rel["a"]]
+                    col = box_id_index[rel["b"]]
+                    matrix[row][col].append(rel["relation"])
+            return matrix
+
         if self.find_box_id(box) is None:
             return []
         if relation is not None and self.find_box_id(relation) is None:
             return []
-        relation_id = (self.find_box_id(relation) 
-                       if relation is not None else None)
-        all_relations = self.relations()
-        relations = {}
-        related_box_ids = set()
+        filter_relation_id = (self.find_box_id(relation) 
+                              if relation is not None else None)
+        all_relations = [rel for rel in self.relations()
+                         if (filter_relation_id is None 
+                             or filter_relation_id == rel["relation"])]
+        box_ids = set()
         new_box_ids = set([self.find_box_id(box)])
         while len(new_box_ids) > 0:
-            related_box_ids = related_box_ids.union(new_box_ids)
+            box_ids = box_ids.union(new_box_ids)
             next_box_ids = set()
             for box_id in new_box_ids:
                 rel_ids = find_related_box_ids(all_relations, 
-                                               box_id, 
-                                               relation_id)
+                                               box_id)
                 next_box_ids = next_box_ids.union(
                                     set([x for x in rel_ids 
-                                        if x not in related_box_ids]))
+                                        if x not in box_ids]))
             new_box_ids =  next_box_ids
-        # something like this? https://github.com/Nelarius/imnodes
-        return related_box_ids
+        rel_matrix = make_relation_matrix(all_relations, box_ids)
+        return box_ids, rel_matrix
 
 
 def make_sep(count = 1):
@@ -202,9 +218,10 @@ def cmd_relate(world: World):
     world.relate(a, relation, b)
 
 
-def cmd_tree(world: World):
+def cmd_relations(world: World):
     a = prompt_box(world, make_sep() + "box\n" + make_sep(2))
-    print(world.build_relation_tree(a))
+    box_ids, matrix = world.build_relation_matrix(a)
+    print(tabulate(matrix, headers=box_ids))
 
 
 def cmd_list(world: World):
@@ -216,7 +233,7 @@ command_handlers = {
     "box": cmd_box,
     "relate": cmd_relate,
     "ls": cmd_list,
-    "tree": cmd_tree,
+    "relations": cmd_relations,
 }
 
 
