@@ -1,0 +1,91 @@
+{
+    "Boxes": {
+        "1": {
+            "name": "is a"
+        },
+        "10": {
+            "name": "General Logic"
+        },
+        "11": {
+            "name": "Classical first-order Logic"
+        },
+        "12": {
+            "name": "Symbolic Logic"
+        },
+        "13": {
+            "name": "book"
+        },
+        "14": {
+            "name": "This is a great book"
+        },
+        "15": {
+            "name": "Math Topic"
+        },
+        "2": {
+            "name": "is a MSC subclass of"
+        },
+        "3": {
+            "name": "is a book about"
+        },
+        "4": {
+            "name": "is a math theory"
+        },
+        "5": {
+            "name": "is a note on"
+        },
+        "6": {
+            "name": "relation"
+        },
+        "7": {
+            "name": "taxonomy"
+        },
+        "8": {
+            "name": "MSC"
+        },
+        "9": {
+            "name": "Mathematical Logic and Foundations"
+        }
+    },
+    "Relations": {
+        "1": {
+            "a": 2,
+            "b": 6,
+            "relation": 1
+        },
+        "2": {
+            "a": 2,
+            "b": 7,
+            "relation": 1
+        },
+        "3": {
+            "a": 9,
+            "b": 8,
+            "relation": 2
+        },
+        "4": {
+            "a": 10,
+            "b": 9,
+            "relation": 2
+        },
+        "5": {
+            "a": 11,
+            "b": 10,
+            "relation": 2
+        },
+        "6": {
+            "a": 12,
+            "b": 11,
+            "relation": 3
+        },
+        "7": {
+            "a": 12,
+            "b": 13,
+            "relation": 1
+        },
+        "8": {
+            "a": 14,
+            "b": 12,
+            "relation": 5
+        }
+    }
+}

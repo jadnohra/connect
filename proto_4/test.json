@@ -1,1 +1,20 @@
-{"Boxes": {"1": {"name": "the cat is blue"}, "2": {"name": "the dog is big"}, "3": {"name": "is a"}}, "Relations": {"1": {"relation": 2, "a": 3, "b": 1}}}
+{
+    "Boxes": {
+        "1": {
+            "name": "is a"
+        },
+        "2": {
+            "name": "dog"
+        },
+        "3": {
+            "name": "cat"
+        }
+    },
+    "Relations": {
+        "1": {
+            "a": 2,
+            "b": 3,
+            "relation": 1
+        }
+    }
+}
