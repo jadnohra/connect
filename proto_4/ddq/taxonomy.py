@@ -16,65 +16,7 @@ from .print_tree import print_tuple_tree
 FuzzyBoxType = Union[str, UUID]
 
 
-class Box:
-    def __init__(self, name: str = None):
-        self._id = uuid.uuid4()
-        self._name = name
-        self._relations = []
-
-    def relate(self, relation: FuzzyBoxType, b: FuzzyBoxType):
-        self._relations.append((relation, b))
-
-    def id(self) -> UUID:
-        return self._id
-    
-    def name(self) -> str:
-        return self._name
-    
-    def relations(self) -> List[Tuple[FuzzyBoxType, FuzzyBoxType]]:
-        return self._relations
-
 class World:
-    def __init__(self):
-        self._boxes = {}
-
-    def boxes(self) -> List[Box]:
-        return self._boxes.values()
-
-    def add_box(self, name: str):
-        box = Box(name)
-        self._boxes[box.id()] = box
-
-    def find_boxes_by_name(self, name: str) -> List[Box]:
-        exact_boxes = [x for x in self._boxes.values() if x.name() == name]
-        if len(exact_boxes) > 0:
-            return exact_boxes
-        fuzzy_boxes = [x for x in self._boxes.values() if name in x.name()]
-        if len(fuzzy_boxes) > 0:
-            return fuzzy_boxes
-        very_fuzzy_boxes = [x for x in self._boxes.values() 
-                            if name.lower() in x.name().lower()]
-        if len(very_fuzzy_boxes) > 0:
-            return very_fuzzy_boxes
-        return []
-
-    def find_box(self, box: FuzzyBoxType) -> Box:
-        if isinstance(box, UUID):
-            return self._boxes[box]
-        else:
-            boxes = self.find_boxes_by_name(box)
-            if len(boxes) == 1:
-                return boxes[0]
-        return None
-
-    def relate(self, 
-                     a: FuzzyBoxType, 
-                     relation: FuzzyBoxType, 
-                     b: FuzzyBoxType):
-        abox = self.find_box(a)
-        abox.relate(relation, b)
-
-class WorldDb:
     def __init__(self, json_file: str = None):
         self._db = tinydb.TinyDB(json_file, sort_keys=True, indent=4)
 
@@ -144,6 +86,14 @@ class WorldDb:
             self.soft_find_box_id(a),
             self.soft_find_box_id(b)
         )
+        
+    '''
+    def add_input(self, 
+                  box: FuzzyBoxType,
+                  type_djnf: FuzzyBoxType = None,
+                  name: str = None):
+        self._relations().insert({"relation": relation, "a": a, "b": b})
+    '''
 
 
     def build_relation_matrix(self, 
@@ -294,7 +244,7 @@ command_handlers = {
 }
 
 
-world = WorldDb('test.json' if len(sys.argv) == 1 else sys.argv[1])
+world = World('test.json' if len(sys.argv) == 1 else sys.argv[1])
 while (True):
     try:
         command = input("> ")
