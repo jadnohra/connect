@@ -1,0 +1,11 @@
+---
+title: "Substitution of Equivalence"
+main: "In QL, it is allowed to substitute equivalent (iff) wf parts"
+conditions:
+  - "A,A' are wff"
+  - "M,N are wf parts"
+  - "A with M replaced by N is A'"
+  - "M equiv N"
+left: "A"
+right: "A'"
+ref: "Andrews:p55"

@@ -1,0 +1,7 @@
+---
+title: "Extended inference rule"
+main: >
+  An extended inference rule is derivable from the basic rules.
+  There are many extended rules. We are interested in the ones that are
+  particularly common or tricky, especially when it comes to manipulating
+  nested quantifiers.

@@ -1,0 +1,4 @@
+relate
+  inference-rule
+  relations.is-a
+  math.fol.inference-rule

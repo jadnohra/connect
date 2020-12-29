@@ -1,0 +1,4 @@
+relate
+  *
+  relations.is-a
+  math.logic.fol.ql.inference-rule

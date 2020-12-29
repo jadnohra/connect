@@ -1,0 +1,6 @@
+---
+main: >
+  Many QL 'extended' rules can be easily derived by applying the QL rules
+  EI/EG/UI/UG and basic PL manipulations. What is harder is remembering
+  counter-examples for the manipulations that do not hold.
+ref: "Folder.MA-701:25-Sept-2018"

@@ -1,0 +1,7 @@
+---
+title: "Modus Tollens"
+alias: MT
+left:
+  - "p implies q"
+  - "lnot q"
+right: "not p"

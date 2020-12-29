@@ -1,0 +1,7 @@
+---
+title: "Modus Ponens"
+alias: MP
+left:
+  - "p implies q"
+  - "p"
+right: "q"

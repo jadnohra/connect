@@ -1,0 +1,6 @@
+---
+title: "Universal Instantiation"
+alias: UI
+non-conditions: "No conditions on u"
+left: "(x) phi(x)"
+right: "phi(u)"
