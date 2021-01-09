@@ -1,4 +1,4 @@
 relate
   *
   /relations/is-a
-  /math/logic/fol.ql.inference-rule
+  /math/logic/fol/ql/inference-rule
