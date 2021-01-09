@@ -1,8 +1,8 @@
 relate
   inference-rule
-  relations.is-a
-  math.logic.fol.inference-rule
-  relate
-    extended-inference-rule
-    relations.is-a
-    inference-rule
+  /relations/is-a
+  /math/logic/fol/inference-rule
+relate
+  extended-inference-rule
+  /relations/is-a
+  inference-rule

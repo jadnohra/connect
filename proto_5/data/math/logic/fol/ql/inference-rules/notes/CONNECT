@@ -1,4 +1,4 @@
 relate
     *
-    relations.is-a-note-on
-    math.logic.fol.ql.inference-rule
+    /relations/is-a-note-on
+    /math/logic/fol/ql/inference-rule
